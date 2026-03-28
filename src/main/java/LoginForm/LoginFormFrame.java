@@ -27,49 +27,57 @@ public class LoginFormFrame extends JFrame{
     
     
     public LoginFormFrame(){
-        setSize(1440,720);
+        setSize(1920,1080);
         setTitle("Bank Login");
         setLayout(null);
         setLocationRelativeTo(null);
-        getContentPane().setBackground(Color.decode("#FFFAFA"));
+        getContentPane().setBackground(Color.decode("#C2D9FF"));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
+        btnLogin = new JButton("Login");
+        btnLogin.setBounds(840,530,150,60);
+        btnLogin.setFont(fntText);
+        btnLogin.setBackground(Color.decode("#7752FE"));
+        btnLogin.setForeground(Color.decode("#190482"));
+        add(btnLogin);
         
         lblUser = new JLabel("Username:",SwingConstants.CENTER);
-        lblUser.setBounds(580,320,85,30);
+        lblUser.setBounds(760,420,85,30);
         lblUser.setFont(fntText);
+        lblUser.setForeground(Color.decode("#190482"));
         add(lblUser);
         
         txtUser = new JTextField();
-        txtUser.setBounds(680,320,195,30);
+        txtUser.setBounds(860,420,195,30);
         txtUser.setFont(fntTxtField);
         add(txtUser);
         
         lblPassword = new JLabel("Password:", SwingConstants.CENTER);
-        lblPassword.setBounds(580,380,85,30);
+        lblPassword.setBounds(760,480,85,30);
         lblPassword.setFont(fntText);
+        lblPassword.setForeground(Color.decode("#190482"));
         add(lblPassword);
         
         passPass = new JPasswordField();
-        passPass.setBounds(680,380,195,30);
+        passPass.setBounds(860,480,195,30);
         passPass.setFont(fntTxtField);
         add(passPass);
         
-        lblTitle = new JLabel("LOGIN", SwingConstants.CENTER);
-        lblTitle.setBounds(485,150,500,80);
+        lblTitle = new JLabel("BEMBANK LOGIN", SwingConstants.CENTER);
+        lblTitle.setBounds(665,250,500,80);
         lblTitle.setFont(fntTitle);
         lblTitle.setOpaque(true);
-        lblTitle.setBackground(Color.decode("#FF6961"));
+        lblTitle.setBackground(Color.decode("#8E8FFA"));
+        lblTitle.setForeground(Color.decode("#190482"));
         add(lblTitle);
         
         lblLoginArea = new JLabel();
-        lblLoginArea.setBounds(485,270,500,200);
+        lblLoginArea.setBounds(665,370,500,250);
         lblLoginArea.setOpaque(true);
-        lblLoginArea.setBackground(Color.decode("#FF6961"));
+        lblLoginArea.setBackground(Color.decode("#8E8FFA"));
         add(lblLoginArea);
         
-        
-        
+  
     }
     
 }
