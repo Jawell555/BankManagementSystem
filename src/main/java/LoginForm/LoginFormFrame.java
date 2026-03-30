@@ -31,9 +31,9 @@ public class LoginFormFrame extends JFrame implements ActionListener {
     private String username = "Lorenzo";
     private String password = "Lorenzo123!";
 
-    Font fntTitle = new Font("Helvetica", Font.BOLD, 30);
-    Font fntText = new Font("Helvetica", Font.BOLD, 15);
-    Font fntTxtField = new Font("Helvetica", Font.PLAIN, 15);
+    Font fntTitle = new Font("Segoe UI", Font.BOLD, 30);
+    Font fntText = new Font("Segoe UI", Font.BOLD, 15);
+    Font fntTxtField = new Font("Segoe UI", Font.PLAIN, 15);
 
 
     
