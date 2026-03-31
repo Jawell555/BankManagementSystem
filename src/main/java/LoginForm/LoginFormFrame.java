@@ -5,7 +5,6 @@
 package LoginForm;
 
 import Colors.ColorPallete;
-import Dash.Dashboard;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.HeadlessException;
@@ -104,8 +103,7 @@ public class LoginFormFrame extends JFrame implements ActionListener {
         pass = passPass.getText();
         if (e.getSource() == btnLogin) {
             if (user.equals(username) && pass.equals(password)) {
-                Dashboard dash = new Dashboard();
-                dash.setVisible(true);
+                //LORENZO CODE MO DITO
                 dispose();
             } else {
                 passPass.setText("");
