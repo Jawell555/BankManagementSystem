@@ -7,6 +7,5 @@ public class SummitPhilBankMain {
         SidebarPanelFrame sf = new SidebarPanelFrame();
         sf.setVisible(true);
         
-        //dito lalagay yung login
     } 
 }
