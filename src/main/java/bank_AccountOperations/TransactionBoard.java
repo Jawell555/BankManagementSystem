@@ -13,52 +13,52 @@ public class TransactionBoard extends JPanel {
         setBounds(0, 0, 1670, 1080); 
 
         JLabel lblTitle = new JLabel("Transaction Board");
-        lblTitle.setFont(new Font("Segoe UI", Font.BOLD, 35)); 
-        lblTitle.setBounds(50, 40, 400, 50); 
+        lblTitle.setFont(new Font("Segoe UI", Font.BOLD, 30)); 
+        lblTitle.setBounds(60, 30, 700, 40); 
         add(lblTitle);
 
         JPanel searchBoard = new JPanel();
         searchBoard.setLayout(null); 
         searchBoard.setBackground(Color.decode("#031B42"));
-        searchBoard.setBounds(50, 120, 1570, 180);
+        searchBoard.setBounds(60, 100, 1520, 150); 
         
         JLabel lblHeaderTitle = new JLabel("   Search Board"); 
         lblHeaderTitle.setFont(new Font("Segoe UI", Font.BOLD, 16));
         lblHeaderTitle.setForeground(Color.WHITE); 
         lblHeaderTitle.setBackground(Color.decode("#0E447D")); 
         lblHeaderTitle.setOpaque(true); 
-        lblHeaderTitle.setBounds(0, 0, 1570, 35); 
+        lblHeaderTitle.setBounds(0, 0, 1520, 35); 
         searchBoard.add(lblHeaderTitle);
         
         JLabel lblSenderAcc = new JLabel("Sender Account");
         lblSenderAcc.setForeground(Color.WHITE);
         lblSenderAcc.setFont(new Font("Segoe UI", Font.PLAIN, 16));
-        lblSenderAcc.setBounds(50, 60, 200, 25);
+        lblSenderAcc.setBounds(50, 50, 200, 25);
         searchBoard.add(lblSenderAcc);
 
         JTextField txtSenderAcc = new JTextField("Enter sender account number");
         txtSenderAcc.setForeground(Color.GRAY);
         txtSenderAcc.setFont(new Font("Segoe UI", Font.PLAIN, 16));
-        txtSenderAcc.setBounds(50, 95, 500, 50); 
+        txtSenderAcc.setBounds(50, 80, 500, 40); 
         searchBoard.add(txtSenderAcc);
 
         JLabel lblReceiverAcc = new JLabel("Receiver Account");
         lblReceiverAcc.setForeground(Color.WHITE);
         lblReceiverAcc.setFont(new Font("Segoe UI", Font.PLAIN, 16));
-        lblReceiverAcc.setBounds(600, 60, 200, 25);
+        lblReceiverAcc.setBounds(600, 50, 200, 25);
         searchBoard.add(lblReceiverAcc);
 
         JTextField txtReceiverAcc = new JTextField("Enter receiver account number");
         txtReceiverAcc.setForeground(Color.GRAY);
         txtReceiverAcc.setFont(new Font("Segoe UI", Font.PLAIN, 16));
-        txtReceiverAcc.setBounds(600, 95, 500, 50); 
+        txtReceiverAcc.setBounds(600, 80, 500, 40); 
         searchBoard.add(txtReceiverAcc);
 
         JButton btnSearch = new JButton("Search");
         btnSearch.setBackground(Color.decode("#0C3D70"));
         btnSearch.setForeground(Color.WHITE);
         btnSearch.setFont(new Font("Segoe UI", Font.BOLD, 18));
-        btnSearch.setBounds(1150, 95, 200, 50); 
+        btnSearch.setBounds(1150, 80, 200, 40); 
         searchBoard.add(btnSearch);
 
         add(searchBoard); 
@@ -66,11 +66,11 @@ public class TransactionBoard extends JPanel {
         JPanel infoBoard = new JPanel();
         infoBoard.setLayout(null);
         infoBoard.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.decode("#0E447D"), 3), "Information Board"));
-        infoBoard.setBounds(50, 330, 1570, 330); 
+        infoBoard.setBounds(60, 275, 1520, 280); 
 
         JLabel lblSenderTitle = new JLabel("Sender Account Title");
         lblSenderTitle.setFont(new Font("Segoe UI", Font.PLAIN, 16));
-        lblSenderTitle.setBounds(50, 50, 200, 25);
+        lblSenderTitle.setBounds(50, 40, 200, 25);
         infoBoard.add(lblSenderTitle);
 
         JTextField txtSenderTitle = new JTextField("Jawel");
@@ -78,25 +78,12 @@ public class TransactionBoard extends JPanel {
         txtSenderTitle.setBackground(new Color(225, 225, 225)); 
         txtSenderTitle.setBorder(BorderFactory.createLineBorder(Color.decode("#031B42"), 1));
         txtSenderTitle.setFont(new Font("Segoe UI", Font.PLAIN, 16));
-        txtSenderTitle.setBounds(50, 80, 320, 50); 
+        txtSenderTitle.setBounds(50, 70, 400, 40); 
         infoBoard.add(txtSenderTitle);
 
-        JLabel lblSenderNum = new JLabel("Sender Account Number");
-        lblSenderNum.setFont(new Font("Segoe UI", Font.PLAIN, 16));
-        lblSenderNum.setBounds(420, 50, 250, 25);
-        infoBoard.add(lblSenderNum);
-
-        JTextField txtSenderNum = new JTextField("0101010101");
-        txtSenderNum.setEditable(false);
-        txtSenderNum.setBackground(new Color(225, 225, 225)); 
-        txtSenderNum.setBorder(BorderFactory.createLineBorder(Color.decode("#031B42"), 1));
-        txtSenderNum.setFont(new Font("Segoe UI", Font.PLAIN, 16));
-        txtSenderNum.setBounds(420, 80, 320, 50);
-        infoBoard.add(txtSenderNum);
-        
         JLabel lblSenderBalance = new JLabel("Available Balance");
         lblSenderBalance.setFont(new Font("Segoe UI", Font.PLAIN, 16));
-        lblSenderBalance.setBounds(50, 160, 200, 25);
+        lblSenderBalance.setBounds(50, 130, 200, 25);
         infoBoard.add(lblSenderBalance);
 
         JTextField txtSenderBalance = new JTextField("PHP 10000.00");
@@ -104,12 +91,37 @@ public class TransactionBoard extends JPanel {
         txtSenderBalance.setBackground(new Color(225, 225, 225)); 
         txtSenderBalance.setFont(new Font("Segoe UI", Font.PLAIN, 16));
         txtSenderBalance.setBorder(BorderFactory.createLineBorder(Color.decode("#031B42"), 1));
-        txtSenderBalance.setBounds(50, 190, 320, 50);
+        txtSenderBalance.setBounds(50, 160, 400, 40); 
         infoBoard.add(txtSenderBalance);
+
+        JCheckBox chkSignature = new JCheckBox("Signature Verified");
+        chkSignature.setSelected(true);
+        chkSignature.setOpaque(false);
+        chkSignature.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        chkSignature.setForeground(Color.decode("#182b45")); 
+        chkSignature.setBounds(50, 220, 200, 25);
+        infoBoard.add(chkSignature);
+        
+        JSeparator separator1 = new JSeparator(SwingConstants.VERTICAL);
+        separator1.setBounds(500, 40, 10, 200); 
+        infoBoard.add(separator1);
+
+        JLabel lblSenderNum = new JLabel("Sender Account Number");
+        lblSenderNum.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+        lblSenderNum.setBounds(550, 40, 250, 25);
+        infoBoard.add(lblSenderNum);
+
+        JTextField txtSenderNum = new JTextField("0101010101");
+        txtSenderNum.setEditable(false);
+        txtSenderNum.setBackground(new Color(225, 225, 225)); 
+        txtSenderNum.setBorder(BorderFactory.createLineBorder(Color.decode("#031B42"), 1));
+        txtSenderNum.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+        txtSenderNum.setBounds(550, 70, 400, 40); 
+        infoBoard.add(txtSenderNum);
 
         JLabel lblSenderAccStatus = new JLabel("Account Status");
         lblSenderAccStatus.setFont(new Font("Segoe UI", Font.PLAIN, 16));
-        lblSenderAccStatus.setBounds(420, 160, 250, 25);
+        lblSenderAccStatus.setBounds(550, 130, 250, 25);
         infoBoard.add(lblSenderAccStatus);
 
         JTextField txtSenderAccStatus = new JTextField("ACTIVE");
@@ -117,24 +129,16 @@ public class TransactionBoard extends JPanel {
         txtSenderAccStatus.setBackground(new Color(225, 225, 225)); 
         txtSenderAccStatus.setFont(new Font("Segoe UI", Font.BOLD, 16));
         txtSenderAccStatus.setBorder(BorderFactory.createLineBorder(Color.decode("#031B42"), 1));
-        txtSenderAccStatus.setBounds(420, 190, 320, 50);
+        txtSenderAccStatus.setBounds(550, 160, 400, 40); 
         infoBoard.add(txtSenderAccStatus);
-        
-        JCheckBox chkSignature = new JCheckBox("Signature Verified");
-        chkSignature.setSelected(true);
-        chkSignature.setOpaque(false);
-        chkSignature.setFont(new Font("Segoe UI", Font.BOLD, 16));
-        chkSignature.setForeground(Color.decode("#182b45")); 
-        chkSignature.setBounds(50, 270, 200, 25);
-        infoBoard.add(chkSignature);
-        
-        JSeparator separator = new JSeparator(SwingConstants.VERTICAL);
-        separator.setBounds(780, 40, 10, 250); 
-        infoBoard.add(separator);
+
+        JSeparator separator2 = new JSeparator(SwingConstants.VERTICAL);
+        separator2.setBounds(1000, 40, 10, 200); 
+        infoBoard.add(separator2);
         
         JLabel lblReceiverTitle = new JLabel("Receiver Account Title");
         lblReceiverTitle.setFont(new Font("Segoe UI", Font.PLAIN, 16));
-        lblReceiverTitle.setBounds(830, 50, 200, 25);
+        lblReceiverTitle.setBounds(1050, 40, 200, 25);
         infoBoard.add(lblReceiverTitle);
 
         JTextField txtReceiverTitle = new JTextField("Ryza");
@@ -142,12 +146,12 @@ public class TransactionBoard extends JPanel {
         txtReceiverTitle.setBackground(new Color(225, 225, 225)); 
         txtReceiverTitle.setBorder(BorderFactory.createLineBorder(Color.decode("#031B42"), 1));
         txtReceiverTitle.setFont(new Font("Segoe UI", Font.PLAIN, 16));
-        txtReceiverTitle.setBounds(830, 80, 320, 50);
+        txtReceiverTitle.setBounds(1050, 70, 400, 40); 
         infoBoard.add(txtReceiverTitle);
 
         JLabel lblReceiverNum = new JLabel("Receiver Account Number");
         lblReceiverNum.setFont(new Font("Segoe UI", Font.PLAIN, 16));
-        lblReceiverNum.setBounds(1200, 50, 250, 25);
+        lblReceiverNum.setBounds(1050, 130, 250, 25);
         infoBoard.add(lblReceiverNum);
 
         JTextField txtReceiverNum = new JTextField("11110000");
@@ -155,41 +159,15 @@ public class TransactionBoard extends JPanel {
         txtReceiverNum.setBackground(new Color(225, 225, 225)); 
         txtReceiverNum.setBorder(BorderFactory.createLineBorder(Color.decode("#031B42"), 1));
         txtReceiverNum.setFont(new Font("Segoe UI", Font.PLAIN, 16));
-        txtReceiverNum.setBounds(1200, 80, 320, 50);
+        txtReceiverNum.setBounds(1050, 160, 400, 40); 
         infoBoard.add(txtReceiverNum);
-        
-        JLabel lblReceiverBalance = new JLabel("Account Type");
-        lblReceiverBalance.setFont(new Font("Segoe UI", Font.PLAIN, 16));
-        lblReceiverBalance.setBounds(830, 160, 200, 25);
-        infoBoard.add(lblReceiverBalance);
-
-        JTextField txtReceiverAccType = new JTextField("Credit");
-        txtReceiverAccType.setEditable(false);
-        txtReceiverAccType.setBackground(new Color(225, 225, 225)); 
-        txtReceiverAccType.setFont(new Font("Segoe UI", Font.PLAIN, 16));
-        txtReceiverAccType.setBorder(BorderFactory.createLineBorder(Color.decode("#031B42"), 1));
-        txtReceiverAccType.setBounds(830, 190, 320, 50);
-        infoBoard.add(txtReceiverAccType);
-
-        JLabel lblReceiverAccStatus = new JLabel("Account Status");
-        lblReceiverAccStatus.setFont(new Font("Segoe UI", Font.PLAIN, 16));
-        lblReceiverAccStatus.setBounds(1200, 160, 250, 25);
-        infoBoard.add(lblReceiverAccStatus);
-
-        JTextField txtReceiverAccStatus = new JTextField("ACTIVE");
-        txtReceiverAccStatus.setEditable(false);
-        txtReceiverAccStatus.setBackground(new Color(225, 225, 225)); 
-        txtReceiverAccStatus.setFont(new Font("Segoe UI", Font.PLAIN, 16));
-        txtReceiverAccStatus.setBorder(BorderFactory.createLineBorder(Color.decode("#031B42"), 1));
-        txtReceiverAccStatus.setBounds(1200, 190, 320, 50);
-        infoBoard.add(txtReceiverAccStatus);
 
         add(infoBoard); 
 
         JPanel actionBoard = new JPanel();
         actionBoard.setLayout(null);      
         actionBoard.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.decode("#0E447D"), 3), "Action Board"));
-        actionBoard.setBounds(50, 690, 1570, 350); 
+        actionBoard.setBounds(60, 580, 1520, 320); 
         add(actionBoard); 
 
         JLabel lblRefNum = new JLabel("Reference Number");
@@ -202,12 +180,12 @@ public class TransactionBoard extends JPanel {
         txtRefNum.setBackground(new Color(225, 225, 225)); 
         txtRefNum.setBorder(BorderFactory.createLineBorder(Color.decode("#031B42"), 1));
         txtRefNum.setFont(new Font("Segoe UI", Font.PLAIN, 16));
-        txtRefNum.setBounds(50, 70, 400, 50); 
+        txtRefNum.setBounds(50, 70, 400, 40); 
         actionBoard.add(txtRefNum);
 
         JLabel lblProcBy = new JLabel("Processed By");
         lblProcBy.setFont(new Font("Segoe UI", Font.PLAIN, 16));
-        lblProcBy.setBounds(50, 140, 200, 25);
+        lblProcBy.setBounds(50, 130, 200, 25);
         actionBoard.add(lblProcBy);
 
         JTextField txtProcBy = new JTextField("Teller ID: 2006 - hatdog8080");
@@ -215,12 +193,12 @@ public class TransactionBoard extends JPanel {
         txtProcBy.setBackground(new Color(225, 225, 225)); 
         txtProcBy.setBorder(BorderFactory.createLineBorder(Color.decode("#031B42"), 1));
         txtProcBy.setFont(new Font("Segoe UI", Font.PLAIN, 16));
-        txtProcBy.setBounds(50, 170, 400, 50); 
+        txtProcBy.setBounds(50, 160, 400, 40); 
         actionBoard.add(txtProcBy);
 
         JLabel lblDate = new JLabel("Transaction Date & Time");
         lblDate.setFont(new Font("Segoe UI", Font.PLAIN, 16));
-        lblDate.setBounds(50, 240, 200, 25);
+        lblDate.setBounds(50, 220, 200, 25);
         actionBoard.add(lblDate);
 
         String currentDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
@@ -229,7 +207,7 @@ public class TransactionBoard extends JPanel {
         txtDate.setBackground(new Color(225, 225, 225)); 
         txtDate.setBorder(BorderFactory.createLineBorder(Color.decode("#031B42"), 1));
         txtDate.setFont(new Font("Segoe UI", Font.PLAIN, 16));
-        txtDate.setBounds(50, 270, 400, 50); 
+        txtDate.setBounds(50, 250, 400, 40); 
         actionBoard.add(txtDate);
 
         JLabel lblTransType = new JLabel("Transfer Type");
@@ -237,50 +215,50 @@ public class TransactionBoard extends JPanel {
         lblTransType.setBounds(550, 40, 200, 25);
         actionBoard.add(lblTransType);
 
-        String[] transferTypes = {"Bembank to Bembank", "Bembank to Other Bank"};
+        String[] transferTypes = {"Summit PhilBank to Summit PhilBank", "Summit PhilBank to Other Bank"};
         JComboBox<String> cmbTransType = new JComboBox<>(transferTypes);
         cmbTransType.setSelectedIndex(1); 
         cmbTransType.setFont(new Font("Segoe UI", Font.PLAIN, 16));
-        cmbTransType.setBounds(550, 70, 400, 50);
+        cmbTransType.setBounds(550, 70, 400, 40);
         actionBoard.add(cmbTransType);
 
         JLabel lblAmount = new JLabel("Transfer Amount");
         lblAmount.setFont(new Font("Segoe UI", Font.PLAIN, 16));
-        lblAmount.setBounds(550, 140, 200, 25);
+        lblAmount.setBounds(550, 130, 200, 25);
         actionBoard.add(lblAmount);
 
         JTextField txtAmount = new JTextField("PHP 1,000,000.00");
         txtAmount.setFont(new Font("Segoe UI", Font.BOLD, 20));
         txtAmount.setBorder(BorderFactory.createLineBorder(Color.decode("#031B42"), 2));
-        txtAmount.setBounds(550, 170, 400, 50);
+        txtAmount.setBounds(550, 160, 400, 45); 
         actionBoard.add(txtAmount);
 
         JLabel lblTransFee = new JLabel("Transfer Fee:");
         lblTransFee.setFont(new Font("Segoe UI", Font.PLAIN, 20));
-        lblTransFee.setBounds(1050, 80, 150, 30);
+        lblTransFee.setBounds(1050, 70, 150, 30);
         actionBoard.add(lblTransFee);
 
         JLabel lblCostFee = new JLabel("PHP 0.00");
         lblCostFee.setFont(new Font("Segoe UI", Font.BOLD, 22));
         lblCostFee.setForeground(Color.RED); 
-        lblCostFee.setBounds(1250, 80, 200, 30);
+        lblCostFee.setBounds(1250, 70, 200, 30);
         actionBoard.add(lblCostFee);
 
         JLabel lblTotalTitle = new JLabel("Total Deduction:");
         lblTotalTitle.setFont(new Font("Segoe UI", Font.PLAIN, 22));
-        lblTotalTitle.setBounds(1050, 150, 200, 30);
+        lblTotalTitle.setBounds(1050, 130, 200, 30);
         actionBoard.add(lblTotalTitle);
 
         JLabel lblTotalValue = new JLabel("PHP 0.00");
         lblTotalValue.setFont(new Font("Segoe UI", Font.BOLD, 28));
-        lblTotalValue.setBounds(1250, 150, 250, 30);
+        lblTotalValue.setBounds(1250, 130, 250, 30);
         actionBoard.add(lblTotalValue);
 
         JButton btnTransfer = new JButton("TRANSFER");
         btnTransfer.setBackground(Color.decode("#0E447D"));
         btnTransfer.setForeground(Color.WHITE);
-        btnTransfer.setFont(new Font("Segoe UI", Font.BOLD, 24));
-        btnTransfer.setBounds(1050, 230, 400, 70);
+        btnTransfer.setFont(new Font("Segoe UI", Font.BOLD, 22)); 
+        btnTransfer.setBounds(1050, 200, 400, 60);
         
         btnTransfer.addActionListener(e -> showTransferDialog());
         
@@ -358,7 +336,7 @@ public class TransactionBoard extends JPanel {
         dialog.add(lblFeeTitle);
 
         JLabel lblFeeVal = new JLabel("PHP 0.00");
-        lblFeeVal.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        lblFeeVal.setFont(new Font("Segoe UI", Font.PLAIN, 12));
         lblFeeVal.setBounds(150, 220, 250, 20);
         dialog.add(lblFeeVal);
 
