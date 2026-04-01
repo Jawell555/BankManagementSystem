@@ -4,11 +4,9 @@
  */
 package LoginForm;
 
-import Colors.ColorPallete;
-import java.awt.Color;
+import Colors.ImagePanel;
+import Colors.ColorPalette;
 import java.awt.Font;
-import java.awt.HeadlessException;
-import java.awt.TextField;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
@@ -21,7 +19,8 @@ import javax.swing.border.LineBorder;
  */
 public class LoginFormFrame extends JFrame implements ActionListener {
 
-    JLabel lblLoginArea, lblTitle, lblUser, lblPassword;
+    JPanel pnlBG, pnlLogo, pnlSq, pnlLoginArea, pnlTitle;
+    JLabel lblTitle, lblUser, lblPassword;
     JPasswordField passPass;
     JTextField txtUser;
     JButton btnLogin;
@@ -30,68 +29,79 @@ public class LoginFormFrame extends JFrame implements ActionListener {
     private String username = "Lorenzo";
     private String password = "Lorenzo123!";
 
-    Font fntTitle = new Font("Segoe UI", Font.BOLD, 30);
+    Font fntTitle = new Font("Segoe UI", Font.BOLD, 50);
     Font fntText = new Font("Segoe UI", Font.BOLD, 15);
     Font fntTxtField = new Font("Segoe UI", Font.PLAIN, 15);
 
+    private final Border errorBorder = BorderFactory.createCompoundBorder(new LineBorder(ColorPalette.redPastel, 2), BorderFactory.createEmptyBorder(2, 4, 2, 4));
 
-    
-    private final Border errorBorder = BorderFactory.createCompoundBorder(new LineBorder(ColorPallete.redPastel, 2), BorderFactory.createEmptyBorder(2, 4, 2, 4));
-    
     public LoginFormFrame() {
         setSize(1920, 1080);
         setTitle("Bank Login");
         setLayout(null);
         setLocationRelativeTo(null);
-        getContentPane().setBackground(ColorPallete.Blue5);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        pnlBG = new ImagePanel("/bg.jpg");
+        pnlBG.setLayout(null);
+        pnlBG.setBounds(0, 0, 1920, 1080);
+        add(pnlBG);
+
+        //Bottom Rectangle
+        pnlLoginArea = new JPanel(null);
+        pnlLoginArea.setBounds(710, 370, 500, 300);
+        pnlLoginArea.setOpaque(false);
+        pnlBG.add(pnlLoginArea);
 
         //Login button
         btnLogin = new JButton("Login");
-        btnLogin.setBounds(840, 530, 150, 60);
+        btnLogin.setBounds(175, 175, 150, 60);
         btnLogin.setFont(fntText);
-        btnLogin.setBackground(ColorPallete.Blue3);
-        btnLogin.setForeground(ColorPallete.Blue1);
-        add(btnLogin);
+        btnLogin.setBackground(ColorPalette.Blue4);
+        btnLogin.setForeground(ColorPalette.Blue1);
+        pnlLoginArea.add(btnLogin);
 
-        lblUser = new JLabel("Username:", SwingConstants.CENTER);
-        lblUser.setBounds(760, 420, 85, 30);
+        lblUser = new JLabel("Username:");
+        lblUser.setBounds(60, 50, 90, 30);
         lblUser.setFont(fntText);
-        lblUser.setForeground(ColorPallete.Blue1);
-        add(lblUser);
+        lblUser.setForeground(ColorPalette.Blue1);
+        pnlLoginArea.add(lblUser);
 
         txtUser = new JTextField();
-        txtUser.setBounds(860, 420, 195, 30);
+        txtUser.setBounds(150, 50, 280, 30);
         txtUser.setFont(fntTxtField);
-        add(txtUser);
+        pnlLoginArea.add(txtUser);
 
-        lblPassword = new JLabel("Password:", SwingConstants.CENTER);
-        lblPassword.setBounds(760, 480, 85, 30);
+        lblPassword = new JLabel("Password:");
+        lblPassword.setBounds(60, 110, 90, 30);
         lblPassword.setFont(fntText);
-        lblPassword.setForeground(ColorPallete.Blue1);
-        add(lblPassword);
+        lblPassword.setForeground(ColorPalette.Blue1);
+        pnlLoginArea.add(lblPassword);
 
         passPass = new JPasswordField();
-        passPass.setBounds(860, 480, 195, 30);
+        passPass.setBounds(150, 110, 280, 30);
         passPass.setFont(fntTxtField);
-        add(passPass);
+        pnlLoginArea.add(passPass);
 
+        
+        
         //Top Title & Rectangle
-        lblTitle = new JLabel("BEMBANK LOGIN", SwingConstants.CENTER);
-        lblTitle.setBounds(665, 250, 500, 80);
-        lblTitle.setFont(fntTitle);
-        lblTitle.setOpaque(true);
-        lblTitle.setBackground(ColorPallete.Blue4);
-        lblTitle.setForeground(ColorPallete.Blue1);
-       
-        add(lblTitle);
+        pnlTitle = new JPanel(null);
+        pnlTitle.setBounds(710, 300, 500, 80);
+        pnlTitle.setOpaque(false);
+        pnlBG.add(pnlTitle);
 
-        //Bottom Rectangle
-        lblLoginArea = new JLabel();
-        lblLoginArea.setBounds(665, 370, 500, 250);
-        lblLoginArea.setOpaque(true);
-        lblLoginArea.setBackground(ColorPallete.Blue4);
-        add(lblLoginArea);
+        lblTitle = new JLabel("Summit PhilBank", SwingConstants.CENTER);
+        lblTitle.setBounds(60, 0, 440, 80);
+        lblTitle.setFont(fntTitle);
+        lblTitle.setForeground(ColorPalette.Blue1);
+        pnlTitle.add(lblTitle);
+
+        pnlLogo = new ImagePanel("/bank_logo.jpg");
+        pnlLogo.setLayout(null);
+        pnlLogo.setBounds(0, 10, 60, 60);
+        pnlTitle.add(pnlLogo);
+        
 
         getRootPane().setDefaultButton(btnLogin);
         btnLogin.addActionListener(this);
@@ -103,7 +113,7 @@ public class LoginFormFrame extends JFrame implements ActionListener {
         pass = passPass.getText();
         if (e.getSource() == btnLogin) {
             if (user.equals(username) && pass.equals(password)) {
-                //LORENZO CODE MO DITO
+                //CODE MO LORENZO
                 dispose();
             } else {
                 passPass.setText("");

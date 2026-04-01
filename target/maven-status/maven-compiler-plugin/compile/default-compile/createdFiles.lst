@@ -1,4 +1,5 @@
-bank_DashBoard\TransactionBoard.class
+bank_DashBoard\BankBalance.class
+bank_DashBoard\SidebarPanel.class
+Colors\ImagePanel.class
 bank_DashBoard\Dashboard.class
 bank_DashBoard\BembankMain.class
-bank_DashBoard\SidebarPanel.class
