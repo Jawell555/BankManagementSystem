@@ -1,4 +1,9 @@
-bank_DashBoard\TransactionBoard.class
-bank_DashBoard\Dashboard.class
-bank_DashBoard\BembankMain.class
-bank_DashBoard\SidebarPanel.class
+com\mycompany\bankmanagementsystem\BankManagementSystem.class
+BankManagementMain\ImagePanel.class
+BankManagementMain\SidebarPanel$2.class
+BankManagementMain\AppHeaderPanel.class
+BankManagementMain\SidebarPanelFrame.class
+bank_Dashboard\Dashboard.class
+BankManagementMain\SidebarPanel.class
+BankManagementMain\SidebarPanel$1.class
+Colors\ColorPallete.class

@@ -1,17 +1,11 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- */
 
 package com.mycompany.bankmanagementsystem;
+import BankManagementMain.SidebarPanelFrame;
 
-/**
- *
- * @author Ruell
- */
 public class BankManagementSystem {
 
     public static void main(String[] args) {
-        System.out.println("Hello World!");
-        System.out.println("TEST");
+        SidebarPanelFrame sf = new SidebarPanelFrame();
+        sf.setVisible(true);
     }
 }
