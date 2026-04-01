@@ -1,9 +1,12 @@
-com\mycompany\bankmanagementsystem\BankManagementSystem.class
 BankManagementMain\ImagePanel.class
 BankManagementMain\SidebarPanel$2.class
+Colors\ColorPalette.class
 BankManagementMain\AppHeaderPanel.class
+com\mycompany\bankmanagementsystem\BankManagementSystemMain.class
 BankManagementMain\SidebarPanelFrame.class
+bank_Dashboard\BankBalance.class
+Colors\ImagePanel.class
 bank_Dashboard\Dashboard.class
 BankManagementMain\SidebarPanel.class
 BankManagementMain\SidebarPanel$1.class
-Colors\ColorPallete.class
+LoginForm\LoginFormFrame.class
