@@ -4,6 +4,7 @@
  */
 package LoginForm;
 
+import BankManagementMain.SidebarPanelFrame;
 import Colors.ImagePanel;
 import Colors.ColorPalette;
 import java.awt.Font;
@@ -26,8 +27,8 @@ public class LoginFormFrame extends JFrame implements ActionListener {
     JButton btnLogin;
     private String pass, user;
 
-    private String username = "Lorenzo";
-    private String password = "Lorenzo123!";
+    private String username = "Admin";
+    private String password = "Admin123!";
 
     Font fntTitle = new Font("Segoe UI", Font.BOLD, 50);
     Font fntText = new Font("Segoe UI", Font.BOLD, 15);
@@ -113,7 +114,8 @@ public class LoginFormFrame extends JFrame implements ActionListener {
         pass = passPass.getText();
         if (e.getSource() == btnLogin) {
             if (user.equals(username) && pass.equals(password)) {
-                //CODE MO LORENZO
+                SidebarPanelFrame sf = new SidebarPanelFrame();
+                    sf.setVisible(true);
                 dispose();
             } else {
                 passPass.setText("");

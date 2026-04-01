@@ -1,6 +1,7 @@
 package BankManagementMain;
 
 import Colors.ColorPalette;
+import bank_DashBoard.BankBalance;
 import bank_Dashboard.Dashboard;
 import javax.swing.*;
 import java.awt.*;
@@ -165,7 +166,7 @@ public class SidebarPanel extends JPanel {
             closeOtherMenus("");
             resetMainButtonColors();
             btnBankBalance.setForeground(ColorPalette.redPastel);
-            navPage.turnPage(new Dashboard()); //Paltan niyo nalang yung 'new Dashboard()'
+            navPage.turnPage(new BankBalance()); //Paltan niyo nalang yung 'new Dashboard()'
             updateMenuPositions();
         });
         btnAccProfile = createMainButton("Account Profile");
