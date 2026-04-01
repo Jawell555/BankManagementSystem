@@ -4,6 +4,7 @@
  */
 package LoginForm;
 
+import BankManagementMain.SidebarPanelFrame;
 import Colors.ImagePanel;
 import Colors.ColorPalette;
 import java.awt.Font;
@@ -83,8 +84,6 @@ public class LoginFormFrame extends JFrame implements ActionListener {
         passPass.setFont(fntTxtField);
         pnlLoginArea.add(passPass);
 
-        
-        
         //Top Title & Rectangle
         pnlTitle = new JPanel(null);
         pnlTitle.setBounds(710, 300, 500, 80);
@@ -101,7 +100,6 @@ public class LoginFormFrame extends JFrame implements ActionListener {
         pnlLogo.setLayout(null);
         pnlLogo.setBounds(0, 10, 60, 60);
         pnlTitle.add(pnlLogo);
-        
 
         getRootPane().setDefaultButton(btnLogin);
         btnLogin.addActionListener(this);
@@ -113,7 +111,8 @@ public class LoginFormFrame extends JFrame implements ActionListener {
         pass = passPass.getText();
         if (e.getSource() == btnLogin) {
             if (user.equals(username) && pass.equals(password)) {
-                //CODE MO LORENZO
+                SidebarPanelFrame sf = new SidebarPanelFrame();
+                sf.setVisible(true);
                 dispose();
             } else {
                 passPass.setText("");

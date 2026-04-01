@@ -48,7 +48,7 @@ public class BankBalance extends JPanel{
         //HEAD
         {
         lblTitle = new JLabel("Bank Balance");
-        lblTitle.setBounds(50, 60, 700, 50);
+        lblTitle.setBounds(50, 0, 700, 50);
         lblTitle.setFont(fntTitle);
         add(lblTitle);
         
@@ -56,7 +56,7 @@ public class BankBalance extends JPanel{
         txtTotalBal.setHorizontalAlignment(JTextField.RIGHT);
         txtTotalBal.setEditable(false);
         txtTotalBal.setBackground(ColorPalette.Gray);
-        txtTotalBal.setBounds(1120, 65, 500, 40);
+        txtTotalBal.setBounds(1120, 15, 500, 40);
         txtTotalBal.setFont(fntTitle);
         add(txtTotalBal);
         
@@ -64,7 +64,7 @@ public class BankBalance extends JPanel{
         //SEARCH
         {
         pnlSearch = new JPanel(null);
-        pnlSearch.setBounds(50, 120, 1570, 70);
+        pnlSearch.setBounds(50, 60, 1570, 70);
         pnlSearch.setBorder(ColorPalette.panelBorder("Search / Filter"));
         pnlSearch.setFont(fntText);
         add(pnlSearch);
@@ -139,7 +139,7 @@ public class BankBalance extends JPanel{
         //TABEL
         {
         pnlTblContainer = new JPanel(null);
-        pnlTblContainer.setBounds(50, 200, 1570, 830);
+        pnlTblContainer.setBounds(50, 140, 1570, 830);
         pnlTblContainer.setBorder(ColorPalette.panelBorder("Balance History"));
         pnlTblContainer.setFont(fntText);
         add(pnlTblContainer);
