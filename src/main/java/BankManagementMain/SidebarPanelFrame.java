@@ -38,6 +38,8 @@ public class SidebarPanelFrame extends JFrame {
         add(window);
 
         turnPage(new Dashboard());
+        
+        
     }
 
     public void turnPage(JPanel newPage) {
