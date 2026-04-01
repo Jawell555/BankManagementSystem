@@ -1,6 +1,6 @@
 package bank_Dashboard;
 
-import Colors.ColorPallete;
+import Colors.ColorPalette;
 import javax.swing.*;
 import java.awt.*;
 import javax.swing.table.JTableHeader;
@@ -174,14 +174,14 @@ public class Dashboard extends JPanel {
     private JPanel createCardPanel() {
         JPanel panel = new JPanel();
         panel.setLayout(null);
-        panel.setBackground(ColorPallete.Blue4);
+        panel.setBackground(ColorPalette.Blue4);
         panel.setBorder(BorderFactory.createLineBorder(new Color(92, 132, 170), 1));
         return panel;
     }
 
     private JLabel createCardTitle(String text) {
         JLabel label = new JLabel(text);
-        label.setForeground(ColorPallete.Blue1);
+        label.setForeground(ColorPalette.Blue1);
         label.setFont(new Font("Segoe UI", Font.BOLD, 11));
         return label;
     }
@@ -196,7 +196,7 @@ public class Dashboard extends JPanel {
     private void styleButton(JButton btn) {
         btn.setFont(new Font("Segoe UI", Font.BOLD, 14));
         btn.setForeground(Color.WHITE);
-        btn.setBackground(ColorPallete.Blue5);
+        btn.setBackground(ColorPalette.Blue5);
         btn.setFocusPainted(false);
         btn.setBorderPainted(false);
         btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
@@ -276,14 +276,14 @@ public class Dashboard extends JPanel {
         table.setRowHeight(32);
         table.setFont(new Font("Segoe UI", Font.PLAIN, 13));
         table.setGridColor(new Color(230, 233, 238));
-        table.setSelectionBackground(ColorPallete.Blue2);
+        table.setSelectionBackground(ColorPalette.Blue2);
         table.setSelectionForeground(new Color(33, 37, 41));
         table.setShowVerticalLines(false);
         table.setIntercellSpacing(new Dimension(0, 1));
 
         header = table.getTableHeader();
         header.setFont(new Font("Segoe UI", Font.BOLD, 13));
-        header.setBackground(ColorPallete.Blue4);
+        header.setBackground(ColorPalette.Blue4);
         header.setForeground(Color.WHITE);
         header.setPreferredSize(new Dimension(100, 38));
 

@@ -1,6 +1,6 @@
 package BankManagementMain;
 
-import Colors.ColorPallete;
+import Colors.ColorPalette;
 import bank_Dashboard.Dashboard;
 import javax.swing.*;
 import java.awt.*;
@@ -19,7 +19,7 @@ public class SidebarPanel extends JPanel {
     
     public SidebarPanel(SidebarPanelFrame navPage) {
         setLayout(null);
-        setBackground(Color.decode("#0e1a2b")); 
+        setBackground(ColorPalette.Blue5); 
         setBounds(0, 0, 250, 1080);
         
         JPanel profilePanel = new ImagePanel("/sidepanel_bg2.jpg");
@@ -40,7 +40,7 @@ public class SidebarPanel extends JPanel {
 
         JLabel lblEmail = new JLabel("admin@summitphilbank.com", SwingConstants.CENTER);
         lblEmail.setFont(new Font("Segoe UI", Font.PLAIN, 11));
-        lblEmail.setForeground(ColorPallete.Blue1);
+        lblEmail.setForeground(ColorPalette.Blue1);
         lblEmail.setBounds(0, 115, 250, 20); 
         profilePanel.add(lblEmail);
 
@@ -53,11 +53,11 @@ public class SidebarPanel extends JPanel {
         add(lblNavTitle);
         
         btnHome = createMainButton("Home");
-        btnHome.setForeground(ColorPallete.redPastel);
+        btnHome.setForeground(ColorPalette.redPastel);
         btnHome.addActionListener(e -> {
             closeOtherMenus("");
             resetMainButtonColors();
-            btnHome.setForeground(ColorPallete.redPastel);
+            btnHome.setForeground(ColorPalette.redPastel);
             navPage.turnPage(new Dashboard());
             updateMenuPositions();
         });
@@ -72,7 +72,7 @@ public class SidebarPanel extends JPanel {
             
             if(isManageEmpExpanded){
                 btnManageEmp.setText("Manage Employees          >");
-                btnManageEmp.setForeground(ColorPallete.redPastel);
+                btnManageEmp.setForeground(ColorPalette.redPastel);
             } else {
                 btnManageEmp.setText("Manage Employees          +");
                 btnManageEmp.setForeground(Color.WHITE);
@@ -95,7 +95,7 @@ public class SidebarPanel extends JPanel {
             
             if(isManageAccExpanded){
                 btnManageAcc.setText("Manage Accounts            >");
-                btnManageAcc.setForeground(ColorPallete.redPastel);
+                btnManageAcc.setForeground(ColorPalette.redPastel);
             } else {
                 btnManageAcc.setText("Manage Accounts            +");
                 btnManageAcc.setForeground(Color.WHITE);
@@ -118,7 +118,7 @@ public class SidebarPanel extends JPanel {
             
             if (isAccOpsExpanded) {
                 btnAccOps.setText("Account Operations         >");
-                btnAccOps.setForeground(ColorPallete.redPastel);
+                btnAccOps.setForeground(ColorPalette.redPastel);
             } else {
                 btnAccOps.setText("Account Operations         +");
                 btnAccOps.setForeground(Color.WHITE);
@@ -143,7 +143,7 @@ public class SidebarPanel extends JPanel {
             
             if(isAccQueriesExpanded){
                 btnAccQueries.setText("Account Queries              >");
-                btnAccQueries.setForeground(ColorPallete.redPastel);
+                btnAccQueries.setForeground(ColorPalette.redPastel);
             } else {
                 btnAccQueries.setText("Account Queries              +");
                 btnAccQueries.setForeground(Color.WHITE);
@@ -164,7 +164,7 @@ public class SidebarPanel extends JPanel {
         btnBankBalance.addActionListener(e -> {
             closeOtherMenus("");
             resetMainButtonColors();
-            btnBankBalance.setForeground(ColorPallete.redPastel);
+            btnBankBalance.setForeground(ColorPalette.redPastel);
             navPage.turnPage(new Dashboard()); //Paltan niyo nalang yung 'new Dashboard()'
             updateMenuPositions();
         });
@@ -172,7 +172,7 @@ public class SidebarPanel extends JPanel {
         btnAccProfile.addActionListener(e -> {
             closeOtherMenus("");
             resetMainButtonColors();
-            btnAccProfile.setForeground(ColorPallete.redPastel);
+            btnAccProfile.setForeground(ColorPalette.redPastel);
             navPage.turnPage(new Dashboard()); //Paltan niyo nalang yung 'new Dashboard()'
             updateMenuPositions();
         });
@@ -180,7 +180,7 @@ public class SidebarPanel extends JPanel {
         btnChangePass.addActionListener(e -> {
             closeOtherMenus("");
             resetMainButtonColors();
-            btnChangePass.setForeground(ColorPallete.redPastel);
+            btnChangePass.setForeground(ColorPalette.redPastel);
             navPage.turnPage(new Dashboard()); //Paltan niyo nalang yung 'new Dashboard()'
             updateMenuPositions();
         });

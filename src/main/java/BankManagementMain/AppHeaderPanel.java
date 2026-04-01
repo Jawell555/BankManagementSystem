@@ -4,7 +4,7 @@
  */
 package BankManagementMain;
 
-import Colors.ColorPallete;
+import Colors.ColorPalette;
 import javax.swing.*;
 import java.awt.*;
 
@@ -16,7 +16,7 @@ public class AppHeaderPanel extends JPanel {
     public AppHeaderPanel() {
         setLayout(null);
         setBounds(0, 0, 1920, 60);
-        setBackground(ColorPallete.Blue5);
+        setBackground(ColorPalette.Blue5);
 
         ImageIcon logoIcon = new ImageIcon(getClass().getResource("/bank_logo.png"));
         Image scaledLogo = logoIcon.getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH);
@@ -32,7 +32,7 @@ public class AppHeaderPanel extends JPanel {
         
         btnLogout = new JButton("Logout");
         btnLogout.setForeground(Color.WHITE);
-        btnLogout.setBackground(ColorPallete.Blue3);
+        btnLogout.setBackground(ColorPalette.Blue3);
         btnLogout.setFont(new Font("Segoe UI", Font.BOLD, 20));
         btnLogout.setBounds(1800, 15, 100, 30);
         btnLogout.setFocusPainted(false);
