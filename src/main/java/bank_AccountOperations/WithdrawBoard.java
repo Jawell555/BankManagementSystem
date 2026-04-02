@@ -17,6 +17,7 @@ public class WithdrawBoard extends JPanel {
         lblTitle.setBounds(60, 30, 700, 40); 
         add(lblTitle);
 
+        //Search board
         JPanel searchBoard = new JPanel();
         searchBoard.setLayout(null); 
         searchBoard.setBackground(Color.decode("#031B42"));
@@ -29,7 +30,8 @@ public class WithdrawBoard extends JPanel {
         lblHeaderTitle.setOpaque(true); 
         lblHeaderTitle.setBounds(0, 0, 1520, 35); 
         searchBoard.add(lblHeaderTitle);
-        
+
+        //Search account
         JLabel lblAccNum = new JLabel("Account Number");
         lblAccNum.setForeground(Color.WHITE);
         lblAccNum.setFont(new Font("Segoe UI", Font.PLAIN, 15));
@@ -51,12 +53,13 @@ public class WithdrawBoard extends JPanel {
 
         add(searchBoard); 
 
+        //Information board panel
         JPanel infoBoard = new JPanel();
         infoBoard.setLayout(null);
-        infoBoard.setBackground(new Color(235, 235, 235));
         infoBoard.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.decode("#0E447D"), 3), "Information Board"));
         infoBoard.setBounds(60, 275, 1520, 280); 
 
+        //Account details
         JLabel lblAccTitle = new JLabel("Account Title");
         lblAccTitle.setFont(new Font("Segoe UI", Font.PLAIN, 15));
         lblAccTitle.setBounds(50, 40, 200, 25);
@@ -145,9 +148,9 @@ public class WithdrawBoard extends JPanel {
 
         add(infoBoard); 
 
+        //Action board
         JPanel actionBoard = new JPanel();
         actionBoard.setLayout(null);      
-        actionBoard.setBackground(new Color(235, 235, 235));
         actionBoard.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.decode("#0E447D"), 3), "Action Board"));
         actionBoard.setBounds(60, 580, 1520, 320); 
         add(actionBoard); 
@@ -253,6 +256,7 @@ public class WithdrawBoard extends JPanel {
         lblTotalVal.setBounds(1250, 180, 200, 30);
         actionBoard.add(lblTotalVal);
 
+        //Withdraw button
         JButton btnWithdraw = new JButton("WITHDRAW");
         btnWithdraw.setBackground(Color.decode("#0C3D70")); 
         btnWithdraw.setForeground(Color.WHITE);
@@ -262,6 +266,7 @@ public class WithdrawBoard extends JPanel {
         actionBoard.add(btnWithdraw);
     }
 
+    //Withdraw confirmation
     private void showWithdrawDialog() {
         Window parentWindow = SwingUtilities.getWindowAncestor(this);
         JDialog dialog = new JDialog((JFrame)parentWindow, "Withdrawal Confirmation", true);
@@ -384,6 +389,7 @@ public class WithdrawBoard extends JPanel {
         txtTellerName.setBounds(110, 365, 260, 25);
         dialog.add(txtTellerName);
 
+        //Teller needs to enter the pin before proceeding for security purposes
         JLabel lblTellerPin = new JLabel("Teller PIN:");
         lblTellerPin.setFont(new Font("Segoe UI", Font.PLAIN, 13));
         lblTellerPin.setBounds(30, 400, 100, 25);
@@ -398,7 +404,8 @@ public class WithdrawBoard extends JPanel {
         btnConfirm.setForeground(Color.WHITE);
         btnConfirm.setFont(new Font("Segoe UI", Font.BOLD, 14));
         btnConfirm.setBounds(40, 445, 150, 40);
-        
+  
+        //If the deposit confirmed, as well as the validations
         btnConfirm.addActionListener(e -> {
             String enteredPin = new String(txtTellerPin.getPassword());
             
@@ -414,6 +421,8 @@ public class WithdrawBoard extends JPanel {
         btnCancel.setBackground(Color.LIGHT_GRAY);
         btnCancel.setFont(new Font("Segoe UI", Font.BOLD, 14));
         btnCancel.setBounds(210, 445, 150, 40);
+        
+        //If deposit cancelled was cancelled
         btnCancel.addActionListener(e -> {
             dialog.dispose(); 
             JOptionPane.showMessageDialog(parentWindow, "Transaction Cancelled.", "Transaction Cancelled", JOptionPane.ERROR_MESSAGE);

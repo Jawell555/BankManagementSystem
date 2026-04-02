@@ -1,12 +1,12 @@
 package bank_Dashboard;
 
-import Colors.ColorPallete;
+import Colors.ColorPalette;
 import javax.swing.*;
 import java.awt.*;
 import javax.swing.table.JTableHeader;
 
 public class Dashboard extends JPanel {
-    
+
     private JLabel lblTitle, lblTitleEmp, lblEmpValue, lblTitleCurrAcc, lblCurrAccValue, lblTitleSavAcc, lblSavAccValue, lblTitleBankBalance,
             lblSavBankBalance, lblTitleWithdraw, lblWithdrawValue, lblTitleDeposit, lblDepositValue, lblTitleTrans, lblTransValue, lblInfoBoard;
     private JPanel headerTop, statsPanel, empCard, currAccCard, savAccCard, bankBalanceCard, withdrawCard, depositCard, transCard, tableContainer;
@@ -16,7 +16,7 @@ public class Dashboard extends JPanel {
     private JTableHeader header;
 
     public Dashboard() {
-        
+
         setLayout(null);
         setBounds(0, 0, 1670, 1080);
         setBackground(new Color(245, 247, 250));
@@ -26,16 +26,16 @@ public class Dashboard extends JPanel {
         lblTitle.setFont(new Font("Segoe UI", Font.BOLD, 30));
         lblTitle.setForeground(new Color(33, 37, 41));
         add(lblTitle);
-        
+
         statsPanel = new JPanel();
         statsPanel.setLayout(null);
         statsPanel.setOpaque(false);
-        statsPanel.setBounds(50, 90, 1630, 250); 
+        statsPanel.setBounds(50, 90, 1630, 250);
         add(statsPanel);
 
         // Employee card
         empCard = createCardPanel();
-        empCard.setBounds(0, 10, 330, 90); 
+        empCard.setBounds(0, 10, 330, 90);
 
         lblTitleEmp = createCardTitle("EMPLOYEES");
         lblTitleEmp.setBounds(18, 12, 160, 20);
@@ -46,10 +46,10 @@ public class Dashboard extends JPanel {
         empCard.add(lblEmpValue);
 
         statsPanel.add(empCard);
-        
+
         // Current Accounts card
         currAccCard = createCardPanel();
-        currAccCard.setBounds(370, 10, 330, 90); 
+        currAccCard.setBounds(370, 10, 330, 90);
 
         lblTitleCurrAcc = createCardTitle("CURRENT ACCOUNTS");
         lblTitleCurrAcc.setBounds(18, 12, 180, 20);
@@ -60,10 +60,10 @@ public class Dashboard extends JPanel {
         currAccCard.add(lblCurrAccValue);
 
         statsPanel.add(currAccCard);
-        
+
         // Saving Accounts card
         savAccCard = createCardPanel();
-        savAccCard.setBounds(740, 10, 330, 90); 
+        savAccCard.setBounds(740, 10, 330, 90);
 
         lblTitleSavAcc = createCardTitle("SAVINGS ACCOUNTS");
         lblTitleSavAcc.setBounds(18, 12, 180, 20);
@@ -72,12 +72,12 @@ public class Dashboard extends JPanel {
         lblSavAccValue = createCardValue("11");
         lblSavAccValue.setBounds(18, 38, 130, 30);
         savAccCard.add(lblSavAccValue);
-        
+
         statsPanel.add(savAccCard);
-        
+
         // Bank Balance card
         bankBalanceCard = createCardPanel();
-        bankBalanceCard.setBounds(1110, 10, 330, 90); 
+        bankBalanceCard.setBounds(1110, 10, 330, 90);
 
         lblTitleBankBalance = createCardTitle("BANK BALANCE");
         lblTitleBankBalance.setBounds(18, 12, 160, 20);
@@ -87,12 +87,12 @@ public class Dashboard extends JPanel {
         lblSavBankBalance.setFont(new Font("Segoe UI", Font.BOLD, 20));
         lblSavBankBalance.setBounds(18, 38, 260, 30);
         bankBalanceCard.add(lblSavBankBalance);
-        
+
         statsPanel.add(bankBalanceCard);
-        
+
         // Withdrawn Money card
         withdrawCard = createCardPanel();
-        withdrawCard.setBounds(0, 130, 330, 90); 
+        withdrawCard.setBounds(0, 130, 330, 90);
 
         lblTitleWithdraw = createCardTitle("WITHDRAW TOTAL");
         lblTitleWithdraw.setBounds(18, 12, 160, 20);
@@ -104,10 +104,10 @@ public class Dashboard extends JPanel {
         withdrawCard.add(lblWithdrawValue);
 
         statsPanel.add(withdrawCard);
-        
+
         // Deposited Money card
         depositCard = createCardPanel();
-        depositCard.setBounds(370, 130, 330, 90); 
+        depositCard.setBounds(370, 130, 330, 90);
 
         lblTitleDeposit = createCardTitle("DEPOSIT TOTAL");
         lblTitleDeposit.setBounds(18, 12, 160, 20);
@@ -119,11 +119,11 @@ public class Dashboard extends JPanel {
         depositCard.add(lblDepositValue);
 
         statsPanel.add(depositCard);
-        
+
         // Transacted Money card
         transCard = createCardPanel();
-        transCard.setBounds(740, 130, 330, 90); 
-        
+        transCard.setBounds(740, 130, 330, 90);
+
         lblTitleTrans = createCardTitle("TRANSACTED TOTAL");
         lblTitleTrans.setBounds(18, 12, 180, 20);
         transCard.add(lblTitleTrans);
@@ -132,15 +132,15 @@ public class Dashboard extends JPanel {
         lblTransValue.setFont(new Font("Segoe UI", Font.BOLD, 20));
         lblTransValue.setBounds(18, 38, 260, 30);
         transCard.add(lblTransValue);
-        
+
         statsPanel.add(transCard);
-        
+
         lblInfoBoard = new JLabel("Info Board");
         lblInfoBoard.setBounds(50, 345, 700, 40);
         lblInfoBoard.setFont(new Font("Segoe UI", Font.BOLD, 26));
         lblInfoBoard.setForeground(new Color(33, 37, 41));
         add(lblInfoBoard);
-        
+
         btnEmployees = new JButton("Employees");
         btnAccounts = new JButton("Accounts");
         btnTransactions = new JButton("Transactions");
@@ -152,7 +152,7 @@ public class Dashboard extends JPanel {
         styleButton(btnEmployees);
         styleButton(btnAccounts);
         styleButton(btnTransactions);
-        
+
         add(btnEmployees);
         add(btnAccounts);
         add(btnTransactions);
@@ -163,7 +163,7 @@ public class Dashboard extends JPanel {
         tableContainer.setBackground(Color.WHITE);
         tableContainer.setBorder(BorderFactory.createLineBorder(new Color(225, 230, 235), 1));
         add(tableContainer);
-        
+
         initTables();
 
         btnEmployees.addActionListener(e -> showTable("EMP"));
@@ -174,14 +174,14 @@ public class Dashboard extends JPanel {
     private JPanel createCardPanel() {
         JPanel panel = new JPanel();
         panel.setLayout(null);
-        panel.setBackground(ColorPallete.Blue4);
+        panel.setBackground(ColorPalette.Blue4);
         panel.setBorder(BorderFactory.createLineBorder(new Color(92, 132, 170), 1));
         return panel;
     }
 
     private JLabel createCardTitle(String text) {
         JLabel label = new JLabel(text);
-        label.setForeground(ColorPallete.Blue1);
+        label.setForeground(ColorPalette.Blue1);
         label.setFont(new Font("Segoe UI", Font.BOLD, 11));
         return label;
     }
@@ -196,7 +196,7 @@ public class Dashboard extends JPanel {
     private void styleButton(JButton btn) {
         btn.setFont(new Font("Segoe UI", Font.BOLD, 14));
         btn.setForeground(Color.WHITE);
-        btn.setBackground(ColorPallete.Blue5);
+        btn.setBackground(ColorPalette.Blue5);
         btn.setFocusPainted(false);
         btn.setBorderPainted(false);
         btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
@@ -227,7 +227,7 @@ public class Dashboard extends JPanel {
         tableContainer.add(scrollPaneEmployee);
 
         // Accounts Table
-        String[] accCols = {"Account Number", "Name", "Father Name", "Email","Type of ID", "ID Number", "Date", "Type"};
+        String[] accCols = {"Account Number", "Name", "Father Name", "Email", "Type of ID", "ID Number", "Date", "Type"};
         Object[][] accData = {
             {"SPB1000000001", "Juan Dela Cruz", "Pedro Dela Cruz", "juan.delacruz@mail.com", "National ID", "901234567890", "2023-01-15", "Savings"},
             {"SPB1000000002", "Maria Santos", "Jose Santos", "maria.santos@mail.com", "Passport", "P1234567", "2022-11-08", "Current"},
@@ -276,15 +276,17 @@ public class Dashboard extends JPanel {
         table.setRowHeight(32);
         table.setFont(new Font("Segoe UI", Font.PLAIN, 13));
         table.setGridColor(new Color(230, 233, 238));
-        table.setSelectionBackground(ColorPallete.Blue2);
+        table.setSelectionBackground(ColorPalette.Blue2);
         table.setSelectionForeground(new Color(33, 37, 41));
         table.setShowVerticalLines(false);
         table.setIntercellSpacing(new Dimension(0, 1));
 
         header = table.getTableHeader();
         header.setFont(new Font("Segoe UI", Font.BOLD, 13));
-        header.setBackground(ColorPallete.Blue4);
+        header.setBackground(ColorPalette.Blue4);
         header.setForeground(Color.WHITE);
+        header.setResizingAllowed(false);
+        header.setReorderingAllowed(false);
         header.setPreferredSize(new Dimension(100, 38));
 
         return table;

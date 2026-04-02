@@ -1,6 +1,6 @@
 /*
- * Click nbfs:nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs:nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package BankManagementMain;
 import bank_Dashboard.Dashboard;
@@ -20,17 +20,17 @@ public class SidebarPanelFrame extends JFrame {
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setLayout(null);
 
-        //Shared header
+        // Shared header
         header = new AppHeaderPanel();
         header.setBounds(0, 0, 1920, 60);
         add(header);
 
-        //Sidebar
+        // Sidebar
         SidebarPanel sidebar = new SidebarPanel(this);
         sidebar.setBounds(0, 60, 250, 1020); 
         add(sidebar);
 
-        //Main content area
+        // Main content area
         window = new JPanel();
         window.setLayout(null);
         window.setBounds(250, 60, 1670, 1020); 
@@ -38,6 +38,8 @@ public class SidebarPanelFrame extends JFrame {
         add(window);
 
         turnPage(new Dashboard());
+        
+        
     }
 
     public void turnPage(JPanel newPage) {

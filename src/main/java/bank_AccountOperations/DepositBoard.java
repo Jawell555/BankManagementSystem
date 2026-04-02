@@ -14,17 +14,13 @@ public class DepositBoard extends JPanel {
 
         JLabel lblTitle = new JLabel("Deposit Board");
         lblTitle.setFont(new Font("Segoe UI", Font.BOLD, 30)); 
-        // In-adjust ang X sa 60
         lblTitle.setBounds(60, 30, 700, 40); 
         add(lblTitle);
 
-        // ==========================================
-        // SEARCH BOARD
-        // ==========================================
+        //Search board panel
         JPanel searchBoard = new JPanel();
         searchBoard.setLayout(null); 
         searchBoard.setBackground(Color.decode("#031B42"));
-        // In-adjust ang X sa 60
         searchBoard.setBounds(60, 100, 1520, 150); 
         
         JLabel lblHeaderTitle = new JLabel("   Search Board"); 
@@ -35,6 +31,7 @@ public class DepositBoard extends JPanel {
         lblHeaderTitle.setBounds(0, 0, 1520, 35); 
         searchBoard.add(lblHeaderTitle);
         
+        //Search account
         JLabel lblAccNum = new JLabel("Account Number");
         lblAccNum.setForeground(Color.WHITE);
         lblAccNum.setFont(new Font("Segoe UI", Font.PLAIN, 15));
@@ -55,18 +52,14 @@ public class DepositBoard extends JPanel {
         searchBoard.add(btnSearch);
 
         add(searchBoard); 
-
-        // ==========================================
-        // INFORMATION BOARD 
-        // ==========================================
+        
+        //Information board panel
         JPanel infoBoard = new JPanel();
         infoBoard.setLayout(null);
-        infoBoard.setBackground(new Color(235, 235, 235));
         infoBoard.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.decode("#0E447D"), 3), "Information Board"));
-        // In-adjust ang X sa 60
         infoBoard.setBounds(60, 275, 1520, 280); 
 
-        // Col 1
+        //Account details
         JLabel lblAccTitle = new JLabel("Account Title");
         lblAccTitle.setFont(new Font("Segoe UI", Font.PLAIN, 15));
         lblAccTitle.setBounds(50, 40, 200, 25);
@@ -97,7 +90,6 @@ public class DepositBoard extends JPanel {
         infoSep1.setBounds(500, 40, 10, 200);
         infoBoard.add(infoSep1);
 
-        // Col 2
         JLabel lblHolderName = new JLabel("Account Holder Name");
         lblHolderName.setFont(new Font("Segoe UI", Font.PLAIN, 15));
         lblHolderName.setBounds(550, 40, 250, 25);
@@ -128,7 +120,6 @@ public class DepositBoard extends JPanel {
         infoSep2.setBounds(1000, 40, 10, 200);
         infoBoard.add(infoSep2);
 
-        // Col 3
         JLabel lblDisplayAccNum = new JLabel("Account Number");
         lblDisplayAccNum.setFont(new Font("Segoe UI", Font.PLAIN, 15));
         lblDisplayAccNum.setBounds(1050, 40, 250, 25);
@@ -157,17 +148,13 @@ public class DepositBoard extends JPanel {
 
         add(infoBoard); 
 
-        // ==========================================
-        // ACTION BOARD
-        // ==========================================
+        //Action board panel
         JPanel actionBoard = new JPanel();
         actionBoard.setLayout(null);      
         actionBoard.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.decode("#0E447D"), 3), "Action Board"));
-        // In-adjust ang X sa 60
         actionBoard.setBounds(60, 580, 1520, 320); 
         add(actionBoard); 
 
-        // Col 1
         JLabel lblRefNum = new JLabel("Deposit Reference No.");
         lblRefNum.setFont(new Font("Segoe UI", Font.PLAIN, 15));
         lblRefNum.setBounds(50, 40, 200, 20);
@@ -199,7 +186,6 @@ public class DepositBoard extends JPanel {
         actSep1.setBounds(500, 40, 10, 230);
         actionBoard.add(actSep1);
 
-        // Col 2
         JLabel lblDepositor = new JLabel("Depositor's Full Name");
         lblDepositor.setFont(new Font("Segoe UI", Font.PLAIN, 15));
         lblDepositor.setBounds(550, 40, 200, 20);
@@ -227,7 +213,6 @@ public class DepositBoard extends JPanel {
         actSep2.setBounds(1000, 40, 10, 230);
         actionBoard.add(actSep2);
 
-        // Col 3
         JLabel lblAmount = new JLabel("Deposit Amount");
         lblAmount.setFont(new Font("Segoe UI", Font.PLAIN, 15));
         lblAmount.setBounds(1050, 40, 200, 20);
@@ -248,6 +233,7 @@ public class DepositBoard extends JPanel {
         actionBoard.add(btnDeposit);
     }
    
+    //Confirmation dialog
     private void showDepositDialog() {
         Window parentWindow = SwingUtilities.getWindowAncestor(this);
         JDialog dialog = new JDialog((JFrame)parentWindow, "Deposit Confirmation", true);
@@ -317,12 +303,14 @@ public class DepositBoard extends JPanel {
         lblTotalVal.setBounds(210, 218, 150, 25);
         dialog.add(lblTotalVal);
 
+        //Confirm transaction
         JButton btnConfirm = new JButton("Confirm");
         btnConfirm.setBackground(Color.decode("#0C3D70"));
         btnConfirm.setForeground(Color.WHITE);
         btnConfirm.setFont(new Font("Segoe UI", Font.BOLD, 14));
         btnConfirm.setBounds(40, 270, 150, 40);
-        
+   
+        //If deposit confirmed
         btnConfirm.addActionListener(e -> {
             dialog.dispose(); 
             JOptionPane.showMessageDialog(parentWindow, "Deposited successfully!", "Transaction Complete", JOptionPane.INFORMATION_MESSAGE);
@@ -332,6 +320,8 @@ public class DepositBoard extends JPanel {
         btnCancel.setBackground(Color.LIGHT_GRAY);
         btnCancel.setFont(new Font("Segoe UI", Font.BOLD, 14));
         btnCancel.setBounds(210, 270, 150, 40);
+        
+        //If the deposit was cancelled
         btnCancel.addActionListener(e -> {
             dialog.dispose(); 
             JOptionPane.showMessageDialog(parentWindow, "Transaction Cancelled.", "Transaction Cancelled", JOptionPane.ERROR_MESSAGE);

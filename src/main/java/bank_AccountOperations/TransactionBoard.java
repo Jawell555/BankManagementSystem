@@ -17,6 +17,7 @@ public class TransactionBoard extends JPanel {
         lblTitle.setBounds(60, 30, 700, 40); 
         add(lblTitle);
 
+        //Search board panel
         JPanel searchBoard = new JPanel();
         searchBoard.setLayout(null); 
         searchBoard.setBackground(Color.decode("#031B42"));
@@ -30,6 +31,7 @@ public class TransactionBoard extends JPanel {
         lblHeaderTitle.setBounds(0, 0, 1520, 35); 
         searchBoard.add(lblHeaderTitle);
         
+        //Sender and receiver's account number to search
         JLabel lblSenderAcc = new JLabel("Sender Account");
         lblSenderAcc.setForeground(Color.WHITE);
         lblSenderAcc.setFont(new Font("Segoe UI", Font.PLAIN, 16));
@@ -54,6 +56,7 @@ public class TransactionBoard extends JPanel {
         txtReceiverAcc.setBounds(600, 80, 500, 40); 
         searchBoard.add(txtReceiverAcc);
 
+        //Search account button
         JButton btnSearch = new JButton("Search");
         btnSearch.setBackground(Color.decode("#0C3D70"));
         btnSearch.setForeground(Color.WHITE);
@@ -63,11 +66,13 @@ public class TransactionBoard extends JPanel {
 
         add(searchBoard); 
 
+        //Information board panel
         JPanel infoBoard = new JPanel();
         infoBoard.setLayout(null);
         infoBoard.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.decode("#0E447D"), 3), "Information Board"));
         infoBoard.setBounds(60, 275, 1520, 280); 
 
+        //Sender account details
         JLabel lblSenderTitle = new JLabel("Sender Account Title");
         lblSenderTitle.setFont(new Font("Segoe UI", Font.PLAIN, 16));
         lblSenderTitle.setBounds(50, 40, 200, 25);
@@ -136,6 +141,7 @@ public class TransactionBoard extends JPanel {
         separator2.setBounds(1000, 40, 10, 200); 
         infoBoard.add(separator2);
         
+        //Receiver account details
         JLabel lblReceiverTitle = new JLabel("Receiver Account Title");
         lblReceiverTitle.setFont(new Font("Segoe UI", Font.PLAIN, 16));
         lblReceiverTitle.setBounds(1050, 40, 200, 25);
@@ -164,6 +170,7 @@ public class TransactionBoard extends JPanel {
 
         add(infoBoard); 
 
+        //Action board
         JPanel actionBoard = new JPanel();
         actionBoard.setLayout(null);      
         actionBoard.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.decode("#0E447D"), 3), "Action Board"));
@@ -254,6 +261,7 @@ public class TransactionBoard extends JPanel {
         lblTotalValue.setBounds(1250, 130, 250, 30);
         actionBoard.add(lblTotalValue);
 
+        //Transfer button
         JButton btnTransfer = new JButton("TRANSFER");
         btnTransfer.setBackground(Color.decode("#0E447D"));
         btnTransfer.setForeground(Color.WHITE);
@@ -265,6 +273,7 @@ public class TransactionBoard extends JPanel {
         actionBoard.add(btnTransfer);
     }
 
+    //Confirmation of transfer
     private void showTransferDialog() {
         Window parentWindow = SwingUtilities.getWindowAncestor(this);
         JDialog dialog = new JDialog((JFrame)parentWindow, "Transfer Confirmation", true);
@@ -359,7 +368,8 @@ public class TransactionBoard extends JPanel {
         btnConfirm.setForeground(Color.WHITE);
         btnConfirm.setFont(new Font("Segoe UI", Font.BOLD, 14));
         btnConfirm.setBounds(50, 330, 150, 40);
-        
+  
+        //If transfer confirmed
         btnConfirm.addActionListener(e -> {
             dialog.dispose(); 
             JOptionPane.showMessageDialog(parentWindow, "Transferred successfully!", "Transaction Complete", JOptionPane.INFORMATION_MESSAGE);
@@ -369,7 +379,8 @@ public class TransactionBoard extends JPanel {
         btnCancel.setBackground(Color.LIGHT_GRAY);
         btnCancel.setFont(new Font("Segoe UI", Font.BOLD, 14));
         btnCancel.setBounds(230, 330, 150, 40);
-        
+ 
+        //If the transfer was cancelled
         btnCancel.addActionListener(e -> {
             dialog.dispose(); 
             JOptionPane.showMessageDialog(parentWindow, "Transaction Cancelled.", "Transaction Cancelled", JOptionPane.ERROR_MESSAGE);
