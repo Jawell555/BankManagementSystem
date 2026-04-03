@@ -3,6 +3,9 @@ package BankManagementMain;
 import AccountProfile.admnAccountProfile;
 import Colors.ColorPalette;
 import BankBalance.BankBalance;
+import bank_AccountOperations.DepositBoard;
+import bank_AccountOperations.TransactionBoard;
+import bank_AccountOperations.WithdrawBoard;
 import bank_Dashboard.adminDashboard;
 import javax.swing.*;
 import java.awt.*;
@@ -132,11 +135,11 @@ public class adminSidebarPanel extends JPanel {
         });
        
         btnSubTrans = createSubButton("Transaction");
-        btnSubTrans.addActionListener(e -> navPage.turnPage(new adminDashboard())); //Paltan niyo nalang yung 'new Dashboard()'
+        btnSubTrans.addActionListener(e -> navPage.turnPage(new TransactionBoard())); //Paltan niyo nalang yung 'new Dashboard()'
         btnSubDeposit = createSubButton("Deposit Balance");
-        btnSubDeposit.addActionListener(e -> navPage.turnPage(new adminDashboard())); //Paltan niyo nalang yung 'new Dashboard()'
+        btnSubDeposit.addActionListener(e -> navPage.turnPage(new DepositBoard())); //Paltan niyo nalang yung 'new Dashboard()'
         btnSubWithdraw = createSubButton("Withdraw Balance");
-        btnSubWithdraw.addActionListener(e -> navPage.turnPage(new adminDashboard())); //Paltan niyo nalang yung 'new Dashboard()'
+        btnSubWithdraw.addActionListener(e -> navPage.turnPage(new WithdrawBoard())); //Paltan niyo nalang yung 'new Dashboard()'
         
         btnAccQueries = createMainButton("Account Queries              +");
         btnAccQueries.addActionListener(e -> {
