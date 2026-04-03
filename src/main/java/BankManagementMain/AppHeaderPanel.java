@@ -8,8 +8,10 @@ import Colors.ColorPalette;
 import LoginForm.LoginFormFrame;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class AppHeaderPanel extends JPanel {
+public class AppHeaderPanel extends JPanel implements ActionListener{
 
     private JLabel headerLabel, lblLogo;
     private JButton btnLogout;
@@ -52,4 +54,17 @@ public class AppHeaderPanel extends JPanel {
         });
        
     }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if(e.getSource()== btnLogout){
+            LoginFormFrame lf = new LoginFormFrame();
+            lf.setVisible(true);
+            Window w = SwingUtilities.getWindowAncestor(this);
+            if(w!=null){
+                w.dispose();
+            }
+        }
+    }
+    
 }
