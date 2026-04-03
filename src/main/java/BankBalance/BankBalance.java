@@ -139,7 +139,7 @@ public class BankBalance extends JPanel{
         //TABLE
         {
         pnlTblContainer = new JPanel(null);
-        pnlTblContainer.setBounds(50, 180, 1570, 830);
+        pnlTblContainer.setBounds(50, 140, 1570, 830);
         pnlTblContainer.setBorder(ColorPalette.panelBorder("Balance History"));
         pnlTblContainer.setFont(fntText);
         add(pnlTblContainer);
