@@ -5,7 +5,7 @@ import javax.swing.*;
 import java.awt.*;
 import javax.swing.table.JTableHeader;
 
-public class Dashboard extends JPanel {
+public class adminDashboard extends JPanel {
     
     private JLabel lblTitle, lblTitleEmp, lblEmpValue, lblTitleCurrAcc, lblCurrAccValue, lblTitleSavAcc, lblSavAccValue, lblTitleBankBalance,
             lblSavBankBalance, lblTitleWithdraw, lblWithdrawValue, lblTitleDeposit, lblDepositValue, lblTitleTrans, lblTransValue, lblInfoBoard;
@@ -15,7 +15,7 @@ public class Dashboard extends JPanel {
     private JScrollPane scrollPaneEmployee, scrollPaneAccounts, scrollPaneTrans;
     private JTableHeader header;
 
-    public Dashboard() {
+    public adminDashboard() {
         
         setLayout(null);
         setBounds(0, 0, 1670, 1080);
@@ -285,6 +285,8 @@ public class Dashboard extends JPanel {
         header.setFont(new Font("Segoe UI", Font.BOLD, 13));
         header.setBackground(ColorPalette.Blue4);
         header.setForeground(Color.WHITE);
+        header.setResizingAllowed(false);
+        header.setReorderingAllowed(false);
         header.setPreferredSize(new Dimension(100, 38));
 
         return table;

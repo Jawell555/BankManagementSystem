@@ -1,45 +1,49 @@
 package BankManagementMain;
 
+import AccountProfile.admnAccountProfile;
 import Colors.ColorPalette;
-import bank_DashBoard.BankBalance;
-import bank_Dashboard.Dashboard;
+import BankBalance.BankBalance;
+import bank_Dashboard.adminDashboard;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class SidebarPanel extends JPanel {
+public class adminSidebarPanel extends JPanel {
 
+    private JPanel profilePanel;
+    private JLabel lblName, lblEmail, lblNavTitle, lblProfile;
     private JButton btnHome, btnManageEmp, btnManageAcc, btnAccOps, btnAccQueries, btnBankBalance, btnAccProfile, btnChangePass;
     private JButton btnSubAddEmp, btnSubViewEmp, btnSubNewAcc, btnSubViewAccList, btnSubTransHisto, btnSubCheckBalance, btnSubDepositHisto, btnSubWithdrawHisto, btnSubTrans, btnSubDeposit, btnSubWithdraw; 
+    private ImageIcon profile;
     
     private boolean isManageEmpExpanded = false;
     private boolean isManageAccExpanded = false;
     private boolean isAccOpsExpanded = false; 
     private boolean isAccQueriesExpanded = false;
     
-    public SidebarPanel(SidebarPanelFrame navPage) {
+    public adminSidebarPanel(adminSidebarPanelFrame navPage) {
         setLayout(null);
         setBackground(ColorPalette.Blue5); 
         setBounds(0, 0, 250, 1080);
         
-        JPanel profilePanel = new ImagePanel("/sidepanel_bg2.jpg");
+        profilePanel = new ImagePanel("/sidepanel_bg2.jpg");
         profilePanel.setLayout(null);
         profilePanel.setBounds(0, 0, 250, 150);
         
-        ImageIcon profile = new ImageIcon(getClass().getResource("/profile.png"));
+        profile = new ImageIcon(getClass().getResource("/profile.png"));
         Image scaledProfile = profile.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH);
-        JLabel lblProfile = new JLabel(new ImageIcon(scaledProfile));
+        lblProfile = new JLabel(new ImageIcon(scaledProfile));
         lblProfile.setBounds(90, 20, 75, 75);
         profilePanel.add(lblProfile);
 
-        JLabel lblName = new JLabel("Admin", SwingConstants.CENTER);
+        lblName = new JLabel("Admin", SwingConstants.CENTER);
         lblName.setFont(new Font("Segoe UI", Font.BOLD, 15));
         lblName.setForeground(Color.WHITE);
         lblName.setBounds(0, 95, 250, 20); 
         profilePanel.add(lblName);
 
-        JLabel lblEmail = new JLabel("admin@summitphilbank.com", SwingConstants.CENTER);
+        lblEmail = new JLabel("admin@summitphilbank.com", SwingConstants.CENTER);
         lblEmail.setFont(new Font("Segoe UI", Font.PLAIN, 11));
         lblEmail.setForeground(ColorPalette.Blue1);
         lblEmail.setBounds(0, 115, 250, 20); 
@@ -47,7 +51,7 @@ public class SidebarPanel extends JPanel {
 
         add(profilePanel);
 
-        JLabel lblNavTitle = new JLabel("MAIN NAVIGATION");
+        lblNavTitle = new JLabel("MAIN NAVIGATION");
         lblNavTitle.setFont(new Font("Segoe UI", Font.BOLD, 10));
         lblNavTitle.setForeground(Color.GRAY);
         lblNavTitle.setBounds(20, 160, 200, 20); 
@@ -59,7 +63,7 @@ public class SidebarPanel extends JPanel {
             closeOtherMenus("");
             resetMainButtonColors();
             btnHome.setForeground(ColorPalette.redPastel);
-            navPage.turnPage(new Dashboard());
+            navPage.turnPage(new adminDashboard());
             updateMenuPositions();
         });
         
@@ -82,9 +86,9 @@ public class SidebarPanel extends JPanel {
         });
         
         btnSubAddEmp = createSubButton("Add Employee");
-        btnSubAddEmp.addActionListener(e -> navPage.turnPage(new Dashboard())); //Paltan niyo nalang yung 'new Dashboard()' 
+        btnSubAddEmp.addActionListener(e -> navPage.turnPage(new adminDashboard())); //Paltan niyo nalang yung 'new Dashboard()' 
         btnSubViewEmp = createSubButton("View Employees");
-        btnSubViewEmp.addActionListener(e -> navPage.turnPage(new Dashboard())); //Paltan niyo nalang yung 'new Dashboard()' 
+        btnSubViewEmp.addActionListener(e -> navPage.turnPage(new adminDashboard())); //Paltan niyo nalang yung 'new Dashboard()' 
         
         btnManageAcc = createMainButton("Manage Accounts            +");
         btnManageAcc.addActionListener(e -> {
@@ -105,9 +109,9 @@ public class SidebarPanel extends JPanel {
         });
         
         btnSubNewAcc = createSubButton("New Account");
-        btnSubNewAcc.addActionListener(e -> navPage.turnPage(new Dashboard())); //Paltan niyo nalang yung 'new Dashboard()' 
+        btnSubNewAcc.addActionListener(e -> navPage.turnPage(new adminDashboard())); //Paltan niyo nalang yung 'new Dashboard()' 
         btnSubViewAccList = createSubButton("View Account List");
-        btnSubViewAccList.addActionListener(e -> navPage.turnPage(new Dashboard())); //Paltan niyo nalang yung 'new Dashboard()' 
+        btnSubViewAccList.addActionListener(e -> navPage.turnPage(new adminDashboard())); //Paltan niyo nalang yung 'new Dashboard()' 
         
         btnAccOps = createMainButton("Account Operations         +");
         btnAccOps.addActionListener(e -> {
@@ -128,11 +132,11 @@ public class SidebarPanel extends JPanel {
         });
        
         btnSubTrans = createSubButton("Transaction");
-        btnSubTrans.addActionListener(e -> navPage.turnPage(new Dashboard())); //Paltan niyo nalang yung 'new Dashboard()'
+        btnSubTrans.addActionListener(e -> navPage.turnPage(new adminDashboard())); //Paltan niyo nalang yung 'new Dashboard()'
         btnSubDeposit = createSubButton("Deposit Balance");
-        btnSubDeposit.addActionListener(e -> navPage.turnPage(new Dashboard())); //Paltan niyo nalang yung 'new Dashboard()'
+        btnSubDeposit.addActionListener(e -> navPage.turnPage(new adminDashboard())); //Paltan niyo nalang yung 'new Dashboard()'
         btnSubWithdraw = createSubButton("Withdraw Balance");
-        btnSubWithdraw.addActionListener(e -> navPage.turnPage(new Dashboard())); //Paltan niyo nalang yung 'new Dashboard()'
+        btnSubWithdraw.addActionListener(e -> navPage.turnPage(new adminDashboard())); //Paltan niyo nalang yung 'new Dashboard()'
         
         btnAccQueries = createMainButton("Account Queries              +");
         btnAccQueries.addActionListener(e -> {
@@ -153,13 +157,13 @@ public class SidebarPanel extends JPanel {
         });
         
         btnSubTransHisto = createSubButton("Transaction History");
-        btnSubTransHisto.addActionListener(e -> navPage.turnPage(new Dashboard())); //Paltan niyo nalang yung 'new Dashboard()'
+        btnSubTransHisto.addActionListener(e -> navPage.turnPage(new adminDashboard())); //Paltan niyo nalang yung 'new Dashboard()'
         btnSubCheckBalance = createSubButton("Check Current Balance");
-        btnSubCheckBalance.addActionListener(e -> navPage.turnPage(new Dashboard())); //Paltan niyo nalang yung 'new Dashboard()'
+        btnSubCheckBalance.addActionListener(e -> navPage.turnPage(new adminDashboard())); //Paltan niyo nalang yung 'new Dashboard()'
         btnSubDepositHisto = createSubButton("Deposit History");
-        btnSubDepositHisto.addActionListener(e -> navPage.turnPage(new Dashboard())); //Paltan niyo nalang yung 'new Dashboard()'
+        btnSubDepositHisto.addActionListener(e -> navPage.turnPage(new adminDashboard())); //Paltan niyo nalang yung 'new Dashboard()'
         btnSubWithdrawHisto = createSubButton("Withdraw History");
-        btnSubWithdrawHisto.addActionListener(e -> navPage.turnPage(new Dashboard())); //Paltan niyo nalang yung 'new Dashboard()'
+        btnSubWithdrawHisto.addActionListener(e -> navPage.turnPage(new adminDashboard())); //Paltan niyo nalang yung 'new Dashboard()'
         
         btnBankBalance = createMainButton("Bank Balance");
         btnBankBalance.addActionListener(e -> {
@@ -174,7 +178,7 @@ public class SidebarPanel extends JPanel {
             closeOtherMenus("");
             resetMainButtonColors();
             btnAccProfile.setForeground(ColorPalette.redPastel);
-            navPage.turnPage(new Dashboard()); //Paltan niyo nalang yung 'new Dashboard()'
+            navPage.turnPage(new admnAccountProfile()); //Paltan niyo nalang yung 'new Dashboard()'
             updateMenuPositions();
         });
         btnChangePass = createMainButton("Change Password");
@@ -182,7 +186,7 @@ public class SidebarPanel extends JPanel {
             closeOtherMenus("");
             resetMainButtonColors();
             btnChangePass.setForeground(ColorPalette.redPastel);
-            navPage.turnPage(new Dashboard()); //Paltan niyo nalang yung 'new Dashboard()'
+            navPage.turnPage(new adminDashboard()); //Paltan niyo nalang yung 'new Dashboard()'
             updateMenuPositions();
         });
 
@@ -309,7 +313,7 @@ public class SidebarPanel extends JPanel {
     private JButton createMainButton(String text) {
         JButton btn = new JButton(text);
         btn.setFont(new Font("Segoe UI", Font.BOLD, 12));
-        btn.setBackground(Color.decode("#0e1a2b")); 
+        btn.setBackground(ColorPalette.Blue5); 
         btn.setForeground(Color.WHITE);
         btn.setHorizontalAlignment(SwingConstants.LEFT);
         btn.setMargin(new Insets(0, 15, 0, 0)); 
@@ -326,7 +330,7 @@ public class SidebarPanel extends JPanel {
             }
             @Override
             public void mouseExited(MouseEvent e) {
-                btn.setBackground(Color.decode("#0e1a2b")); 
+                btn.setBackground(ColorPalette.Blue5); 
             }
         });
         
@@ -336,7 +340,7 @@ public class SidebarPanel extends JPanel {
     private JButton createSubButton(String text) {
         JButton btn = new JButton(text);
         btn.setFont(new Font("Segoe UI", Font.PLAIN, 11));
-        btn.setBackground(Color.decode("#0e1a2b")); 
+        btn.setBackground(ColorPalette.Blue5); 
         btn.setForeground(Color.LIGHT_GRAY);
         btn.setHorizontalAlignment(SwingConstants.LEFT);
         btn.setMargin(new Insets(0, 40, 0, 0)); 
@@ -354,7 +358,7 @@ public class SidebarPanel extends JPanel {
             }
             @Override
             public void mouseExited(MouseEvent e) {
-                btn.setBackground(Color.decode("#0e1a2b")); 
+                btn.setBackground(ColorPalette.Blue5); 
                 btn.setForeground(Color.LIGHT_GRAY); 
             }
         });
@@ -397,19 +401,5 @@ public class SidebarPanel extends JPanel {
         btnBankBalance.setForeground(Color.WHITE);
         btnAccProfile.setForeground(Color.WHITE);
         btnChangePass.setForeground(Color.WHITE);
-    }
-}
-
-class ImagePanel extends JPanel {
-    private Image backgroundImage;
-
-    public ImagePanel(String path) {
-        backgroundImage = new ImageIcon(getClass().getResource(path)).getImage();
-    }
-
-    @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
     }
 }

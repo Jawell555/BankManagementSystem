@@ -3,17 +3,17 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package BankManagementMain;
-import bank_Dashboard.Dashboard;
+import bank_Dashboard.adminDashboard;
 import java.awt.Color;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-public class SidebarPanelFrame extends JFrame {
+public class adminSidebarPanelFrame extends JFrame {
 
     private JPanel window;
     private AppHeaderPanel header;
 
-    public SidebarPanelFrame() {
+    public adminSidebarPanelFrame() {
         setTitle("SUMMIT PHILBANK");
         setSize(1920, 1080);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -26,7 +26,7 @@ public class SidebarPanelFrame extends JFrame {
         add(header);
 
         // Sidebar
-        SidebarPanel sidebar = new SidebarPanel(this);
+        adminSidebarPanel sidebar = new adminSidebarPanel(this);
         sidebar.setBounds(0, 60, 250, 1020); 
         add(sidebar);
 
@@ -37,7 +37,7 @@ public class SidebarPanelFrame extends JFrame {
         window.setBackground(new Color(235, 235, 235));
         add(window);
 
-        turnPage(new Dashboard());
+        turnPage(new adminDashboard());
     }
 
     public void turnPage(JPanel newPage) {

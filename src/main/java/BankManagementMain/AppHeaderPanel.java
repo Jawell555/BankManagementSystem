@@ -5,6 +5,7 @@
 package BankManagementMain;
 
 import Colors.ColorPalette;
+import LoginForm.LoginFormFrame;
 import javax.swing.*;
 import java.awt.*;
 
@@ -32,7 +33,7 @@ public class AppHeaderPanel extends JPanel {
         
         btnLogout = new JButton("Logout");
         btnLogout.setForeground(Color.WHITE);
-        btnLogout.setBackground(ColorPalette.Blue3);
+        btnLogout.setBackground(ColorPalette.Blue5);
         btnLogout.setFont(new Font("Segoe UI", Font.BOLD, 20));
         btnLogout.setBounds(1800, 15, 100, 30);
         btnLogout.setFocusPainted(false);
@@ -41,6 +42,14 @@ public class AppHeaderPanel extends JPanel {
         btnLogout.setOpaque(true);
         btnLogout.setCursor(new Cursor(Cursor.HAND_CURSOR));
         add(btnLogout);
+        
+        btnLogout.addActionListener(e -> {
+            LoginFormFrame login = new LoginFormFrame();
+            login.setVisible(true);
+            
+            JFrame currentFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+            currentFrame.dispose();
+        });
        
     }
 }

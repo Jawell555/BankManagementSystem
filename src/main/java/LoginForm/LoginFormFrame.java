@@ -1,10 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package LoginForm;
 
-import BankManagementMain.SidebarPanelFrame;
+import BankManagementMain.adminSidebarPanelFrame;
+import BankManagementMain.empSidebarPanelFrame;
 import Colors.ImagePanel;
 import Colors.ColorPalette;
 import java.awt.Font;
@@ -14,10 +11,7 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 
-/**
- *
- * @author Ruell
- */
+
 public class LoginFormFrame extends JFrame implements ActionListener {
 
     JPanel pnlBG, pnlLogo, pnlSq, pnlLoginArea, pnlTitle;
@@ -27,8 +21,10 @@ public class LoginFormFrame extends JFrame implements ActionListener {
     JButton btnLogin;
     private String pass, user;
 
-    private String username = "Admin";
-    private String password = "Admin123!";
+    private String usernameAdmin = "admin";
+    private String passwordAdmin = "admin123!";
+    private String usernameEmp = "employee";
+    private String passwordEmp = "employee123!";
 
     Font fntTitle = new Font("Segoe UI", Font.BOLD, 50);
     Font fntText = new Font("Segoe UI", Font.BOLD, 15);
@@ -113,8 +109,12 @@ public class LoginFormFrame extends JFrame implements ActionListener {
         user = txtUser.getText();
         pass = passPass.getText();
         if (e.getSource() == btnLogin) {
-            if (user.equals(username) && pass.equals(password)) {
-                SidebarPanelFrame sf = new SidebarPanelFrame();
+            if (user.equals(usernameAdmin) && pass.equals(passwordAdmin)) {
+                adminSidebarPanelFrame sf = new adminSidebarPanelFrame();
+                    sf.setVisible(true);
+                dispose();
+            } else if (user.equals(usernameEmp) && pass.equals(passwordEmp)) {
+                empSidebarPanelFrame sf = new empSidebarPanelFrame();
                     sf.setVisible(true);
                 dispose();
             } else {
@@ -123,6 +123,8 @@ public class LoginFormFrame extends JFrame implements ActionListener {
                 passPass.setBorder(errorBorder);
                 JOptionPane.showMessageDialog(null, "Incorrect Credentials. Try Again.", "Login Failed", JOptionPane.ERROR_MESSAGE);
             }
+            
         }
+        
     }
 }
