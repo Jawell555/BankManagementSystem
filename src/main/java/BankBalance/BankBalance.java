@@ -33,7 +33,6 @@ public class BankBalance extends JPanel{
     
     Font fntTitle = new Font("Segoe UI", Font.BOLD, 25);
     Font fntText = new Font("Segoe UI", Font.PLAIN, 12);
-    Font fntHeader = new Font("Segoe UI", Font.BOLD, 18);
     
     public BankBalance() {
         this.months = new String[]{"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
