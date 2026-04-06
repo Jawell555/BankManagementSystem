@@ -9,6 +9,8 @@ import bank_AccountOperations.TransactionBoard;
 import bank_AccountOperations.WithdrawBoard;
 import bank_Dashboard.adminDashboard;
 import bank_Dashboard.employeeDashboard;
+import bank_ManageAccounts.NewAccountBoard;
+import bank_ManageAccounts.ViewAccountBoard;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -90,9 +92,9 @@ public class empSidebarPanel extends JPanel {
         });
         
         btnSubNewAcc = createSubButton("New Account");
-        btnSubNewAcc.addActionListener(e -> navPage.turnPage(new adminDashboard())); //Paltan niyo nalang yung 'new adminDashboard()' 
+        btnSubNewAcc.addActionListener(e -> navPage.turnPage(new NewAccountBoard())); //Paltan niyo nalang yung 'new adminDashboard()' 
         btnSubViewAccList = createSubButton("View Account List");
-        btnSubViewAccList.addActionListener(e -> navPage.turnPage(new adminDashboard())); //Paltan niyo nalang yung 'new adminDashboard()' 
+        btnSubViewAccList.addActionListener(e -> navPage.turnPage(new ViewAccountBoard())); //Paltan niyo nalang yung 'new adminDashboard()' 
         
         btnAccOps = createMainButton("Account Operations         +");
         btnAccOps.addActionListener(e -> {

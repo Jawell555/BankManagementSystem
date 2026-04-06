@@ -7,6 +7,10 @@ import bank_AccountOperations.DepositBoard;
 import bank_AccountOperations.TransactionBoard;
 import bank_AccountOperations.WithdrawBoard;
 import bank_Dashboard.adminDashboard;
+import bank_ManageEmployees.AddEmployeesBoard;
+import bank_ManageEmployees.ViewEmployeesBoard;
+import bank_ManageAccounts.NewAccountBoard;
+import bank_ManageAccounts.ViewAccountBoard;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -89,9 +93,9 @@ public class adminSidebarPanel extends JPanel {
         });
         
         btnSubAddEmp = createSubButton("Add Employee");
-        btnSubAddEmp.addActionListener(e -> navPage.turnPage(new adminDashboard())); //Paltan niyo nalang yung 'new Dashboard()' 
+        btnSubAddEmp.addActionListener(e -> navPage.turnPage(new AddEmployeesBoard())); //Paltan niyo nalang yung 'new Dashboard()' 
         btnSubViewEmp = createSubButton("View Employees");
-        btnSubViewEmp.addActionListener(e -> navPage.turnPage(new adminDashboard())); //Paltan niyo nalang yung 'new Dashboard()' 
+        btnSubViewEmp.addActionListener(e -> navPage.turnPage(new ViewEmployeesBoard())); //Paltan niyo nalang yung 'new Dashboard()' 
         
         btnManageAcc = createMainButton("Manage Accounts            +");
         btnManageAcc.addActionListener(e -> {
@@ -112,9 +116,9 @@ public class adminSidebarPanel extends JPanel {
         });
         
         btnSubNewAcc = createSubButton("New Account");
-        btnSubNewAcc.addActionListener(e -> navPage.turnPage(new adminDashboard())); //Paltan niyo nalang yung 'new Dashboard()' 
+        btnSubNewAcc.addActionListener(e -> navPage.turnPage(new NewAccountBoard())); //Paltan niyo nalang yung 'new Dashboard()' 
         btnSubViewAccList = createSubButton("View Account List");
-        btnSubViewAccList.addActionListener(e -> navPage.turnPage(new adminDashboard())); //Paltan niyo nalang yung 'new Dashboard()' 
+        btnSubViewAccList.addActionListener(e -> navPage.turnPage(new ViewAccountBoard())); //Paltan niyo nalang yung 'new Dashboard()' 
         
         btnAccOps = createMainButton("Account Operations         +");
         btnAccOps.addActionListener(e -> {
