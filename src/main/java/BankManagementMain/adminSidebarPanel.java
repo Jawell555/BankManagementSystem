@@ -1,10 +1,10 @@
 package BankManagementMain;
 
 import AccountProfile.admnAccountProfile;
-import Account_Queries.checkbalance;
-import Account_Queries.deposithistory;
-import Account_Queries.transactionhistory;
-import Account_Queries.withdrawhistory;
+import Account_Queries.CheckBalance;
+import Account_Queries.DepositHistory;
+import Account_Queries.TransactionHistory;
+import Account_Queries.WithdrawHistory;
 import Colors.ColorPalette;
 import BankBalance.BankBalance;
 import bank_AccountOperations.DepositBoard;
@@ -164,13 +164,13 @@ public class adminSidebarPanel extends JPanel {
         });
         
         btnSubTransHisto = createSubButton("Transaction History");
-        btnSubTransHisto.addActionListener(e -> navPage.turnPage(new transactionhistory())); //Paltan niyo nalang yung 'new Dashboard()'
+        btnSubTransHisto.addActionListener(e -> navPage.turnPage(new TransactionHistory())); //Paltan niyo nalang yung 'new Dashboard()'
         btnSubCheckBalance = createSubButton("Check Current Balance");
-        btnSubCheckBalance.addActionListener(e -> navPage.turnPage(new checkbalance())); //Paltan niyo nalang yung 'new Dashboard()'
+        btnSubCheckBalance.addActionListener(e -> navPage.turnPage(new CheckBalance())); //Paltan niyo nalang yung 'new Dashboard()'
         btnSubDepositHisto = createSubButton("Deposit History");
-        btnSubDepositHisto.addActionListener(e -> navPage.turnPage(new deposithistory())); //Paltan niyo nalang yung 'new Dashboard()'
+        btnSubDepositHisto.addActionListener(e -> navPage.turnPage(new DepositHistory())); //Paltan niyo nalang yung 'new Dashboard()'
         btnSubWithdrawHisto = createSubButton("Withdraw History");
-        btnSubWithdrawHisto.addActionListener(e -> navPage.turnPage(new withdrawhistory())); //Paltan niyo nalang yung 'new Dashboard()'
+        btnSubWithdrawHisto.addActionListener(e -> navPage.turnPage(new WithdrawHistory())); //Paltan niyo nalang yung 'new Dashboard()'
         
         btnBankBalance = createMainButton("Bank Balance");
         btnBankBalance.addActionListener(e -> {

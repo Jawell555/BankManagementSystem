@@ -9,7 +9,7 @@ import javax.swing.table.JTableHeader;
  *
  * @author Ron
  */
-public class transactionhistory extends JPanel{
+public class TransactionHistory extends JPanel{
     
     JLabel lblTitle, lblFrom, lblTo;
     JPanel pnlTblContainer, pnlSearch;
@@ -29,7 +29,7 @@ public class transactionhistory extends JPanel{
     Font fntText = new Font("Segoe UI", Font.PLAIN, 12);
     Font fntHeader = new Font("Segoe UI", Font.BOLD, 18);
     
-    public transactionhistory() {
+    public TransactionHistory() {
         this.months = new String[]{"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
         this.historyChoices = new String[]{"Deposit", "Withdrawal", "Transfer", "Received"};
         for(int i = 1; i<=31; i++){

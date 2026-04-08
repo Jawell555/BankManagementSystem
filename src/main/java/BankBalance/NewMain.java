@@ -4,7 +4,7 @@
  */
 package BankBalance;
 
-import Account_Queries.transactionhistory;
+import Account_Queries.TransactionHistory;
 
 /**
  *
@@ -16,7 +16,7 @@ public class NewMain {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        transactionhistory th = new transactionhistory();
+        TransactionHistory th = new TransactionHistory();
         th.setVisible(true);
     }
     

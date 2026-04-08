@@ -11,7 +11,7 @@ import javax.swing.*;
  *
  * @author Ron
  */
-public class checkbalance extends JPanel{
+public class CheckBalance extends JPanel{
     
     JLabel lblTitle, lblAccount, lblHolder;
     JPanel pnlBalance, pnlSearch;
@@ -22,7 +22,7 @@ public class checkbalance extends JPanel{
     Font fntText = new Font("Segoe UI", Font.PLAIN, 12);
     Font fntHeader = new Font("Segoe UI", Font.BOLD, 18);
     
-    public checkbalance() {
+    public CheckBalance() {
         
         setLayout(null);
         setBounds(0, 0, 1670, 1080);

@@ -11,7 +11,7 @@ import javax.swing.table.JTableHeader;
  *
  * @author Ron
  */
-public class deposithistory extends JPanel{
+public class DepositHistory extends JPanel{
     
     JLabel lblTitle, lblFrom, lblTo;
     JPanel pnlTblContainer, pnlSearch;
@@ -32,7 +32,7 @@ public class deposithistory extends JPanel{
     Font fntText = new Font("Segoe UI", Font.PLAIN, 12);
     Font fntHeader = new Font("Segoe UI", Font.BOLD, 18);
     
-    public deposithistory() {
+    public DepositHistory() {
         this.months = new String[]{"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
         this.historyChoices = new String[]{"Deposit", "Withdrawal", "Transfer", "Received"};
         for(int i = 1; i<=31; i++){
@@ -119,7 +119,7 @@ public class deposithistory extends JPanel{
             table.setRowHeight(35);
             table.setFont(new Font("Segoe UI", Font.PLAIN, 13));
             table.setGridColor(new Color(230, 230, 230));
-            
+            table.setDefaultEditor(Object.class,null);
 
             JTableHeader header = table.getTableHeader();
             header.setFont(new Font("Segoe UI", Font.BOLD, 13));
