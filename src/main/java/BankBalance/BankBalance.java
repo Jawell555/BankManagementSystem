@@ -138,7 +138,7 @@ public class BankBalance extends JPanel{
         //TABLE
         {
         pnlTblContainer = new JPanel(null);
-        pnlTblContainer.setBounds(50, 140, 1570, 830);
+        pnlTblContainer.setBounds(50, 180, 1570, 790);
         pnlTblContainer.setBorder(ColorPalette.panelBorder("Balance History"));
         pnlTblContainer.setFont(fntText);
         add(pnlTblContainer);
@@ -148,7 +148,7 @@ public class BankBalance extends JPanel{
                                   {"Jawell", "PHP1082523700", "PHP1082523701", "Ryza", "4-01-2026 05:47:58", "Transfer", "1000000.00"} };
         tblBalHistory = createStyledTable(historyData, historyColumns);
         scpnBalHistory = new JScrollPane(tblBalHistory);
-        scpnBalHistory.setBounds(20, 25, 1530, 780);
+        scpnBalHistory.setBounds(20, 25, 1530, 740);
         pnlTblContainer.add(scpnBalHistory);
         }
     
@@ -156,6 +156,7 @@ public class BankBalance extends JPanel{
     private JTable createStyledTable(Object[][] data, String[] cols) {
             JTable table = new JTable(data, cols);
             table.setRowHeight(35);
+            table.setDefaultEditor(Object.class,null);
             table.setFont(new Font("Segoe UI", Font.PLAIN, 13));
             table.setGridColor(new Color(230, 230, 230));
             
