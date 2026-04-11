@@ -13,106 +13,87 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JSeparator;
 import javax.swing.JTextField;
 
 public class NewAccountBoard extends JPanel {
 
-    private JTextField txtAccountNumber, txtName, txtFatherName, txtEmail, txtIdNumber, txtDate;
+    private JLabel lblAccNo, lblTitle,lblSubt1, lblName, lblFatherName, lblEmail,lblIdType, lblIdNum, lblDate, lblType;
+    private JTextField txtAccNum, txtName, txtFatherName, txtEmail, txtIdNumber, txtDate;
+    private JButton btnRegister, btnClear; 
     private JComboBox<String> cbIdType, cbType;
+    private JSeparator topSep;
 
     public NewAccountBoard() {
         setLayout(null);
+        setBackground(new Color(235, 235, 235));
         setBounds(0, 0, 1670, 1080);
-        setBackground(new Color(245, 247, 250));
 
-        JLabel lblTitle = new JLabel("New Account");
-        lblTitle.setBounds(50, 30, 400, 40);
-        lblTitle.setFont(new Font("Segoe UI", Font.BOLD, 30));
-        lblTitle.setForeground(new Color(33, 37, 41));
+        //Main title
+        lblTitle = new JLabel("New Account Form");
+        lblTitle.setBounds(50, 40, 400, 40);
+        lblTitle.setFont(new Font("Segoe UI", Font.BOLD, 25));
         add(lblTitle);
+        
+        topSep = new JSeparator();
+        topSep.setBounds(50, 100, 1585, 2);
+        topSep.setBackground(ColorPalette.Blue5);
+        add(topSep);
 
-        JPanel formPanel = new JPanel();
-        formPanel.setLayout(null);
-        formPanel.setBounds(50, 100, 950, 520);
-        formPanel.setBackground(Color.WHITE);
-        formPanel.setBorder(BorderFactory.createLineBorder(new Color(225, 230, 235), 1));
-        add(formPanel);
+        lblSubt1 = new JLabel("Personal Information");
+        lblSubt1.setFont(new Font("Segoe UI", Font.BOLD, 15));
+        lblSubt1.setBounds(50, 125, 150, 20);
+        add(lblSubt1);
+        
+        //Left Column
+        lblName = new JLabel("Name");
+        lblName.setBounds(50, 155, 100, 20);
+        add(lblName);
 
-        JLabel lblAccNo = new JLabel("Account Number");
-        lblAccNo.setBounds(40, 30, 200, 20);
-        formPanel.add(lblAccNo);
+        txtName = new JTextField("Enter Full Name");
+        txtName.setBounds(50, 175, 450, 30);
+        txtName.setEditable(false);
+        add(txtName);
 
-        txtAccountNumber = new JTextField();
-        txtAccountNumber.setBounds(40, 30 + 25, 320, 35);
-        formPanel.add(txtAccountNumber);
-
-        JLabel lblName = new JLabel("Name");
-        lblName.setBounds(500, 30, 200, 20);
-        formPanel.add(lblName);
-
-        txtName = new JTextField();
-        txtName.setBounds(500, 30 + 25, 320, 35);
-        formPanel.add(txtName);
-
-        JLabel lblFatherName = new JLabel("Father Name");
-        lblFatherName.setBounds(40, 30 + 75, 200, 20);
-        formPanel.add(lblFatherName);
-
-        txtFatherName = new JTextField();
-        txtFatherName.setBounds(40, 30 + 75 + 25, 320, 35);
-        formPanel.add(txtFatherName);
-
-        JLabel lblEmail = new JLabel("Email");
-        lblEmail.setBounds(500, 30 + 75, 200, 20);
-        formPanel.add(lblEmail);
-
-        txtEmail = new JTextField();
-        txtEmail.setBounds(500, 30 + 75 + 25, 320, 35);
-        formPanel.add(txtEmail);
-
-        JLabel lblIdType = new JLabel("Type of ID");
-        lblIdType.setBounds(40, 30 + 75 * 2, 200, 20);
-        formPanel.add(lblIdType);
+        lblIdType = new JLabel("Type of ID");
+        lblIdType.setBounds(50, 225, 200, 20);
+        add(lblIdType);
 
         cbIdType = new JComboBox<>(new String[]{"National ID", "Passport", "Driver's License"});
-        cbIdType.setBounds(40, 30 + 75 * 2 + 25, 320, 35);
-        formPanel.add(cbIdType);
-
-        JLabel lblIdNum = new JLabel("ID Number");
-        lblIdNum.setBounds(500, 30 + 75 * 2, 200, 20);
-        formPanel.add(lblIdNum);
-
-        txtIdNumber = new JTextField();
-        txtIdNumber.setBounds(500, 30 + 75 * 2 + 25, 320, 35);
-        formPanel.add(txtIdNumber);
-
-        JLabel lblDate = new JLabel("Date");
-        lblDate.setBounds(40, 30 + 75 * 3, 200, 20);
-        formPanel.add(lblDate);
-
-        txtDate = new JTextField();
-        txtDate.setBounds(40, 30 + 75 * 3 + 25, 320, 35);
-        formPanel.add(txtDate);
-
-        JLabel lblType = new JLabel("Type");
-        lblType.setBounds(500, 30 + 75 * 3, 200, 20);
-        formPanel.add(lblType);
+        cbIdType.setBounds(50, 245, 450, 30);
+        add(cbIdType);
+        
+        lblAccNo = new JLabel("Account Number");
+        lblAccNo.setBounds(50, 295, 150, 20);
+        add(lblAccNo);
+        
+        txtAccNum = new JTextField("Enter SPB Account Number");
+        txtAccNum.setBounds(50, 315, 450, 30);
+        txtAccNum.setEditable(false);
+        add(txtAccNum);
+ 
+        //Middle Column
+        lblType = new JLabel("Type");
+        lblType.setFont(new Font("Segoe UI", Font.BOLD, 15));
+        lblType.setBounds(500, 315, 200, 20);
+        add(lblType);
 
         cbType = new JComboBox<>(new String[]{"Savings", "Current"});
-        cbType.setBounds(500, 30 + 75 * 3 + 25, 320, 35);
-        formPanel.add(cbType);
+        cbType.setFont(new Font("Segoe UI", Font.BOLD, 15));
+        cbType.setBounds(500, 340, 320, 35);
+        add(cbType);
 
-        JButton btnSave = new JButton("Save Account");
-        btnSave.setBounds(500, 30 + 75 * 4 + 10, 160, 40);
-        styleButton(btnSave);
-        btnSave.addActionListener(e -> saveAccount());
-        formPanel.add(btnSave);
+        btnRegister = new JButton("Save Account");
+        btnRegister.setBounds(700, 880, 200, 40);
+        styleButton(btnRegister);
+        btnRegister.addActionListener(e -> saveAccount());
+        add(btnRegister);
 
-        JButton btnClear = new JButton("Clear");
-        btnClear.setBounds(680, 30 + 75 * 4 + 10, 140, 40);
+        btnClear = new JButton("Clear");
+        btnClear.setBounds(400, 880, 200, 40);
         styleButton(btnClear);
         btnClear.addActionListener(e -> clearFields());
-        formPanel.add(btnClear);
+        add(btnClear);
     }
 
     private void styleButton(JButton btn) {
@@ -124,7 +105,7 @@ public class NewAccountBoard extends JPanel {
     }
 
     private void saveAccount() {
-        if (txtAccountNumber.getText().trim().isEmpty()
+        if (txtAccNum.getText().trim().isEmpty()
                 || txtName.getText().trim().isEmpty()
                 || txtFatherName.getText().trim().isEmpty()
                 || txtEmail.getText().trim().isEmpty()
@@ -140,7 +121,7 @@ public class NewAccountBoard extends JPanel {
     }
 
     private void clearFields() {
-        txtAccountNumber.setText("");
+        txtAccNum.setText("");
         txtName.setText("");
         txtFatherName.setText("");
         txtEmail.setText("");
