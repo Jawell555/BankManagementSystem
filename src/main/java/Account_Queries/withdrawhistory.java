@@ -117,6 +117,7 @@ public class WithdrawHistory extends JPanel{
     private JTable createStyledTable(Object[][] data, String[] cols) {
             JTable table = new JTable(data, cols);
             table.setRowHeight(35);
+            table.setDefaultEditor(Object.class,null);
             table.setFont(new Font("Segoe UI", Font.PLAIN, 13));
             table.setGridColor(new Color(230, 230, 230));
             
