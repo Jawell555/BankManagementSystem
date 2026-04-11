@@ -16,7 +16,8 @@ public class TransactionHistory extends JPanel{
     JTextField txtTotalBal, txtSearch, txtStartYear, txtEndYear;
     JTable tblBalHistory;
     JScrollPane scpnBalHistory;
-    JComboBox<String> comboHistoryType,cmbStartMonth, cmbEndMonth;
+    JComboBox<String> comboHistoryType, cmbEndMonth, cmbStartMonth;
+    JComboBox<Integer> cmbStartDay, cmbEndDay;
     JButton btnFilter;
     
     private final String[] historyChoices;
@@ -31,7 +32,7 @@ public class TransactionHistory extends JPanel{
     
     public TransactionHistory() {
         this.months = new String[]{"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
-        this.historyChoices = new String[]{"Deposit", "Withdrawal", "Transfer", "Received"};
+        this.historyChoices = new String[]{"Deposit", "Withdrawal", "Transfer", "Received", "All"};
         for(int i = 1; i<=31; i++){
             this.days[i-1] = i;
         }
@@ -50,53 +51,82 @@ public class TransactionHistory extends JPanel{
         //SEARCH
         {
         pnlSearch = new JPanel(null);
-        pnlSearch.setBounds(50, 100, 1570, 140);
+        pnlSearch.setBounds(50, 100, 1570, 70);
         pnlSearch.setBorder(ColorPalette.panelBorder("Search Board"));
         pnlSearch.setFont(fntText);
         add(pnlSearch);
         
         txtSearch = new JTextField("Enter account number for hisory");
-        txtSearch. setBounds(20, 40, 1075 , 30);
+        txtSearch. setBounds(20, 25, 575 , 30);
         txtSearch.setFont(fntText);
         txtSearch.setBackground(Color.white);
         pnlSearch.add(txtSearch);
         
         btnFilter = new JButton("Search");
-        btnFilter.setBounds(1140, 40, 120, 30);
+        btnFilter.setBounds(1390, 25, 120, 30);
         btnFilter.setFont(fntText);
         btnFilter.setForeground(Color.WHITE);
         btnFilter.setBackground(ColorPalette.Blue4);
         pnlSearch.add(btnFilter);
         
         comboHistoryType = new JComboBox<>(historyChoices);
-        comboHistoryType. setBounds(20, 80, 700 , 30);
+        comboHistoryType. setBounds(615, 25, 115 , 30);
         comboHistoryType.setFont(fntText);
         comboHistoryType.setBackground(Color.white);
         pnlSearch.add(comboHistoryType);
         
+        lblFrom = new JLabel("From:", SwingConstants.RIGHT);
+        lblFrom. setBounds(750, 25, 35 , 31);
+        lblFrom.setFont(fntText);
+        lblFrom.setBackground(Color.white);
+        pnlSearch.add(lblFrom);
+        
         cmbStartMonth = new JComboBox<>(months);
-        cmbStartMonth.setBounds(730, 80, 300, 30);
+        cmbStartMonth.setBounds(790, 25, 90, 30);
         cmbStartMonth.setFont(fntText);
         cmbStartMonth.setBackground(Color.white);
         pnlSearch.add(cmbStartMonth);
         
+        cmbStartDay = new JComboBox<>(days);
+        cmbStartDay.setBounds(880, 25, 70, 30);
+        cmbStartDay.setFont(fntText);
+        cmbStartDay.setBackground(Color.white);
+        pnlSearch.add(cmbStartDay);
+        
+        txtStartYear = new JTextField("Enter Year");
+        txtStartYear.setBounds(950, 25, 70, 31);
+        txtStartYear.setFont(fntText);
+        txtStartYear.setBackground(Color.white);
+        pnlSearch.add(txtStartYear);
+        
+        lblTo = new JLabel("To:", SwingConstants.RIGHT);
+        lblTo. setBounds(1040, 25, 35 , 31);
+        lblTo.setFont(fntText);
+        lblTo.setBackground(Color.white);
+        pnlSearch.add(lblTo);
+        
         cmbEndMonth = new JComboBox<>(months);
-        cmbEndMonth.setBounds(1040, 80, 300, 30);
+        cmbEndMonth.setBounds(1080, 25, 90, 30);
         cmbEndMonth.setFont(fntText);
         cmbEndMonth.setBackground(Color.white);
         pnlSearch.add(cmbEndMonth);
-                
-        btnFilter = new JButton("Filter");
-        btnFilter.setBounds(1390, 80, 120, 30);
-        btnFilter.setFont(fntText);
-        btnFilter.setForeground(Color.WHITE);
-        btnFilter.setBackground(ColorPalette.Blue4);
-        pnlSearch.add(btnFilter);
+        
+        cmbEndDay = new JComboBox<>(days);
+        cmbEndDay.setBounds(1170, 25, 70, 30);
+        cmbEndDay.setFont(fntText);
+        cmbEndDay.setBackground(Color.white);
+        pnlSearch.add(cmbEndDay);
+        
+        txtEndYear = new JTextField("Enter Year");
+        txtEndYear.setBounds(1240, 25, 70, 31);
+        txtEndYear.setFont(fntText);
+        txtEndYear.setBackground(Color.white);
+        pnlSearch.add(txtEndYear);
         }
         //TABLE
         {
         pnlTblContainer = new JPanel(null);
-        pnlTblContainer.setBounds(50, 240, 1570, 830);
+        pnlTblContainer.setBounds(50, 180, 1570, 790);
         pnlTblContainer.setBorder(ColorPalette.panelBorder("Balance History"));
         pnlTblContainer.setFont(fntText);
         add(pnlTblContainer);
