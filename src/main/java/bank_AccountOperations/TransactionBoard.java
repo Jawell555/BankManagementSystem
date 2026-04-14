@@ -324,7 +324,7 @@ public class TransactionBoard extends JPanel {
         lblTypeTitle.setBounds(30, 160, 120, 20);
         dialog.add(lblTypeTitle);
 
-        JLabel lblTypeVal = new JLabel("Bembank to Other Bank");
+        JLabel lblTypeVal = new JLabel("Summit PhilBank to Other Bank");
         lblTypeVal.setFont(new Font("Segoe UI", Font.PLAIN, 14));
         lblTypeVal.setBounds(150, 160, 250, 20);
         dialog.add(lblTypeVal);
