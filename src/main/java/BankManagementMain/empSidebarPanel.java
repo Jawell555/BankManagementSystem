@@ -1,6 +1,5 @@
 package BankManagementMain;
 
-import AccountProfile.admnAccountProfile;
 import AccountProfile.employeeAccountProfile;
 import Colors.ColorPalette;
 import BankBalance.BankBalance;
@@ -92,9 +91,9 @@ public class empSidebarPanel extends JPanel {
         });
         
         btnSubNewAcc = createSubButton("New Account");
-        btnSubNewAcc.addActionListener(e -> navPage.turnPage(new NewAccountBoard())); //Paltan niyo nalang yung 'new adminDashboard()' 
+        btnSubNewAcc.addActionListener(e -> navPage.turnPage(new NewAccountBoard())); 
         btnSubViewAccList = createSubButton("View Account List");
-        btnSubViewAccList.addActionListener(e -> navPage.turnPage(new ViewAccountBoard())); //Paltan niyo nalang yung 'new adminDashboard()' 
+        btnSubViewAccList.addActionListener(e -> navPage.turnPage(new ViewAccountBoard())); 
         
         btnAccOps = createMainButton("Account Operations         +");
         btnAccOps.addActionListener(e -> {
@@ -115,11 +114,11 @@ public class empSidebarPanel extends JPanel {
         });
        
         btnSubTrans = createSubButton("Transaction");
-        btnSubTrans.addActionListener(e -> navPage.turnPage(new TransactionBoard())); //Paltan niyo nalang yung 'new Dashboard()'
+        btnSubTrans.addActionListener(e -> navPage.turnPage(new TransactionBoard())); 
         btnSubDeposit = createSubButton("Deposit Balance");
-        btnSubDeposit.addActionListener(e -> navPage.turnPage(new DepositBoard())); //Paltan niyo nalang yung 'new Dashboard()'
+        btnSubDeposit.addActionListener(e -> navPage.turnPage(new DepositBoard())); 
         btnSubWithdraw = createSubButton("Withdraw Balance");
-        btnSubWithdraw.addActionListener(e -> navPage.turnPage(new WithdrawBoard())); //Paltan niyo nalang yung 'new Dashboard()'
+        btnSubWithdraw.addActionListener(e -> navPage.turnPage(new WithdrawBoard())); 
         
         btnAccQueries = createMainButton("Account Queries              +");
         btnAccQueries.addActionListener(e -> {

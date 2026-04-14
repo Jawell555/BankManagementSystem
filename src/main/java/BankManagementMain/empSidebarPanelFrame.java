@@ -5,6 +5,7 @@
 package BankManagementMain;
 import bank_Dashboard.employeeDashboard;
 import java.awt.Color;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -19,6 +20,10 @@ public class empSidebarPanelFrame extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setLayout(null);
+        
+        //Set Image Icon
+        ImageIcon icon = new ImageIcon(getClass().getResource("/bank_logo.png"));
+        setIconImage(icon.getImage());
 
         // Shared header
         header = new AppHeaderPanel();

@@ -41,6 +41,10 @@ public class LoginFormFrame extends JFrame implements ActionListener {
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
+        //Set Icon Image
+        ImageIcon icon = new ImageIcon(getClass().getResource("/bank_logo.png"));
+        setIconImage(icon.getImage());
+        
         pnlBG = new ImagePanel("/bg.jpg");
         pnlBG.setLayout(null);
         pnlBG.setBounds(0, 0, 1920, 1080);
