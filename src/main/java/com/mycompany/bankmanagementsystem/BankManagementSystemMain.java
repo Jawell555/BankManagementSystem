@@ -6,7 +6,7 @@ import LoginForm.LoginFormFrame;
 public class BankManagementSystemMain {
 
     public static void main(String[] args) {
-        adminSidebarPanelFrame log = new adminSidebarPanelFrame();
+        LoginFormFrame log = new LoginFormFrame();
         log.setVisible(true);
     }
 }
