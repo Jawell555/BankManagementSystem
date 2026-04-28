@@ -1,22 +1,17 @@
 package Account_Queries;
-
 import Colors.ColorPalette;
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.table.JTableHeader;
 
-/**
- *
- * @author Ron
- */
-public class TransactionHistory extends JPanel{
+public class DepositHistory extends JPanel{
     
     JLabel lblTitle, lblFrom, lblTo;
     JPanel pnlTblContainer, pnlSearch;
     JTextField txtTotalBal, txtSearch, txtStartYear, txtEndYear;
     JTable tblBalHistory;
     JScrollPane scpnBalHistory;
-    JComboBox<String> comboHistoryType, cmbEndMonth, cmbStartMonth;
+    JComboBox<String> comboHistoryType,cmbStartMonth, cmbEndMonth;
     JComboBox<Integer> cmbStartDay, cmbEndDay;
     JButton btnFilter;
     
@@ -30,7 +25,7 @@ public class TransactionHistory extends JPanel{
     Font fntText = new Font("Segoe UI", Font.PLAIN, 12);
     Font fntHeader = new Font("Segoe UI", Font.BOLD, 18);
     
-    public TransactionHistory() {
+    public DepositHistory() {
         this.months = new String[]{"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
         this.historyChoices = new String[]{"Deposit", "Withdrawal", "Transfer", "Received", "All"};
         for(int i = 1; i<=31; i++){
@@ -42,7 +37,7 @@ public class TransactionHistory extends JPanel{
         
         //HEAD
         {
-        lblTitle = new JLabel("Transaction History");
+        lblTitle = new JLabel("Deposit History");
         lblTitle.setBounds(50, 40, 700, 50);
         lblTitle.setFont(fntTitle);
         add(lblTitle);
@@ -147,7 +142,7 @@ public class TransactionHistory extends JPanel{
             table.setDefaultEditor(Object.class,null);
             table.setFont(new Font("Segoe UI", Font.PLAIN, 13));
             table.setGridColor(new Color(230, 230, 230));
-            
+            table.setDefaultEditor(Object.class,null);
 
             JTableHeader header = table.getTableHeader();
             header.setFont(new Font("Segoe UI", Font.BOLD, 13));

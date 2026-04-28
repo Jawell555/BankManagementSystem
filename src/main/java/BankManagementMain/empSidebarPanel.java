@@ -7,6 +7,7 @@ import Account_Queries.TransactionHistory;
 import Account_Queries.WithdrawHistory;
 import Colors.ColorPalette;
 import BankBalance.BankBalance;
+import ChangePassword.ChangePasswordPanel;
 import bank_AccountOperations.DepositBoard;
 import bank_AccountOperations.TransactionBoard;
 import bank_AccountOperations.WithdrawBoard;
@@ -172,7 +173,7 @@ public class empSidebarPanel extends JPanel {
             closeOtherMenus("");
             resetMainButtonColors();
             btnChangePass.setForeground(ColorPalette.redPastel);
-            navPage.turnPage(new adminDashboard()); //Paltan niyo nalang yung 'new adminDashboard()'
+            navPage.turnPage(new ChangePasswordPanel()); //Paltan niyo nalang yung 'new adminDashboard()'
             updateMenuPositions();
         });
 
