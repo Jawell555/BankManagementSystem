@@ -6,6 +6,8 @@ import Colors.ImagePanel;
 import Colors.ColorPalette;
 import java.awt.Cursor;
 import java.awt.Font;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -35,11 +37,46 @@ public class LoginFormFrame extends JFrame implements ActionListener {
     private final Border errorBorder = BorderFactory.createCompoundBorder(new LineBorder(ColorPalette.redPastel, 2), BorderFactory.createEmptyBorder(2, 4, 2, 4));
     
     public LoginFormFrame() {
-        setSize(1920, 1080);
         setTitle("Bank Login");
         setLayout(null);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
+        setUndecorated(true);
+        
+        Action toggleFullscreen = new AbstractAction() {
+        boolean fullscreen = true; 
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            fullscreen = !fullscreen;
+
+            GraphicsDevice device = GraphicsEnvironment
+                    .getLocalGraphicsEnvironment()
+                    .getDefaultScreenDevice();
+
+            dispose();
+            setUndecorated(fullscreen);
+
+                if (fullscreen) {
+                    device.setFullScreenWindow(LoginFormFrame.this);
+                } else {
+                    device.setFullScreenWindow(null);
+                    setExtendedState(JFrame.MAXIMIZED_BOTH);
+                    setLocationRelativeTo(null);
+                }
+
+                setVisible(true);
+                getRootPane().setDefaultButton(btnLogin);
+            }
+        };
+
+        // Bind F11 key
+        getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+                .put(KeyStroke.getKeyStroke("F11"), "toggleFullscreen");
+
+        getRootPane().getActionMap()
+                .put("toggleFullscreen", toggleFullscreen);
         
         //Set Icon Image
         ImageIcon icon = new ImageIcon(getClass().getResource("/bank_logo.png"));
@@ -143,4 +180,5 @@ public class LoginFormFrame extends JFrame implements ActionListener {
         }
         
     }
+    
 }

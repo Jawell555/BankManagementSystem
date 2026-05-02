@@ -8,6 +8,7 @@ import Account_Queries.WithdrawHistory;
 import Colors.ColorPalette;
 import BankBalance.BankBalance;
 import ChangePassword.ChangePasswordPanel;
+import Colors.ImagePanel;
 import bank_AccountOperations.DepositBoard;
 import bank_AccountOperations.TransactionBoard;
 import bank_AccountOperations.WithdrawBoard;
