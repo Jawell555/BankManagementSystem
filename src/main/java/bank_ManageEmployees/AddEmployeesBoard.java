@@ -47,11 +47,11 @@ public class AddEmployeesBoard extends JPanel {
         lblMTitle.setFont(new Font("Segoe UI", Font.BOLD, 25));
         add(lblMTitle);
         
-        txtAccNum = new JTextField("EMP2011");
+        txtAccNum = new JTextField("      EMP2011");
         txtAccNum.setHorizontalAlignment(JTextField.RIGHT);
         txtAccNum.setEditable(false);
         txtAccNum.setBackground(ColorPalette.Gray);
-        txtAccNum.setBounds(1120, 40, 300, 40);
+        txtAccNum.setBounds(1120, 40, 500, 40);
         txtAccNum.setFont(new Font("Segoe UI", Font.BOLD, 25));
         add(txtAccNum);
         
@@ -248,7 +248,7 @@ public class AddEmployeesBoard extends JPanel {
         
         // Account Info: Row 6
         lblSubt4 = new JLabel("Education & Experience");
-        lblSubt4.setBounds(50, 755, 200, 25);
+        lblSubt4.setBounds(50, 755, 250, 25);
         lblSubt4.setFont(subtFont);
         add(lblSubt4);
         
