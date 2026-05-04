@@ -4,6 +4,7 @@ import BankManagementMain.adminSidebarPanelFrame;
 import BankManagementMain.empSidebarPanelFrame;
 import Colors.ImagePanel;
 import Colors.ColorPalette;
+import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.GraphicsDevice;
@@ -22,7 +23,7 @@ public class LoginFormFrame extends JFrame implements ActionListener {
     JLabel lblTitle, lblUser, lblPassword;
     JPasswordField passPass;
     JTextField txtUser;
-    JButton btnLogin;
+    JButton btnLogin, btnExit;
     private String pass, user;
     
     private String usernameAdmin = "admin";
@@ -31,6 +32,7 @@ public class LoginFormFrame extends JFrame implements ActionListener {
     private String passwordEmp = "employee123!";
     
     Font fntTitle = new Font("Segoe UI", Font.BOLD, 50);
+    Font fntX = new Font("Segoe UI", Font.BOLD, 30);
     Font fntText = new Font("Segoe UI", Font.BOLD, 15);
     Font fntTxtField = new Font("Segoe UI", Font.PLAIN, 15);
     
@@ -86,6 +88,14 @@ public class LoginFormFrame extends JFrame implements ActionListener {
         pnlBG.setLayout(null);
         pnlBG.setBounds(0, 0, 1920, 1080);
         add(pnlBG);
+        
+        //Exit Button
+        btnExit = createButton("X",Color.RED,Color.PINK);
+        btnExit.setBounds(1850, 10, 60, 60);
+        btnExit.setFont(fntX);
+        btnExit.setBackground(Color.RED);
+        btnExit.setForeground(Color.WHITE);
+        pnlBG.add(btnExit);
 
         //Bottom Rectangle
         pnlLoginArea = new JPanel(null);
@@ -94,7 +104,7 @@ public class LoginFormFrame extends JFrame implements ActionListener {
         pnlBG.add(pnlLoginArea);
 
         //Login button
-        btnLogin = new JButton("Login");
+        btnLogin = createButton("Login",ColorPalette.Blue4,ColorPalette.Blue3);
         btnLogin.setBounds(175, 175, 150, 60);
         btnLogin.setFont(fntText);
         btnLogin.setBackground(ColorPalette.Blue4);
@@ -140,20 +150,9 @@ public class LoginFormFrame extends JFrame implements ActionListener {
         pnlLogo.setBounds(0, 10, 60, 60);
         pnlTitle.add(pnlLogo);
         
-        btnLogin.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        btnLogin.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                btnLogin.setBackground(ColorPalette.Blue3);
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                btnLogin.setBackground(ColorPalette.Blue4);
-            }
-        }
-        );
+        
         getRootPane().setDefaultButton(btnLogin);
+        btnExit.addActionListener(this);
         btnLogin.addActionListener(this);
     }
     
@@ -177,8 +176,29 @@ public class LoginFormFrame extends JFrame implements ActionListener {
                 JOptionPane.showMessageDialog(null, "Incorrect Credentials. Try Again.", "Login Failed", JOptionPane.ERROR_MESSAGE);
             }
             
+        }else if(e.getSource()==btnExit){
+            System.exit(0);
         }
         
+    }
+    
+    private JButton createButton(String strN, Color c1, Color c2){
+        JButton btn = new JButton(strN);
+        btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        btn.setFocusPainted(false);
+        btn.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                btn.setBackground(c2);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                btn.setBackground(c1);
+            }
+        }
+        );
+        return btn;
     }
     
 }
