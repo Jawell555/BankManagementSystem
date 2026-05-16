@@ -8,10 +8,11 @@ import javax.swing.*;
 
 public class CheckBalance extends JPanel{
     
-    JLabel lblTitle, lblAccount, lblHolder;
-    JPanel pnlBalance, pnlSearch;
-    JTextField txtSearch, txtAccount, txtHolder;
-    JButton btnFilter;
+    JLabel lblTitle, lblHeaderTitle, lblAccNum, lblAccTitle, lblAccStatus, lblHolderName, lblAccType;
+    JPanel searchBoard, infoBoard;
+    JTextField txtAccNum, txtAccTitle, txtAccStatus, txtHolderName, txtAccType;
+    JButton btnSearch;
+    JSeparator infoSep1;
     
     Font fntTitle = new Font("Segoe UI", Font.BOLD, 25);
     Font fntText = new Font("Segoe UI", Font.PLAIN, 12);
@@ -33,12 +34,12 @@ public class CheckBalance extends JPanel{
         //SEARCH
         {
       
-        JPanel searchBoard = new JPanel();
+        searchBoard = new JPanel();
         searchBoard.setLayout(null); 
         searchBoard.setBackground(Color.decode("#031B42"));
         searchBoard.setBounds(60, 100, 1520, 150); 
         
-        JLabel lblHeaderTitle = new JLabel("   Search Board"); 
+        lblHeaderTitle = new JLabel("   Search Board"); 
         lblHeaderTitle.setFont(new Font("Segoe UI", Font.BOLD, 14));
         lblHeaderTitle.setForeground(Color.WHITE); 
         lblHeaderTitle.setBackground(Color.decode("#0E447D")); 
@@ -47,19 +48,19 @@ public class CheckBalance extends JPanel{
         searchBoard.add(lblHeaderTitle);
         
         //Search account
-        JLabel lblAccNum = new JLabel("Account Number");
+        lblAccNum = new JLabel("Account Number");
         lblAccNum.setForeground(Color.WHITE);
         lblAccNum.setFont(new Font("Segoe UI", Font.PLAIN, 15));
         lblAccNum.setBounds(50, 50, 200, 25);
         searchBoard.add(lblAccNum);
 
-        JTextField txtAccNum = new JTextField("Enter account number");
+        txtAccNum = new JTextField("Enter account number");
         txtAccNum.setForeground(Color.GRAY);
         txtAccNum.setFont(new Font("Segoe UI", Font.PLAIN, 15));
         txtAccNum.setBounds(50, 80, 730, 40); 
         searchBoard.add(txtAccNum);
 
-        JButton btnSearch = new JButton("Search Account");
+        btnSearch = new JButton("Search Account");
         btnSearch.setBackground(Color.decode("#0C3D70"));
         btnSearch.setForeground(Color.WHITE);
         btnSearch.setFont(new Font("Segoe UI", Font.BOLD, 18));
@@ -69,18 +70,18 @@ public class CheckBalance extends JPanel{
         add(searchBoard); 
         
         //Information board panel
-        JPanel infoBoard = new JPanel();
+        infoBoard = new JPanel();
         infoBoard.setLayout(null);
         infoBoard.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.decode("#0E447D"), 3), "Information Board"));
         infoBoard.setBounds(60, 275, 1520, 280); 
 
         //Account details
-        JLabel lblAccTitle = new JLabel("Account Title");
+        lblAccTitle = new JLabel("Account Title");
         lblAccTitle.setFont(new Font("Segoe UI", Font.PLAIN, 15));
         lblAccTitle.setBounds(50, 40, 200, 25);
         infoBoard.add(lblAccTitle);
 
-        JTextField txtAccTitle = new JTextField("Ryza Reyes");
+        txtAccTitle = new JTextField("Ryza Reyes");
         txtAccTitle.setEditable(false);
         txtAccTitle.setBackground(new Color(225, 225, 225)); 
         txtAccTitle.setBorder(BorderFactory.createLineBorder(Color.decode("#031B42"), 1));
@@ -88,12 +89,12 @@ public class CheckBalance extends JPanel{
         txtAccTitle.setBounds(50, 70, 650, 40);
         infoBoard.add(txtAccTitle);
 
-        JLabel lblAccStatus = new JLabel("Account Number");
+        lblAccStatus = new JLabel("Account Number");
         lblAccStatus.setFont(new Font("Segoe UI", Font.PLAIN, 15));
         lblAccStatus.setBounds(50, 130, 200, 25);
         infoBoard.add(lblAccStatus);
 
-        JTextField txtAccStatus = new JTextField("00000000000");
+        txtAccStatus = new JTextField("00000000000");
         txtAccStatus.setEditable(false);
         txtAccStatus.setBackground(new Color(225, 225, 225)); 
         txtAccStatus.setFont(new Font("Segoe UI", Font.BOLD, 15));
@@ -101,16 +102,16 @@ public class CheckBalance extends JPanel{
         txtAccStatus.setBounds(50, 160, 650, 40);
         infoBoard.add(txtAccStatus);
 
-        JSeparator infoSep1 = new JSeparator(SwingConstants.VERTICAL);
+        infoSep1 = new JSeparator(SwingConstants.VERTICAL);
         infoSep1.setBounds(760, 40, 10, 200);
         infoBoard.add(infoSep1);
 
-        JLabel lblHolderName = new JLabel("Account Holder Name");
+        lblHolderName = new JLabel("Account Holder Name");
         lblHolderName.setFont(new Font("Segoe UI", Font.PLAIN, 15));
         lblHolderName.setBounds(800, 40, 250, 25);
         infoBoard.add(lblHolderName);
 
-        JTextField txtHolderName = new JTextField("Ryza");
+        txtHolderName = new JTextField("Ryza");
         txtHolderName.setEditable(false);
         txtHolderName.setBackground(new Color(225, 225, 225)); 
         txtHolderName.setBorder(BorderFactory.createLineBorder(Color.decode("#031B42"), 1));
@@ -118,12 +119,12 @@ public class CheckBalance extends JPanel{
         txtHolderName.setBounds(800, 70, 650, 40);
         infoBoard.add(txtHolderName);
 
-        JLabel lblAccType = new JLabel("Current Balance");
+        lblAccType = new JLabel("Current Balance");
         lblAccType.setFont(new Font("Segoe UI", Font.PLAIN, 15));
         lblAccType.setBounds(800, 130, 250, 25);
         infoBoard.add(lblAccType);
 
-        JTextField txtAccType = new JTextField("Php 00.00");
+        txtAccType = new JTextField("Php 00.00");
         txtAccType.setEditable(false);
         txtAccType.setBackground(new Color(225, 225, 225)); 
         txtAccType.setFont(new Font("Segoe UI", Font.PLAIN, 15));
