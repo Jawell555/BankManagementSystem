@@ -122,7 +122,7 @@ public class TransactionHistory extends JPanel{
         //TABLE
         {
         pnlTblContainer = new JPanel(null);
-        pnlTblContainer.setBounds(50, 180, 1570, 790);
+        pnlTblContainer.setBounds(50, 180, 1570, 820);
         pnlTblContainer.setBorder(ColorPalette.panelBorder("Balance History"));
         pnlTblContainer.setFont(fntText);
         add(pnlTblContainer);
