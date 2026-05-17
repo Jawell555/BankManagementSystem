@@ -8,16 +8,21 @@ package Models;
  *
  * @author Ruell
  */
-public class AccountModel {
+public class Account {
 
         String accName;
+        String accTitle;
         String accNo;
         double accBal;
         String accType;
+        String accStatus;
         
         //Get
         public String getName(){
             return accName;
+        }
+        public String getAccTitle(){
+            return accTitle;
         }
         public String getAccNo(){
             return accNo;
@@ -28,12 +33,18 @@ public class AccountModel {
         public String getAccType(){
             return accType;
         }
+        public String getAccStatus(){
+            return accStatus;
+        }
         
         //Set
         
         //Account(accName, accNo, accBal, accType)
         public void setName(String accName){
             this.accName = accName;
+        }
+        public void setAccTitle(String accTitle){
+            this.accTitle = accTitle;
         }
         public void setAccNo(String accNo){
             this.accNo = accNo;
@@ -43,5 +54,8 @@ public class AccountModel {
         }
         public void setAccType(String accType){
             this.accType = accType;
+        }
+        public void setAccStatus(String accStatus){
+            this.accStatus = accStatus;
         }
 }
