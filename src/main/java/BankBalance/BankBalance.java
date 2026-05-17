@@ -9,7 +9,7 @@ import Colors.ColorPalette;
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.table.JTableHeader;
-import BankBalance.BankBalanceLogic;
+import BankQueryLogic.BankQueries;
 import Models.Transaction;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -24,7 +24,7 @@ import java.util.List;
  */
 public class BankBalance extends JPanel implements ActionListener {
 
-    BankBalanceLogic BankLogic = new BankBalanceLogic();
+    BankQueries BankLogic = new BankQueries();
 
     JLabel lblTitle, lblFrom, lblTo;
     JPanel pnlTblContainer, pnlSearch;

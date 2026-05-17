@@ -11,14 +11,14 @@ public class DepositHistory extends JPanel{
     JTextField txtTotalBal, txtSearch, txtStartYear, txtEndYear;
     JTable tblBalHistory;
     JScrollPane scpnBalHistory;
-    JComboBox<String> comboHistoryType,cmbStartMonth, cmbEndMonth;
-    JComboBox<Integer> cmbStartDay, cmbEndDay;
+    JComboBox<String> cmbHistoryType, cmbStartMonth, cmbEndMonth, cmbStartDay, cmbEndDay;
     JButton btnFilter;
     
     private final String[] historyChoices;
     private final String[] months;
-    private final Integer[] days = new Integer[31];
-    
+    private final String[] days = new String[32];
+    private String[] historyColumns = {"Name", "Account Number", "Sender/Receiver Account", "Sender/Receiver Name", "Date & Time", "History Type", "Amount"};
+
     double TotalBal;
     
     Font fntTitle = new Font("Segoe UI", Font.BOLD, 25);
@@ -26,10 +26,14 @@ public class DepositHistory extends JPanel{
     Font fntHeader = new Font("Segoe UI", Font.BOLD, 18);
     
     public DepositHistory() {
-        this.months = new String[]{"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
-        this.historyChoices = new String[]{"Deposit", "Withdrawal", "Transfer", "Received", "All"};
-        for(int i = 1; i<=31; i++){
-            this.days[i-1] = i;
+        this.months = new String[]{"Month", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
+        this.historyChoices = new String[]{"History Type", "Deposit", "Withdrawal", "Transfer", "Received"};
+        for (int i = 0; i <= 31; i++) {
+            if (i == 0) {
+                this.days[i] = "Day";
+            } else {
+                this.days[i] = "" + i;
+            }
         }
         
         setLayout(null);
@@ -64,11 +68,6 @@ public class DepositHistory extends JPanel{
         btnFilter.setBackground(ColorPalette.Blue4);
         pnlSearch.add(btnFilter);
         
-        comboHistoryType = new JComboBox<>(historyChoices);
-        comboHistoryType. setBounds(615, 25, 115 , 30);
-        comboHistoryType.setFont(fntText);
-        comboHistoryType.setBackground(Color.white);
-        pnlSearch.add(comboHistoryType);
         
         lblFrom = new JLabel("From:", SwingConstants.RIGHT);
         lblFrom. setBounds(750, 25, 35 , 31);
@@ -121,7 +120,7 @@ public class DepositHistory extends JPanel{
         //TABLE
         {
         pnlTblContainer = new JPanel(null);
-        pnlTblContainer.setBounds(50, 180, 1570, 790);
+        pnlTblContainer.setBounds(50, 180, 1570, 750);
         pnlTblContainer.setBorder(ColorPalette.panelBorder("Balance History"));
         pnlTblContainer.setFont(fntText);
         add(pnlTblContainer);
@@ -131,7 +130,7 @@ public class DepositHistory extends JPanel{
                                   {"Jawell", "PHP1082523700", "PHP1082523701", "Ryza", "4-01-2026 05:47:58", "Transfer", "1000000.00"} };
         tblBalHistory = createStyledTable(historyData, historyColumns);
         scpnBalHistory = new JScrollPane(tblBalHistory);
-        scpnBalHistory.setBounds(20, 25, 1530, 780);
+        scpnBalHistory.setBounds(20, 25, 1530, 700);
         pnlTblContainer.add(scpnBalHistory);
         }
     

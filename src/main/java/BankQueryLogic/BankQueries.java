@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package BankBalance;
+package BankQueryLogic;
 
 import Colors.ColorPalette;
 import java.time.LocalDate;
@@ -20,11 +20,11 @@ import javax.swing.table.JTableHeader;
  *
  * @author Ruell
  */
-public class BankBalanceLogic {
+public class BankQueries {
 
     public List<Transaction> TransactionList = new ArrayList<>();
 
-    public BankBalanceLogic() {
+    public BankQueries() {
         Transaction dummyTransac1 = new Transaction("Jawell", "PHP1082523700", "PHP1082523701", "Ryza",
                 LocalDateTime.of(2026, 1, 4, 5, 47, 58), "Deposit", 1000000.00);
         Transaction dummyTransac2 = new Transaction("Ryza", "PHP1082523701", "PHP1082523700", "Jawell",
@@ -72,6 +72,17 @@ public class BankBalanceLogic {
 
         return table;
     }
+    
+    public List<Transaction> getListByNumber(String accSearch){
+        List<Transaction> QueryList = new ArrayList<>();
+        boolean search = !accSearchIsNull(accSearch);
+        for (Transaction Trans : TransactionList) {
+            boolean matches = true;
+            matches&=Trans.getAccNumber().equals(accSearch.trim());
+            if(matches)QueryList.add(Trans);
+        }
+        return QueryList;
+    }
 
     public List<Transaction> getList(String accSearch, String historyType, LocalDateTime DateStart, LocalDateTime DateEnd) {
         List<Transaction> QueryList = new ArrayList<>();
@@ -82,7 +93,7 @@ public class BankBalanceLogic {
         for (Transaction Trans : TransactionList) {
             boolean matches = true;
             if(search){
-                matches&=Trans.getAccName().toLowerCase().contains(accSearch.trim().toLowerCase())||Trans.getAccNumber().contains(accSearch.trim());
+                matches&=Trans.getAccName().toLowerCase().contains(accSearch.trim().toLowerCase())||Trans.getAccNumber().equals(accSearch.trim());
             }
             if(history) {
                 matches&=Trans.getHistoryType().equals(historyType);
@@ -96,6 +107,10 @@ public class BankBalanceLogic {
             if(matches)QueryList.add(Trans);
         }
         return QueryList;
+    }
+    public List<Transaction> noData(){
+        List<Transaction> NoData = new ArrayList<>();
+        return NoData;
     }
 
     public boolean accSearchIsNull(String accSearch) {
