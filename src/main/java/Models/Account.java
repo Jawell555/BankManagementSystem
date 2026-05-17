@@ -8,7 +8,7 @@ package Models;
  *
  * @author Ruell
  */
-public class AccountModel {
+public class Account {
 
         String accName;
         String accNo;

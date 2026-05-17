@@ -22,8 +22,7 @@ import javax.swing.table.JTableHeader;
  */
 public class BankBalanceLogic {
 
-    public  List<Transaction> TransactionList = new ArrayList<>();
-    public  List<Transaction> QueryList = new ArrayList<>();
+    public List<Transaction> TransactionList = new ArrayList<>();
 
     public BankBalanceLogic() {
         Transaction dummyTransac1 = new Transaction("Jawell", "PHP1082523700", "PHP1082523701", "Ryza",
@@ -35,11 +34,11 @@ public class BankBalanceLogic {
         TransactionList.add(dummyTransac1);
     }
 
-    public void Add(Transaction transaction) {
+    public void add(Transaction transaction) {
         TransactionList.add(transaction);
     }
 
-    public List<Transaction> GetAllTransList() {
+    public List<Transaction> getAllTransList() {
         return TransactionList;
     }
 
@@ -74,13 +73,45 @@ public class BankBalanceLogic {
         return table;
     }
 
-    public List<Transaction> GetList(String accName) {
-        QueryList.removeAll(QueryList);
+    public List<Transaction> getList(String accSearch, String historyType, LocalDateTime DateStart, LocalDateTime DateEnd) {
+        List<Transaction> QueryList = new ArrayList<>();
+        boolean search = !accSearchIsNull(accSearch);
+        boolean history = !historyTypeIsNull(historyType);
+        boolean startDate = !dateStartISNull(DateStart);
+        boolean endDate = !dateEndISNull(DateEnd);
         for (Transaction Trans : TransactionList) {
-            if (Trans.getAccName().trim().equals(accName)) {
-                QueryList.add(Trans);
+            boolean matches = true;
+            if(search){
+                matches&=Trans.getAccName().toLowerCase().contains(accSearch.trim().toLowerCase())||Trans.getAccNumber().contains(accSearch.trim());
             }
+            if(history) {
+                matches&=Trans.getHistoryType().equals(historyType);
+            }
+            if(startDate){
+                matches&=Trans.getTransacDate().isAfter(DateStart);
+            }
+            if(endDate){
+                matches&=Trans.getTransacDate().isBefore(DateEnd);
+            }
+            if(matches)QueryList.add(Trans);
         }
         return QueryList;
     }
+
+    public boolean accSearchIsNull(String accSearch) {
+        return accSearch.trim().equalsIgnoreCase("Search with Name or Account No.") || accSearch.trim().isEmpty();
+    }
+
+    public boolean historyTypeIsNull(String historyType) {
+        return historyType.equals("History Type");
+    }
+
+    public boolean dateStartISNull(LocalDateTime dateStart) {
+        return dateStart == null;
+    }
+
+    public boolean dateEndISNull(LocalDateTime dateEnd) {
+        return dateEnd == null;
+    }
+
 }
