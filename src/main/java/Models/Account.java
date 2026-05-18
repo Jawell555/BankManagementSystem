@@ -98,4 +98,12 @@ public class Account {
     public void setAccBal(double accBal) {
         this.accBal = accBal;
     }
+    
+    public void setAccTitle(String accTitle) {
+        this.accTitle = accTitle;
+    }
+    
+    public void setAccStatus(String accStatus) {
+        this.accStatus = accStatus;
+    }
 }

@@ -115,6 +115,8 @@ public class AccountDatabase {
             String idNumber,
             String date,
             String accType,
+            String accTitle,
+            String accStatus,
             double balance
     ) {
 
@@ -128,6 +130,8 @@ public class AccountDatabase {
         acc.setIdNumber(idNumber);
         acc.setDate(date);
         acc.setAccType(accType);
+        acc.setAccTitle(accTitle);
+        acc.setAccStatus(accStatus);
         acc.setAccBal(balance);
 
         accounts.add(acc);

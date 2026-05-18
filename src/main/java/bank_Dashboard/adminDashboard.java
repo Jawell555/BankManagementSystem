@@ -2,7 +2,9 @@ package bank_Dashboard;
 
 import Colors.ColorPalette;
 import Database.AccountDatabase;
+import Database.EmployeeDatabase;
 import Models.Account;
+import Models.Employee;
 import javax.swing.*;
 import java.awt.*;
 import javax.swing.table.JTableHeader;
@@ -208,20 +210,22 @@ public class adminDashboard extends JPanel {
         Rectangle tableBounds = new Rectangle(15, 15, 1470, 395);
 
         // Employee Table
-        String[] empCols = {"Employee ID", "Employee Name", "Father Name", "Email", "ID Number", "Date", "Type"};
+        String[] empCols = {"Employee ID", "Employee Name", "Email", "ID Number", "Date", "Type"};
 
-        Object[][] empData = {
-            {"EMP2001", "Juan Dela Cruz", "Pedro Dela Cruz", "juan.delacruz@summitphilbank.com", "901234567890", "2023-01-15", "Employee"},
-            {"EMP2002", "Maria Santos", "Jose Santos", "maria.santos@summitphilbank.com", "902345678901", "2022-11-08", "Employee"},
-            {"EMP2003", "Carlos Reyes", "Antonio Reyes", "carlos.reyes@summitphilbank.com", "903456789012", "2021-06-21", "Employee"},
-            {"EMP2004", "Ana Lopez", "Ricardo Lopez", "ana.lopez@summitphilbank.com", "904567890123", "2023-03-10", "Employee"},
-            {"EMP2005", "Mark Bautista", "Daniel Bautista", "mark.bautista@summitphilbank.com", "905678901234", "2020-09-05", "Employee"},
-            {"EMP2006", "Liza Gomez", "Fernando Gomez", "liza.gomez@summitphilbank.com", "906789012345", "2022-07-19", "Employee"},
-            {"EMP2007", "Paul Navarro", "Victor Navarro", "paul.navarro@summitphilbank.com", "907890123456", "2021-12-01", "Employee"},
-            {"EMP2008", "Karla Mendoza", "Ernesto Mendoza", "karla.mendoza@summitphilbank.com", "908901234567", "2023-05-25", "Employee"},
-            {"EMP2009", "Ryan Castillo", "Oscar Castillo", "ryan.castillo@summitphilbank.com", "909012345678", "2022-02-14", "Employee"},
-            {"EMP2010", "Sophia Ramos", "Luis Ramos", "sophia.ramos@summitphilbank.com", "910123456789", "2023-08-30", "Employee"}
-        };
+        Object[][] empData = new Object[EmployeeDatabase.employees.size()][6];
+        for (int i = 0; i < EmployeeDatabase.employees.size(); i++) {
+
+            Employee emp = EmployeeDatabase.employees.get(i);
+
+            empData[i][0] = emp.getEmpID();
+            empData[i][1] = emp.getEmpName();
+            empData[i][2] = emp.getEmail();
+            empData[i][3] = emp.getIdNumber();
+            empData[i][4] = emp.getDate();
+            empData[i][5] = emp.getEmpType();
+
+        }
+        
         employeeTable = createStyledTable(empData, empCols);
         scrollPaneEmployee = new JScrollPane(employeeTable);
         scrollPaneEmployee.setBounds(tableBounds);
@@ -300,12 +304,13 @@ public class adminDashboard extends JPanel {
         return table;
     }
     
-        private void loadDashboardData() {
+    private void loadDashboardData() {
 
         int totalAccounts = AccountDatabase.accounts.size();
 
         int savings = 0;
         int current = 0;
+        int employees = 0;
 
         double totalBankBalance = 0;
 
@@ -330,8 +335,13 @@ public class adminDashboard extends JPanel {
                 "PHP " + String.format("%,.2f", totalBankBalance)
         );
 
-        // SAMPLE VALUES
-        lblEmpValue.setText("10");
+        for(Employee emp : EmployeeDatabase.employees){
+            if(emp.getEmpType().equalsIgnoreCase("Employee")){
+                employees++;
+            }
+        }
+        
+        lblEmpValue.setText(String.valueOf(employees));
 
         lblWithdrawValue.setText("PHP 18,500.00");
         lblDepositValue.setText("PHP 105,500.00");

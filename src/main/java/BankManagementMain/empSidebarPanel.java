@@ -2,9 +2,6 @@ package BankManagementMain;
 
 import AccountProfile.employeeAccountProfile;
 import Account_Queries.CheckBalance;
-import Account_Queries.DepositHistory;
-import Account_Queries.TransactionHistory;
-import Account_Queries.WithdrawHistory;
 import Colors.ColorPalette;
 import BankBalance.BankBalance;
 import ChangePassword.ChangePasswordPanel;
@@ -25,7 +22,7 @@ public class empSidebarPanel extends JPanel {
     private JPanel profilePanel;
     private JLabel lblName, lblEmail, lblNavTitle, lblProfile;
     private JButton btnHome, btnManageEmp, btnManageAcc, btnAccOps, btnAccQueries, btnBankBalance, btnAccProfile, btnChangePass;
-    private JButton btnSubAddEmp, btnSubViewEmp, btnSubNewAcc, btnSubViewAccList, btnSubTransHisto, btnSubCheckBalance, btnSubDepositHisto, btnSubWithdrawHisto, btnSubTrans, btnSubDeposit, btnSubWithdraw; 
+    private JButton btnSubAddEmp, btnSubViewEmp, btnSubNewAcc, btnSubViewAccList, btnSubCheckBalance, btnSubTrans, btnSubDeposit, btnSubWithdraw; 
     private ImageIcon profile;
     
     private boolean isManageAccExpanded = false;
@@ -143,14 +140,9 @@ public class empSidebarPanel extends JPanel {
             updateMenuPositions();
         });
         
-       btnSubTransHisto = createSubButton("Transaction History");
-        btnSubTransHisto.addActionListener(e -> navPage.turnPage(new TransactionHistory())); //Paltan niyo nalang yung 'new Dashboard()'
         btnSubCheckBalance = createSubButton("Check Current Balance");
         btnSubCheckBalance.addActionListener(e -> navPage.turnPage(new CheckBalance())); //Paltan niyo nalang yung 'new Dashboard()'
-        btnSubDepositHisto = createSubButton("Deposit History");
-        btnSubDepositHisto.addActionListener(e -> navPage.turnPage(new DepositHistory())); //Paltan niyo nalang yung 'new Dashboard()'
-        btnSubWithdrawHisto = createSubButton("Withdraw History");
-        btnSubWithdrawHisto.addActionListener(e -> navPage.turnPage(new WithdrawHistory())); //Paltan niyo nalang yung 'new Dashboard()'
+       
         
         btnBankBalance = createMainButton("Bank Balance");
         btnBankBalance.addActionListener(e -> {
@@ -189,10 +181,7 @@ public class empSidebarPanel extends JPanel {
         add(btnSubWithdraw);
         
         add(btnAccQueries); 
-        add(btnSubTransHisto);
         add(btnSubCheckBalance);
-        add(btnSubDepositHisto);
-        add(btnSubWithdrawHisto);
         
         add(btnBankBalance); 
         add(btnAccProfile); 
@@ -246,26 +235,12 @@ public class empSidebarPanel extends JPanel {
         y += 40;
         
         if (isAccQueriesExpanded) {
-            btnSubTransHisto.setVisible(true);
-            btnSubTransHisto.setBounds(0, y, 250, 30);
-            y += 35;
-
             btnSubCheckBalance.setVisible(true);
             btnSubCheckBalance.setBounds(0, y, 250, 30);
             y += 35;
 
-            btnSubDepositHisto.setVisible(true);
-            btnSubDepositHisto.setBounds(0, y, 250, 30);
-            y += 35;
-            
-            btnSubWithdrawHisto.setVisible(true);
-            btnSubWithdrawHisto.setBounds(0, y, 250, 30);
-            y += 35;
         } else {
-            btnSubTransHisto.setVisible(false);
             btnSubCheckBalance.setVisible(false);
-            btnSubDepositHisto.setVisible(false);
-            btnSubWithdrawHisto.setVisible(false);
         }
         
         btnBankBalance.setBounds(0, y, 250, 35);

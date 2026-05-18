@@ -20,10 +20,6 @@ public class Employee {
         return empName;
     }
 
-    public String getFatherName() {
-        return fatherName;
-    }
-
     public String getEmail() {
         return email;
     }
@@ -48,10 +44,6 @@ public class Employee {
 
     public void setEmpName(String empName) {
         this.empName = empName;
-    }
-
-    public void setFatherName(String fatherName) {
-        this.fatherName = fatherName;
     }
 
     public void setEmail(String email) {
