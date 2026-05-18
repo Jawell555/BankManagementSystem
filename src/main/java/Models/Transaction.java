@@ -21,18 +21,6 @@ public class Transaction {
     private double transacAmount;
    
     //SET
-    public Transaction(String accName,
-     String accNumber, String altAccNumber,
-     String altAccName, LocalDateTime transacDate,
-     String historyType, double transacAmount){
-        this.transacDate = transacDate;
-        this.historyType = historyType;
-        this.accName = accName;
-        this.accNumber = accNumber;
-        this.altAccName = altAccName;
-        this.altAccNumber = altAccNumber;
-        this.transacAmount = transacAmount;
-    }
     
     public void setTransacDate(LocalDateTime transacDate){
         this.transacDate = transacDate;

@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package BankQueryLogic;
+package Database;
 
 import Colors.ColorPalette;
 import java.time.LocalDate;
@@ -12,7 +12,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.util.ArrayList;
-import java.util.List;
 import javax.swing.JTable;
 import javax.swing.table.JTableHeader;
 
@@ -20,29 +19,38 @@ import javax.swing.table.JTableHeader;
  *
  * @author Ruell
  */
-public class BankQueries {
+public class TransactionDatabase {
+    
+    public ArrayList<Transaction> TransactionList = new ArrayList<>();
 
-    public List<Transaction> TransactionList = new ArrayList<>();
-
-    public BankQueries() {
-        Transaction dummyTransac1 = new Transaction("Jawell", "PHP1082523700", "PHP1082523701", "Ryza",
-                LocalDateTime.of(2026, 1, 4, 5, 47, 58), "Deposit", 1000000.00);
-        Transaction dummyTransac2 = new Transaction("Ryza", "PHP1082523701", "PHP1082523700", "Jawell",
-                LocalDateTime.of(2026, 1, 4, 5, 47, 58), "Received", 1000000.00);
-
-        TransactionList.add(dummyTransac2);
-        TransactionList.add(dummyTransac1);
+    public TransactionDatabase() {
+        addTransaction("Juan Dela Cruz", "SPB1000000001", "SPB1000000002", "Maria Santos",
+                LocalDateTime.of(2023, 1, 19, 5, 47, 58), "Deposit", 0.00);
+        addTransaction("Maria Santos", "SPB1000000002", "SPB1000000001", "Juan Dela Cruz",
+                LocalDateTime.of(2023, 1, 19, 5, 47, 58), "Received", 0.00);
     }
 
-    public void add(Transaction transaction) {
-        TransactionList.add(transaction);
+    public void addTransaction(String accName,
+            String accNumber, String altAccNumber,
+            String altAccName, LocalDateTime transacDate,
+            String historyType, double transacAmount) {
+        Transaction transact = new Transaction();
+        
+        transact.setTransacDate(transacDate);
+        transact.setHistoryType(historyType);
+        transact.setAccName(accName);
+        transact.setAccNumber(accNumber);
+        transact.setAltAccName(altAccName);
+        transact.setAltAccNumber(altAccNumber);
+        transact.setTransacAmount(transacAmount);
+        TransactionList.add(transact);
     }
 
-    public List<Transaction> getAllTransList() {
+    public ArrayList<Transaction> getAllTransList() {
         return TransactionList;
     }
 
-    public JTable createStyledTable(List<Transaction> trans, String[] cols) {
+    public JTable createStyledTable(ArrayList<Transaction> trans, String[] cols) {
         Object[][] data = new Object[trans.size()][7];
 
         for (int i = 0; i < trans.size(); i++) {
@@ -73,19 +81,17 @@ public class BankQueries {
         return table;
     }
     
-    public List<Transaction> getListByNumber(String accSearch){
-        List<Transaction> QueryList = new ArrayList<>();
-        boolean search = !accSearchIsNull(accSearch);
+    public ArrayList<Transaction> getListByNumber(String accSearch){
+        ArrayList<Transaction> QueryList = new ArrayList<>();
         for (Transaction Trans : TransactionList) {
-            boolean matches = true;
-            matches&=Trans.getAccNumber().equals(accSearch.trim());
+            boolean matches =Trans.getAccNumber().equals(accSearch.trim());
             if(matches)QueryList.add(Trans);
         }
         return QueryList;
     }
 
-    public List<Transaction> getList(String accSearch, String historyType, LocalDateTime DateStart, LocalDateTime DateEnd) {
-        List<Transaction> QueryList = new ArrayList<>();
+    public ArrayList<Transaction> getList(String accSearch, String historyType, LocalDateTime DateStart, LocalDateTime DateEnd) {
+        ArrayList<Transaction> QueryList = new ArrayList<>();
         boolean search = !accSearchIsNull(accSearch);
         boolean history = !historyTypeIsNull(historyType);
         boolean startDate = !dateStartISNull(DateStart);
@@ -108,8 +114,8 @@ public class BankQueries {
         }
         return QueryList;
     }
-    public List<Transaction> noData(){
-        List<Transaction> NoData = new ArrayList<>();
+    public ArrayList<Transaction> noData(){
+        ArrayList<Transaction> NoData = new ArrayList<>();
         return NoData;
     }
 

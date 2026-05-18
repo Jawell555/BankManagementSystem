@@ -5,11 +5,11 @@
 package BankBalance;
 
 import Colors.ColorPalette;
-
+import Database.AccountDatabase;
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.table.JTableHeader;
-import BankQueryLogic.BankQueries;
+import Database.TransactionDatabase;
 import Models.Transaction;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -24,8 +24,9 @@ import java.util.List;
  */
 public class BankBalance extends JPanel implements ActionListener {
 
-    BankQueries BankLogic = new BankQueries();
-
+    TransactionDatabase BankLogic = new TransactionDatabase();
+    AccountDatabase db = new AccountDatabase();
+    
     JLabel lblTitle, lblFrom, lblTo;
     JPanel pnlTblContainer, pnlSearch;
     JTextField txtTotalBal, txtSearch, txtStartYear, txtEndYear;
@@ -39,7 +40,7 @@ public class BankBalance extends JPanel implements ActionListener {
     private final String[] days = new String[32];
     private String[] historyColumns = {"Name", "Account Number", "Sender/Receiver Account", "Sender/Receiver Name", "Date & Time", "History Type", "Amount"};
 
-    double TotalBal;
+    double TotalBal = db.getTotalBalance();
 
     Font fntTitle = new Font("Segoe UI", Font.BOLD, 25);
     Font fntText = new Font("Segoe UI", Font.PLAIN, 12);
@@ -174,7 +175,7 @@ public class BankBalance extends JPanel implements ActionListener {
             LocalDateTime startDate = convertDate(cmbStartMonth.getSelectedIndex(),cmbStartDay.getSelectedIndex(),txtStartYear.getText());
             LocalDateTime endDate = convertDate(cmbEndMonth.getSelectedIndex(),cmbEndDay.getSelectedIndex(),txtEndYear.getText());
             pnlTblContainer.remove(scpnBalHistory);
-            List<Transaction> filtered = BankLogic.getList(txtSearch.getText(), (String)cmbHistoryType.getSelectedItem(), startDate, endDate);
+            ArrayList<Transaction> filtered = BankLogic.getList(txtSearch.getText(), (String)cmbHistoryType.getSelectedItem(), startDate, endDate);
             tblBalHistory = BankLogic.createStyledTable(filtered, historyColumns);
             scpnBalHistory = new JScrollPane(tblBalHistory);
             scpnBalHistory.setBounds(20, 25, 1530, 700);
