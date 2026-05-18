@@ -2,6 +2,7 @@ package bank_AccountOperations;
 
 import Colors.ColorPalette; 
 import Database.AccountDatabase;
+import Database.TransactionDatabase;
 import Models.Account;
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -10,9 +11,12 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 public class TransferBoard extends JPanel implements ActionListener {
+    
+    private TransactionDatabase transactionDB = new TransactionDatabase();
     
     //Main Panel Title
     private JLabel lblTitle;
@@ -38,6 +42,7 @@ public class TransferBoard extends JPanel implements ActionListener {
     private JTextField txtRefNum, txtProcBy, txtDate, txtAmount;
     private JComboBox<String> cmbTransType; 
     private JButton btnTransfer;
+    private double amountToTransfer = 0;
 
     public TransferBoard() {
         setLayout(null);
@@ -69,7 +74,7 @@ public class TransferBoard extends JPanel implements ActionListener {
         lblSenderAcc.setBounds(50, 50, 200, 25);
         searchBoard.add(lblSenderAcc);
 
-        txtSenderAcc = new JTextField();
+        txtSenderAcc = new JTextField("SPB100000000");
         txtSenderAcc.setForeground(Color.BLACK); 
         txtSenderAcc.setFont(new Font("Segoe UI", Font.PLAIN, 16));
         txtSenderAcc.setBounds(50, 80, 500, 40); 
@@ -121,7 +126,7 @@ public class TransferBoard extends JPanel implements ActionListener {
         lblSenderNum.setBounds(390, 30, 250, 25);
         senderPanel.add(lblSenderNum);
 
-        txtSenderNum = new JTextField();
+        txtSenderNum = new JTextField("");
         txtSenderNum.setEditable(false);
         txtSenderNum.setBackground(new Color(225, 225, 225)); 
         txtSenderNum.setBorder(BorderFactory.createLineBorder(ColorPalette.Blue5, 1));
@@ -463,7 +468,7 @@ public class TransferBoard extends JPanel implements ActionListener {
             return;
         }
 
-        double amountToTransfer = 0;
+        
         try {
             amountToTransfer = Double.parseDouble(amountInput);
             if (amountToTransfer <= 0) {
@@ -584,9 +589,55 @@ public class TransferBoard extends JPanel implements ActionListener {
         btnConfirm.setBounds(50, 330, 150, 40);
   
         btnConfirm.addActionListener(e -> {
-            dialog.dispose(); 
-            JOptionPane.showMessageDialog(parentWindow, "Transferred successfully!", "Transaction Complete", JOptionPane.INFORMATION_MESSAGE);
-        }); 
+
+            Account senderAcc = AccountDatabase.getAccountByNumber(senderNum);
+            Account receiverAcc = AccountDatabase.getAccountByNumber(receiverNum);
+
+            if (senderAcc != null && receiverAcc != null) {
+
+                // Deduct from sender (amount + fee)
+                senderAcc.setAccBal(senderAcc.getAccBal() - totalDeduction);
+
+                // Add ONLY transfer amount to receiver
+                receiverAcc.setAccBal(receiverAcc.getAccBal() + amountToTransfer);
+
+                // Refresh displayed balances
+                txtSenderBalance.setText(
+                    String.format("PHP %,.2f", senderAcc.getAccBal())
+                );
+                
+                // Sender record (DEBIT)
+                transactionDB.addTransaction(
+                    senderAcc.getName(),
+                    senderAcc.getAccNo(),
+                    receiverAcc.getAccNo(),
+                    receiverAcc.getName(),
+                    LocalDateTime.now(),
+                    "Transfer Sent",
+                    amountToTransfer
+                );
+
+                // Receiver record (CREDIT)
+                transactionDB.addTransaction(
+                    receiverAcc.getName(),
+                    receiverAcc.getAccNo(),
+                    senderAcc.getAccNo(),
+                    senderAcc.getName(),
+                    LocalDateTime.now(),
+                    "Transfer Received",
+                    amountToTransfer
+                );
+
+                dialog.dispose();
+
+                JOptionPane.showMessageDialog(
+                    parentWindow,
+                    "Transferred successfully!",
+                    "Transaction Complete",
+                    JOptionPane.INFORMATION_MESSAGE
+                );
+            }
+        });
 
         JButton btnCancel = new JButton("Cancel");
         btnCancel.setBackground(Color.LIGHT_GRAY); 

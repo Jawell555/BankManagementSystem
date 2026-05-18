@@ -38,7 +38,7 @@ public class BankBalance extends JPanel implements ActionListener {
     private final String[] historyChoices;
     private final String[] months;
     private final String[] days = new String[32];
-    private String[] historyColumns = {"Name", "Account Number", "Sender/Receiver Account", "Sender/Receiver Name", "Date & Time", "History Type", "Amount"};
+    private String[] historyColumns = {"Name", "Account Number", "Transaction Information", "Sender/Receiver Name", "Date & Time", "History Type", "Amount"};
 
     double TotalBal = db.getTotalBalance();
 

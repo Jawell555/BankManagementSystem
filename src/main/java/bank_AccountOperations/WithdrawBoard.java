@@ -2,7 +2,9 @@ package bank_AccountOperations;
 
 import Colors.ColorPalette;
 import Database.AccountDatabase;
+import Database.TransactionDatabase;
 import Models.Account;
+import bank_Dashboard.adminDashboard;
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -10,6 +12,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 public class WithdrawBoard extends JPanel implements ActionListener {
@@ -36,7 +39,10 @@ public class WithdrawBoard extends JPanel implements ActionListener {
     private JComboBox<String> cmbIdType, cmbMethod;
     private JSeparator actSep1, actSep2;
     private JButton btnWithdraw;
-
+    private String[] methods = {"Over-the-counter", "Check Withdrawal"};
+    private String[] idTypes = {"Driver's License", "National ID / PhilSys", "Passport", "Company ID"};
+    double amountToWithdraw = 0;
+    
     public WithdrawBoard() {
         setLayout(null);
         setBackground(new Color(235, 235, 235));
@@ -67,7 +73,7 @@ public class WithdrawBoard extends JPanel implements ActionListener {
         lblAccNum.setBounds(50, 50, 200, 25);
         searchBoard.add(lblAccNum);
 
-        txtAccNum = new JTextField();
+        txtAccNum = new JTextField("SPB100000000");
         txtAccNum.setForeground(Color.BLACK); 
         txtAccNum.setFont(new Font("Segoe UI", Font.PLAIN, 15));
         txtAccNum.setBounds(50, 80, 730, 40); 
@@ -217,7 +223,6 @@ public class WithdrawBoard extends JPanel implements ActionListener {
         lblIdType.setBounds(50, 220, 200, 20);
         actionBoard.add(lblIdType);
 
-        String[] idTypes = {"Driver's License", "National ID / PhilSys", "Passport", "Company ID"};
         cmbIdType = new JComboBox<>(idTypes);
         cmbIdType.setFont(new Font("Segoe UI", Font.PLAIN, 15));
         cmbIdType.setBounds(50, 250, 400, 40); 
@@ -244,7 +249,7 @@ public class WithdrawBoard extends JPanel implements ActionListener {
         lblMethod.setBounds(550, 130, 200, 20);
         actionBoard.add(lblMethod);
 
-        String[] methods = {"Over-the-counter", "ATM", "Check Withdrawal"};
+        
         cmbMethod = new JComboBox<>(methods);
         cmbMethod.setFont(new Font("Segoe UI", Font.PLAIN, 15));
         cmbMethod.setBounds(550, 160, 400, 40); 
@@ -389,7 +394,7 @@ public class WithdrawBoard extends JPanel implements ActionListener {
             return;
         }
 
-        double amountToWithdraw = 0;
+        
         try {
             amountToWithdraw = Double.parseDouble(amountInput);
             if(amountToWithdraw <= 0) {
@@ -551,16 +556,59 @@ public class WithdrawBoard extends JPanel implements ActionListener {
         btnConfirm.setFont(new Font("Segoe UI", Font.BOLD, 14));
         btnConfirm.setBounds(40, 445, 150, 40);
         
-        btnConfirm.addActionListener(e -> {
-            String enteredPin = new String(txtTellerPin.getPassword());
-            
-            if (enteredPin.trim().isEmpty()) {
-                JOptionPane.showMessageDialog(dialog, "Please enter your Teller PIN to authorize this withdrawal.", "Authorization Error", JOptionPane.WARNING_MESSAGE);
-            } else {
-                dialog.dispose(); 
-                JOptionPane.showMessageDialog(parentWindow, "Withdrawal authorized successfully! Please dispense cash.", "Transaction Complete", JOptionPane.INFORMATION_MESSAGE);
+        
+        
+       btnConfirm.addActionListener(e -> {
+
+        String enteredPin = new String(txtTellerPin.getPassword());
+        
+       
+
+        if (enteredPin.trim().isEmpty()) {
+
+            JOptionPane.showMessageDialog(
+                    dialog,
+                    "Please enter your Teller PIN.",
+                    "Authorization Error",
+                    JOptionPane.WARNING_MESSAGE
+            );
+
+        } else {
+
+                //Deduct BOTH withdrawal + fee
+                acc.setAccBal(newBalance);
+
+                //Refresh balance display
+                txtBalance.setText(
+                        String.format("PHP %,.2f", acc.getAccBal())
+                );
+            String method = "";
+            if(cmbMethod.getSelectedIndex() == 0){
+                       method = "Over-the-counter";
+            } else if(cmbMethod.getSelectedIndex() == 1){
+                       method = "Check Withdrawal";
             }
-        }); 
+                //Store transaction
+                TransactionDatabase.addTransaction(
+                        acc.getName(),
+                        acc.getAccNo(),
+                        method,
+                        withdrawerName,
+                        LocalDateTime.now(),
+                        "Withdrawal",
+                        amountToWithdraw
+                );
+                
+                dialog.dispose();
+
+                JOptionPane.showMessageDialog(
+                        parentWindow,
+                        "Withdrawal successful!",
+                        "Transaction Complete",
+                        JOptionPane.INFORMATION_MESSAGE
+                );
+            }
+        });
 
         JButton btnCancel = new JButton("Cancel");
         btnCancel.setBackground(Color.LIGHT_GRAY);

@@ -5,7 +5,6 @@
 package Database;
 
 import Colors.ColorPalette;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import Models.Transaction;
 import java.awt.Color;
@@ -21,16 +20,100 @@ import javax.swing.table.JTableHeader;
  */
 public class TransactionDatabase {
     
-    public ArrayList<Transaction> TransactionList = new ArrayList<>();
+    public static ArrayList<Transaction> TransactionList = new ArrayList<>();
 
     public TransactionDatabase() {
-        addTransaction("Juan Dela Cruz", "SPB1000000001", "SPB1000000002", "Maria Santos",
-                LocalDateTime.of(2023, 1, 19, 5, 47, 58), "Deposit", 0.00);
-        addTransaction("Maria Santos", "SPB1000000002", "SPB1000000001", "Juan Dela Cruz",
-                LocalDateTime.of(2023, 1, 19, 5, 47, 58), "Received", 0.00);
+//        addTransaction("Juan Dela Cruz", "SPB1000000001", "SPB1000000002", "Maria Santos",
+//                LocalDateTime.of(2023, 1, 19, 5, 47, 58), "Deposit", 0.00);
+//        addTransaction("Maria Santos", "SPB1000000002", "SPB1000000001", "Juan Dela Cruz",
+//                LocalDateTime.of(2023, 1, 19, 5, 47, 58), "Received", 0.00);
+
+    
+    }
+    
+    static{
+            addTransaction(
+        "Juan Dela Cruz",
+        "SPB1000000001",
+        "Initial Deposit",
+        "BANK SYSTEM",
+        LocalDateTime.of(2023, 1, 15, 10, 0),
+        "Deposit",
+        25000.00
+        );
+
+        addTransaction(
+            "Maria Santos",
+            "SPB1000000002",
+            "Initial Deposit",
+            "BANK SYSTEM",
+            LocalDateTime.of(2022, 11, 8, 9, 30),
+            "Deposit",
+            150000.00
+        );
+
+        addTransaction(
+            "Carlos Reyes",
+            "SPB1000000003",
+            "Initial Deposit",
+            "BANK SYSTEM",
+            LocalDateTime.of(2021, 6, 21, 14, 15),
+            "Deposit",
+            8900.50
+        );
+
+        addTransaction(
+            "Ana Lopez",
+            "SPB1000000004",
+            "Initial Deposit",
+            "BANK SYSTEM",
+            LocalDateTime.of(2023, 3, 10, 11, 45),
+            "Deposit",
+            45600.00
+        );
+
+        addTransaction(
+            "Mark Bautista",
+            "SPB1000000005",
+            "Initial Deposit",
+            "BANK SYSTEM",
+            LocalDateTime.of(2020, 9, 5, 16, 20),
+            "Deposit",
+            98000.00
+        );
+
+        addTransaction(
+            "Liza Gomez",
+            "SPB1000000006",
+            "Initial Deposit",
+            "BANK SYSTEM",
+            LocalDateTime.of(2022, 7, 19, 10, 10),
+            "Deposit",
+            12340.75
+        );
+
+        addTransaction(
+            "Paul Navarro",
+            "SPB1000000007",
+            "Initial Deposit",
+            "BANK SYSTEM",
+            LocalDateTime.of(2021, 12, 1, 13, 0),
+            "Deposit",
+            78500.00
+        );
+
+        addTransaction(
+            "Karla Mendoza",
+            "SPB1000000008",
+            "Initial Deposit",
+            "BANK SYSTEM",
+            LocalDateTime.of(2023, 5, 25, 9, 0),
+            "Deposit",
+            33210.90
+        );
     }
 
-    public void addTransaction(String accName,
+    public static void addTransaction(String accName,
             String accNumber, String altAccNumber,
             String altAccName, LocalDateTime transacDate,
             String historyType, double transacAmount) {

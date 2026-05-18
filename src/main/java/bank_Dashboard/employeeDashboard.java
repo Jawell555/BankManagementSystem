@@ -2,9 +2,12 @@ package bank_Dashboard;
 
 import Colors.ColorPalette;
 import Database.AccountDatabase;
+import Database.TransactionDatabase;
 import Models.Account;
+import Models.Transaction;
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 import javax.swing.table.JTableHeader;
 
 public class employeeDashboard extends JPanel {
@@ -214,17 +217,22 @@ public class employeeDashboard extends JPanel {
         scrollPaneAccounts.setVisible(true);
         tableContainer.add(scrollPaneAccounts);
 
-        String[] transCols = {"No", "Holder Name", "Account Number", "Type", "Amount", "Date", "Time"};
-        Object[][] transData = {
-            {"1", "Juan Dela Cruz", "SPB1000000001", "Deposit", "25,000.00 PHP", "2026-03-20", "09:15:22"},
-            {"2", "Maria Santos", "SPB1000000002", "Withdraw", "5,000.00 PHP", "2026-03-20", "10:45:10"},
-            {"3", "Carlos Reyes", "SPB1000000003", "Deposit", "12,500.00 PHP", "2026-03-21", "11:05:33"},
-            {"4", "Ana Lopez", "SPB1000000004", "Withdraw", "3,200.00 PHP", "2026-03-21", "13:20:41"},
-            {"5", "Mark Bautista", "SPB1000000005", "Deposit", "50,000.00 PHP", "2026-03-22", "14:55:02"},
-            {"6", "Liza Gomez", "SPB1000000006", "Withdraw", "7,800.00 PHP", "2026-03-22", "16:12:18"},
-            {"7", "Paul Navarro", "SPB1000000007", "Deposit", "18,000.00 PHP", "2026-03-23", "08:30:27"},
-            {"8", "Karla Mendoza", "SPB1000000008", "Withdraw", "2,500.00 PHP", "2026-03-23", "17:45:59"}
-        };
+        ArrayList<Transaction> list = TransactionDatabase.TransactionList;
+
+        String[] transCols = {"Account Name", "Account No", "Type", "Amount", "Date"};
+
+        Object[][] transData = new Object[list.size()][5];
+
+        for (int i = 0; i < list.size(); i++) {
+            Transaction t = list.get(i);
+
+            transData[i][0] = t.getAccName();
+            transData[i][1] = t.getAccNumber();
+            transData[i][2] = t.getHistoryType();
+            transData[i][3] = String.format("PHP %,.2f", t.getTransacAmount());
+            transData[i][4] = t.getTransacDate();
+        }        
+        
         transTable = createStyledTable(transData, transCols);
         scrollPaneTrans = new JScrollPane(transTable);
         scrollPaneTrans.setBounds(tableBounds);
@@ -292,13 +300,27 @@ public class employeeDashboard extends JPanel {
                 "PHP " + String.format("%,.2f", totalBankBalance)
         );
 
-        lblWithdrawValue.setText("PHP 18,500.00");
-        lblDepositValue.setText("PHP 105,500.00");
+        double totalDeposit = 0;
+        double totalWithdraw = 0;
 
-        double totalTransacted = 18500 + 105500;
+        for (Transaction t : TransactionDatabase.TransactionList) {
 
-        lblTransValue.setText(
-                "PHP " + String.format("%,.2f", totalTransacted)
-        );
+            if (t.getHistoryType().equalsIgnoreCase("Deposit")
+                || t.getHistoryType().toLowerCase().contains("received")) {
+
+                totalDeposit += t.getTransacAmount();
+            }
+
+            if (t.getHistoryType().equalsIgnoreCase("Withdrawal")
+                || t.getHistoryType().toLowerCase().contains("sent")) {
+
+                totalWithdraw += t.getTransacAmount();
+            }
+        }
+
+        lblDepositValue.setText("PHP " + String.format("%,.2f", totalDeposit));
+        lblWithdrawValue.setText("PHP " + String.format("%,.2f", totalWithdraw));
+
+        lblTransValue.setText("PHP " + String.format("%,.2f", totalDeposit + totalWithdraw));
     }
 }

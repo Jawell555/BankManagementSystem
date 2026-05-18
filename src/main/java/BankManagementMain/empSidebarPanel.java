@@ -121,7 +121,7 @@ public class empSidebarPanel extends JPanel {
         btnSubDeposit = createSubButton("Deposit Balance");
         btnSubDeposit.addActionListener(e -> navPage.turnPage(new DepositBoard())); 
         btnSubWithdraw = createSubButton("Withdraw Balance");
-        btnSubWithdraw.addActionListener(e -> navPage.turnPage(new WithdrawBoard())); 
+//        btnSubWithdraw.addActionListener(e -> navPage.turnPage(new WithdrawBoard())); 
         
         btnAccQueries = createMainButton("Account Queries              +");
         btnAccQueries.addActionListener(e -> {

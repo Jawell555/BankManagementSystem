@@ -3,15 +3,19 @@ package bank_AccountOperations;
 import Colors.ColorPalette;
 import Models.Account;
 import Database.AccountDatabase;
+import Database.TransactionDatabase;
+import bank_Dashboard.adminDashboard;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 public class DepositBoard extends JPanel implements ActionListener {
     
+    private TransactionDatabase transactionDB = new TransactionDatabase();
     //Main title
     private JLabel lblTitle;
 
@@ -34,6 +38,9 @@ public class DepositBoard extends JPanel implements ActionListener {
     private JSeparator actSep1, actSep2;
     private JComboBox<String> cmbDepMethod;
     private JButton btnDeposit;
+    private String[] methods = {"Cash Deposit", "Check Deposit", "Fund Transfer"};
+    
+    double amountToDeposit = 0;
 
     public DepositBoard() {
         setLayout(null);
@@ -65,7 +72,7 @@ public class DepositBoard extends JPanel implements ActionListener {
         lblAccNum.setBounds(50, 50, 200, 25);
         searchBoard.add(lblAccNum);
 
-        txtAccNum = new JTextField();
+        txtAccNum = new JTextField("SPB100000000");
         txtAccNum.setForeground(Color.BLACK); 
         txtAccNum.setFont(new Font("Segoe UI", Font.PLAIN, 15));
         txtAccNum.setBounds(50, 80, 730, 40); 
@@ -229,7 +236,6 @@ public class DepositBoard extends JPanel implements ActionListener {
         lblDepMethod.setBounds(550, 130, 200, 20);
         actionBoard.add(lblDepMethod);
 
-        String[] methods = {"Cash Deposit", "Check Deposit", "Fund Transfer"};
         cmbDepMethod = new JComboBox<>(methods);
         cmbDepMethod.setFont(new Font("Segoe UI", Font.PLAIN, 15));
         cmbDepMethod.setBounds(550, 160, 400, 40); 
@@ -311,7 +317,7 @@ public class DepositBoard extends JPanel implements ActionListener {
             return;
         }
 
-        double amountToDeposit = 0;
+        
         try {
             amountToDeposit = Double.parseDouble(amountInput);
             if(amountToDeposit <= 0) {
@@ -402,9 +408,54 @@ public class DepositBoard extends JPanel implements ActionListener {
    
         //If deposit confirmed
         btnConfirm.addActionListener(e -> {
-            dialog.dispose(); 
-            JOptionPane.showMessageDialog(parentWindow, "Deposited successfully!", "Transaction Complete", JOptionPane.INFORMATION_MESSAGE);
-        }); 
+
+        //Get the account
+        Account foundAcc = AccountDatabase.getAccountByNumber(accNum);
+
+        if(foundAcc != null){
+
+            //Update balance
+            double newBalance = foundAcc.getAccBal() + amountToDeposit;
+            foundAcc.setAccBal(newBalance);
+
+            //Refresh displayed balance
+            txtBalance.setText(String.format("PHP %,.2f", newBalance));
+            
+            String method = "";
+            if(cmbDepMethod.getSelectedIndex() == 0){
+                method = "Cash Deposit";
+            } else if (cmbDepMethod.getSelectedIndex() == 1){
+                method = "Check Deposit";
+            } else if(cmbDepMethod.getSelectedIndex() == 2){
+                method = "Fund Transfer";
+            }
+            
+            //Save transaction
+            transactionDB.addTransaction(
+                    foundAcc.getName(),                //Account Name
+                    foundAcc.getAccNo(),               //Account Number
+                    method,                    //Transaction Information
+                    txtDepositor.getText(),            //Depositor
+                    LocalDateTime.now(),               //Transaction Date
+                    "Deposit",                         //History Type
+                    amountToDeposit                    //Amount
+            );
+
+            dialog.dispose();
+
+            JOptionPane.showMessageDialog(
+                    parentWindow,
+                    "Deposited successfully!",
+                    "Transaction Complete",
+                    JOptionPane.INFORMATION_MESSAGE
+            );
+
+            //Clear fields
+            txtAmount.setText("");
+            txtDepositor.setText("");
+            
+        }
+    });
 
         JButton btnCancel = new JButton("Cancel");
         btnCancel.setBackground(Color.LIGHT_GRAY);
@@ -421,4 +472,6 @@ public class DepositBoard extends JPanel implements ActionListener {
         dialog.add(btnCancel);
         dialog.setVisible(true); 
     }
+    
+    
 }
