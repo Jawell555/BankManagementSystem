@@ -87,7 +87,7 @@ public class CheckBalance extends JPanel implements ActionListener {
             lblAccNum.setBounds(50, 50, 200, 25);
             searchBoard.add(lblAccNum);
 
-            txtAccNum  = new JTextField("Enter account number");
+            txtAccNum  = new JTextField("SPB100000000");
             txtAccNum .setForeground(Color.GRAY);
             txtAccNum .setFont(new Font("Segoe UI", Font.PLAIN, 15));
             txtAccNum .setBounds(50, 80, 730, 40);
@@ -138,7 +138,7 @@ public class CheckBalance extends JPanel implements ActionListener {
             lblAccNo.setBounds(50, 130, 200, 25);
             infoBoard.add(lblAccNo);
 
-            txtAccNo = new JTextField("SPB100000000");
+            txtAccNo = new JTextField("");
             txtAccNo.setEditable(false);
             txtAccNo.setBackground(new Color(225, 225, 225));
             txtAccNo.setFont(new Font("Segoe UI", Font.BOLD, 15));

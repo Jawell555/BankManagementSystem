@@ -1,7 +1,7 @@
 package bank_AccountOperations;
 
 import Colors.ColorPalette;
-import Models.Account;
+import Database.AccountDatabase;
 import Models.Account;
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -14,9 +14,6 @@ import java.util.Date;
 
 public class WithdrawBoard extends JPanel implements ActionListener {
     
-    //Initialize logic
-    private AccountOperationsLogic logic = new AccountOperationsLogic();
-
     //Main Panel Title
     private JLabel lblTitle;
 
@@ -353,7 +350,7 @@ public class WithdrawBoard extends JPanel implements ActionListener {
             return;
         }
 
-        Account foundAcc = logic.searchAccount(searchedAcc);
+        Account foundAcc = AccountDatabase.getAccountByNumber(searchedAcc);
 
         if (foundAcc != null) {
             txtAccTitle.setText(foundAcc.getAccTitle());
@@ -464,7 +461,7 @@ public class WithdrawBoard extends JPanel implements ActionListener {
         dialog.add(sep1);
 
         //Money computations
-        Account acc = logic.searchAccount(accNum);
+        Account acc = AccountDatabase.getAccountByNumber(accNum);
         double fee = cmbMethod.getSelectedIndex() == 0 ? 0.00 : 15.00; //OTC is free, teh rest has fee
         double totalDeduction = amountToWithdraw + fee;
         

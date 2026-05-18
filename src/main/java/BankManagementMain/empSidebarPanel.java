@@ -7,7 +7,7 @@ import BankBalance.BankBalance;
 import ChangePassword.ChangePasswordPanel;
 import Colors.ImagePanel;
 import bank_AccountOperations.DepositBoard;
-import bank_AccountOperations.TransactionBoard;
+import bank_AccountOperations.TransferBoard;
 import bank_AccountOperations.WithdrawBoard;
 import bank_Dashboard.employeeDashboard;
 import bank_ManageAccounts.NewAccountBoard;
@@ -115,8 +115,9 @@ public class empSidebarPanel extends JPanel {
             updateMenuPositions();
         });
        
-        btnSubTrans = createSubButton("Transaction");
-        btnSubTrans.addActionListener(e -> navPage.turnPage(new TransactionBoard())); 
+        btnSubTrans = createSubButton("Transfer"
+                + "  ");
+        btnSubTrans.addActionListener(e -> navPage.turnPage(new TransferBoard())); 
         btnSubDeposit = createSubButton("Deposit Balance");
         btnSubDeposit.addActionListener(e -> navPage.turnPage(new DepositBoard())); 
         btnSubWithdraw = createSubButton("Withdraw Balance");

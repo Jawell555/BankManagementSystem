@@ -7,7 +7,7 @@ import BankBalance.BankBalance;
 import ChangePassword.ChangePasswordPanel;
 import Colors.ImagePanel;
 import bank_AccountOperations.DepositBoard;
-import bank_AccountOperations.TransactionBoard;
+import bank_AccountOperations.TransferBoard;
 import bank_AccountOperations.WithdrawBoard;
 import bank_Dashboard.adminDashboard;
 import bank_ManageEmployees.AddEmployeesBoard;
@@ -141,8 +141,8 @@ public class adminSidebarPanel extends JPanel {
             updateMenuPositions();
         });
        
-        btnSubTrans = createSubButton("Transaction");
-        btnSubTrans.addActionListener(e -> navPage.turnPage(new TransactionBoard())); //Paltan niyo nalang yung 'new Dashboard()'
+        btnSubTrans = createSubButton("Transfer");
+        btnSubTrans.addActionListener(e -> navPage.turnPage(new TransferBoard())); //Paltan niyo nalang yung 'new Dashboard()'
         btnSubDeposit = createSubButton("Deposit Balance");
         btnSubDeposit.addActionListener(e -> navPage.turnPage(new DepositBoard())); //Paltan niyo nalang yung 'new Dashboard()'
         btnSubWithdraw = createSubButton("Withdraw Balance");
@@ -210,6 +210,7 @@ public class adminSidebarPanel extends JPanel {
         add(btnSubWithdraw);
         
         add(btnAccQueries); 
+        add(btnSubCheckBalance);
         add(btnBankBalance); 
         add(btnAccProfile); 
         add(btnChangePass);

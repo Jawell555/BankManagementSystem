@@ -158,8 +158,6 @@ public class BankBalance extends JPanel implements ActionListener {
             pnlTblContainer.setFont(fntText);
             add(pnlTblContainer);
 
-//        Object[][] historyData = {{"Asim Ghafoor", "PHP1082523800", "PHP1082523819", "Sobhan", "6-21-2026 05:47:58", "Received", "2000.00"},
-//                                  {"Jawell", "PHP1082523700", "PHP1082523701", "Ryza", "4-01-2026 05:47:58", "Transfer", "1000000.00"} };
             tblBalHistory = BankLogic.createStyledTable(BankLogic.TransactionList, historyColumns);
             scpnBalHistory = new JScrollPane(tblBalHistory);
             scpnBalHistory.setBounds(20, 25, 1530, 700);

@@ -2,7 +2,7 @@ package bank_AccountOperations;
 
 import Colors.ColorPalette;
 import Models.Account;
-import Models.Account;
+import Database.AccountDatabase;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -12,9 +12,6 @@ import java.util.Date;
 
 public class DepositBoard extends JPanel implements ActionListener {
     
-    //Initialize logic
-    private AccountOperationsLogic logic = new AccountOperationsLogic();
-
     //Main title
     private JLabel lblTitle;
 
@@ -282,7 +279,7 @@ public class DepositBoard extends JPanel implements ActionListener {
             return;
         }
 
-        Account foundAcc = logic.searchAccount(searchedAcc);
+        Account foundAcc = AccountDatabase.getAccountByNumber(searchedAcc);
 
         if (foundAcc != null) {
             txtAccTitle.setText(foundAcc.getAccTitle());
