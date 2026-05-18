@@ -1,11 +1,11 @@
 package Database;
 
-import Models.AccountModel;
+import Models.Account;
 import java.util.ArrayList;
 
 public class AccountDatabase {
 
-    public static ArrayList<AccountModel> accounts = new ArrayList<>();
+    public static ArrayList<Account> accounts = new ArrayList<>();
 
     static {
 
@@ -118,7 +118,7 @@ public class AccountDatabase {
             double balance
     ) {
 
-        AccountModel acc = new AccountModel();
+        Account acc = new Account();
 
         acc.setAccNo(accNo);
         acc.setName(name);
@@ -133,15 +133,15 @@ public class AccountDatabase {
         accounts.add(acc);
     }
     
-    public static AccountModel getAccountByNumber(String accNo) {
+    public static Account getAccountByNumber(String accNo) {
 
-    for (AccountModel acc : accounts) {
-
-        if (acc.getAccNo().equalsIgnoreCase(accNo)) {
-            return acc;
+   for (Account acc : accounts) {
+            if (acc != null && acc.getAccNo() != null) {
+                if (acc.getAccNo().equals(accNo)) {
+                    return acc;
+                }
+            }
         }
-    }
-
-    return null;
+        return null;   
     }
 }

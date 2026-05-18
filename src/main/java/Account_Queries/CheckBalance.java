@@ -2,7 +2,7 @@ package Account_Queries;
 
 import Colors.ColorPalette;
 import Database.AccountDatabase;
-import Models.AccountModel;
+import Models.Account;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -26,9 +26,7 @@ public class CheckBalance extends JPanel {
     Font fntText = new Font("Segoe UI", Font.PLAIN, 12);
     Font fntHeader = new Font("Segoe UI", Font.BOLD, 18);
 
-    // ACCOUNT LIST
-    ArrayList<AccountModel> accounts = new ArrayList<>();
-
+   
     public CheckBalance() {
 
         setLayout(null);
@@ -171,7 +169,7 @@ public class CheckBalance extends JPanel {
 
                 String searchAccNo = txtAccNum.getText().trim();
 
-                AccountModel acc =
+                Account acc =
                         AccountDatabase.getAccountByNumber(searchAccNo);
 
                 if (acc != null) {

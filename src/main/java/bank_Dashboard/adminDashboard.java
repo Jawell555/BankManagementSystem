@@ -2,7 +2,7 @@ package bank_Dashboard;
 
 import Colors.ColorPalette;
 import Database.AccountDatabase;
-import Models.AccountModel;
+import Models.Account;
 import javax.swing.*;
 import java.awt.*;
 import javax.swing.table.JTableHeader;
@@ -234,7 +234,7 @@ public class adminDashboard extends JPanel {
 
         for (int i = 0; i < AccountDatabase.accounts.size(); i++) {
 
-            AccountModel acc = AccountDatabase.accounts.get(i);
+            Account acc = AccountDatabase.accounts.get(i);
 
             accData[i][0] = acc.getAccNo();
             accData[i][1] = acc.getName();
@@ -309,7 +309,7 @@ public class adminDashboard extends JPanel {
 
         double totalBankBalance = 0;
 
-        for (AccountModel acc : AccountDatabase.accounts) {
+        for (Account acc : AccountDatabase.accounts) {
 
             if (acc.getAccType().equalsIgnoreCase("Savings")) {
                 savings++;

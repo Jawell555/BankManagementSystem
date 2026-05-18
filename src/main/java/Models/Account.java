@@ -1,6 +1,6 @@
 package Models;
 
-public class AccountModel {
+public class Account {
 
     private String accNo;
     private String name;
@@ -11,6 +11,11 @@ public class AccountModel {
     private String date;
     private String accType;
     private double accBal;
+    private String accTitle;
+    private String accStatus;
+
+    public Account() {
+    }
 
     // GETTERS
     public String getAccNo() {
@@ -48,6 +53,14 @@ public class AccountModel {
     public double getAccBal() {
         return accBal;
     }
+    
+    public String getAccTitle(){
+            return accTitle;
+    }
+    
+    public String getAccStatus(){
+            return accStatus;
+        }
 
     // SETTERS
     public void setAccNo(String accNo) {
