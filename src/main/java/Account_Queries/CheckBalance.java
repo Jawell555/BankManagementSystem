@@ -1,6 +1,7 @@
 package Account_Queries;
 
 import Colors.ColorPalette;
+import Database.AccountDatabase;
 import Models.AccountModel;
 
 import java.awt.*;
@@ -32,9 +33,6 @@ public class CheckBalance extends JPanel {
 
         setLayout(null);
         setBounds(0, 0, 1670, 1080);
-
-        // SAMPLE DATA
-        loadAccounts();
 
         // HEAD
         {
@@ -173,26 +171,20 @@ public class CheckBalance extends JPanel {
 
                 String searchAccNo = txtAccNum.getText().trim();
 
-                boolean found = false;
+                AccountModel acc =
+                        AccountDatabase.getAccountByNumber(searchAccNo);
 
-                for (AccountModel acc : accounts) {
+                if (acc != null) {
 
-                    if (acc.getAccNo().equals(searchAccNo)) {
+                    txtHolderName.setText(acc.getName());
+                    txtAccNo.setText(acc.getAccNo());
+                    txtAccType.setText(acc.getAccType());
 
-                        txtHolderName.setText(acc.getName());
-                        txtAccNo.setText(acc.getAccNo());
-                        txtAccType.setText(acc.getAccType());
+                    txtAccBal.setText(
+                            "PHP " + String.format("%,.2f",
+                                    acc.getAccBal()));
 
-                        txtAccBal.setText(
-                                "Php " + String.format("%.2f",
-                                        acc.getAccBal()));
-
-                        found = true;
-                        break;
-                    }
-                }
-
-                if (!found) {
+                } else {
 
                     JOptionPane.showMessageDialog(
                             null,
@@ -201,70 +193,11 @@ public class CheckBalance extends JPanel {
 
                     txtHolderName.setText("");
                     txtAccNo.setText("");
-                    txtHolderName.setText("");
+                    txtAccType.setText("");
                     txtAccBal.setText("");
                 }
             }
         });
     }
 
-    // LOAD SAMPLE ACCOUNTS
-    public void loadAccounts() {
-
-        AccountModel acc1 = new AccountModel();
-        acc1.setAccNo("SPB1000000001");
-        acc1.setName("Juan Dela Cruz");
-        acc1.setAccType("Savings");
-        acc1.setAccBal(25000.75);
-        accounts.add(acc1);
-
-        AccountModel acc2 = new AccountModel();
-        acc2.setAccNo("SPB1000000002");
-        acc2.setName("Maria Santos");
-        acc2.setAccType("Current");
-        acc2.setAccBal(150000.00);
-        accounts.add(acc2);
-
-        AccountModel acc3 = new AccountModel();
-        acc3.setAccNo("SPB1000000003");
-        acc3.setName("Carlos Reyes");
-        acc3.setAccType("Savings");
-        acc3.setAccBal(8900.50);
-        accounts.add(acc3);
-
-        AccountModel acc4 = new AccountModel();
-        acc4.setAccNo("SPB1000000004");
-        acc4.setName("Ana Lopez");
-        acc4.setAccType("Savings");
-        acc4.setAccBal(45600.00);
-        accounts.add(acc4);
-
-        AccountModel acc5 = new AccountModel();
-        acc5.setAccNo("SPB1000000005");
-        acc5.setName("Mark Bautista");
-        acc5.setAccType("Current");
-        acc5.setAccBal(98000.25);
-        accounts.add(acc5);
-
-        AccountModel acc6 = new AccountModel();
-        acc6.setAccNo("SPB1000000006");
-        acc6.setName("Liza Gomez");
-        acc6.setAccType("Savings");
-        acc6.setAccBal(12340.75);
-        accounts.add(acc6);
-
-        AccountModel acc7 = new AccountModel();
-        acc7.setAccNo("SPB1000000007");
-        acc7.setName("Paul Navarro");
-        acc7.setAccType("Current");
-        acc7.setAccBal(78500.00);
-        accounts.add(acc7);
-
-        AccountModel acc8 = new AccountModel();
-        acc8.setAccNo("SPB1000000008");
-        acc8.setName("Karla Mendoza");
-        acc8.setAccType("Savings");
-        acc8.setAccBal(33210.90);
-        accounts.add(acc8);
-    }
 }

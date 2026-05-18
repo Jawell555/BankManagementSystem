@@ -1,6 +1,8 @@
 package bank_Dashboard;
 
 import Colors.ColorPalette;
+import Database.AccountDatabase;
+import Models.AccountModel;
 import javax.swing.*;
 import java.awt.*;
 import javax.swing.table.JTableHeader;
@@ -20,7 +22,7 @@ public class adminDashboard extends JPanel {
         setLayout(null);
         setBounds(0, 0, 1670, 1080);
         setBackground(new Color(245, 247, 250));
-
+        
         lblTitle = new JLabel("Dashboard");
         lblTitle.setBounds(50, 30, 700, 40);
         lblTitle.setFont(new Font("Segoe UI", Font.BOLD, 30));
@@ -165,7 +167,7 @@ public class adminDashboard extends JPanel {
         add(tableContainer);
         
         initTables();
-
+        loadDashboardData();
         btnEmployees.addActionListener(e -> showTable("EMP"));
         btnAccounts.addActionListener(e -> showTable("ACC"));
         btnTransactions.addActionListener(e -> showTable("TRANS"));
@@ -228,16 +230,21 @@ public class adminDashboard extends JPanel {
 
         // Accounts Table
         String[] accCols = {"Account Number", "Name", "Father Name", "Email","Type of ID", "ID Number", "Date", "Type"};
-        Object[][] accData = {
-            {"SPB1000000001", "Juan Dela Cruz", "Pedro Dela Cruz", "juan.delacruz@mail.com", "National ID", "901234567890", "2023-01-15", "Savings"},
-            {"SPB1000000002", "Maria Santos", "Jose Santos", "maria.santos@mail.com", "Passport", "P1234567", "2022-11-08", "Current"},
-            {"SPB1000000003", "Carlos Reyes", "Antonio Reyes", "carlos.reyes@mail.com", "Driver's License", "D-987654321", "2021-06-21", "Savings"},
-            {"SPB1000000004", "Ana Lopez", "Ricardo Lopez", "ana.lopez@mail.com", "National ID", "904567890123", "2023-03-10", "Savings"},
-            {"SPB1000000005", "Mark Bautista", "Daniel Bautista", "mark.bautista@mail.com", "Passport", "P7654321", "2020-09-05", "Current"},
-            {"SPB1000000006", "Liza Gomez", "Fernando Gomez", "liza.gomez@mail.com", "National ID", "906789012345", "2022-07-19", "Savings"},
-            {"SPB1000000007", "Paul Navarro", "Victor Navarro", "paul.navarro@mail.com", "Driver's License", "D-123456789", "2021-12-01", "Current"},
-            {"SPB1000000008", "Karla Mendoza", "Ernesto Mendoza", "karla.mendoza@mail.com", "National ID", "908901234567", "2023-05-25", "Savings"}
-        };
+       Object[][] accData = new Object[AccountDatabase.accounts.size()][8];
+
+        for (int i = 0; i < AccountDatabase.accounts.size(); i++) {
+
+            AccountModel acc = AccountDatabase.accounts.get(i);
+
+            accData[i][0] = acc.getAccNo();
+            accData[i][1] = acc.getName();
+            accData[i][2] = acc.getFatherName();
+            accData[i][3] = acc.getEmail();
+            accData[i][4] = acc.getIdType();
+            accData[i][5] = acc.getIdNumber();
+            accData[i][6] = acc.getDate();
+            accData[i][7] = acc.getAccType();
+        }
         accountsTable = createStyledTable(accData, accCols);
         scrollPaneAccounts = new JScrollPane(accountsTable);
         scrollPaneAccounts.setBounds(tableBounds);
@@ -291,5 +298,48 @@ public class adminDashboard extends JPanel {
         header.setPreferredSize(new Dimension(100, 38));
 
         return table;
+    }
+    
+        private void loadDashboardData() {
+
+        int totalAccounts = AccountDatabase.accounts.size();
+
+        int savings = 0;
+        int current = 0;
+
+        double totalBankBalance = 0;
+
+        for (AccountModel acc : AccountDatabase.accounts) {
+
+            if (acc.getAccType().equalsIgnoreCase("Savings")) {
+                savings++;
+            }
+
+            if (acc.getAccType().equalsIgnoreCase("Current")) {
+                current++;
+            }
+
+            totalBankBalance += acc.getAccBal();
+        }
+
+        // CARD VALUES
+        lblCurrAccValue.setText(String.valueOf(current));
+        lblSavAccValue.setText(String.valueOf(savings));
+
+        lblSavBankBalance.setText(
+                "PHP " + String.format("%,.2f", totalBankBalance)
+        );
+
+        // SAMPLE VALUES
+        lblEmpValue.setText("10");
+
+        lblWithdrawValue.setText("PHP 18,500.00");
+        lblDepositValue.setText("PHP 105,500.00");
+
+        double totalTransacted = 18500 + 105500;
+
+        lblTransValue.setText(
+                "PHP " + String.format("%,.2f", totalTransacted)
+        );
     }
 }
