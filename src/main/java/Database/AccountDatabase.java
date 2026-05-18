@@ -164,4 +164,11 @@ public class AccountDatabase {
         }
         return null;   
     }
+    public double getTotalBalance(){
+        double total=0;
+        for (Account acc : accounts){
+            total+=acc.getAccBal();
+        }
+        return total;
+    }
 }

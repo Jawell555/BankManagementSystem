@@ -5,14 +5,18 @@
 package BankBalance;
 
 import Colors.ColorPalette;
-
+import Database.AccountDatabase;
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.table.JTableHeader;
-import BankBalance.BankBalanceLogic;
+import Database.TransactionDatabase;
 import Models.Transaction;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -20,14 +24,15 @@ import java.awt.event.ActionListener;
  */
 public class BankBalance extends JPanel implements ActionListener {
 
-    BankBalanceLogic BankLogic = new BankBalanceLogic();
-
+    TransactionDatabase BankLogic = new TransactionDatabase();
+    AccountDatabase db = new AccountDatabase();
+    
     JLabel lblTitle, lblFrom, lblTo;
     JPanel pnlTblContainer, pnlSearch;
     JTextField txtTotalBal, txtSearch, txtStartYear, txtEndYear;
     JTable tblBalHistory;
     JScrollPane scpnBalHistory;
-    JComboBox<String> comboHistoryType, cmbStartMonth, cmbEndMonth, cmbStartDay, cmbEndDay;
+    JComboBox<String> cmbHistoryType, cmbStartMonth, cmbEndMonth, cmbStartDay, cmbEndDay;
     JButton btnFilter;
 
     private final String[] historyChoices;
@@ -35,7 +40,7 @@ public class BankBalance extends JPanel implements ActionListener {
     private final String[] days = new String[32];
     private String[] historyColumns = {"Name", "Account Number", "Sender/Receiver Account", "Sender/Receiver Name", "Date & Time", "History Type", "Amount"};
 
-    double TotalBal;
+    double TotalBal = db.getTotalBalance();
 
     Font fntTitle = new Font("Segoe UI", Font.BOLD, 25);
     Font fntText = new Font("Segoe UI", Font.PLAIN, 12);
@@ -84,11 +89,11 @@ public class BankBalance extends JPanel implements ActionListener {
             txtSearch.setBackground(Color.white);
             pnlSearch.add(txtSearch);
 
-            comboHistoryType = new JComboBox<>(historyChoices);
-            comboHistoryType.setBounds(615, 25, 115, 30);
-            comboHistoryType.setFont(fntText);
-            comboHistoryType.setBackground(Color.white);
-            pnlSearch.add(comboHistoryType);
+            cmbHistoryType = new JComboBox<>(historyChoices);
+            cmbHistoryType.setBounds(615, 25, 115, 30);
+            cmbHistoryType.setFont(fntText);
+            cmbHistoryType.setBackground(Color.white);
+            pnlSearch.add(cmbHistoryType);
 
             lblFrom = new JLabel("From:", SwingConstants.RIGHT);
             lblFrom.setBounds(750, 25, 35, 31);
@@ -167,12 +172,27 @@ public class BankBalance extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == btnFilter) {
+            LocalDateTime startDate = convertDate(cmbStartMonth.getSelectedIndex(),cmbStartDay.getSelectedIndex(),txtStartYear.getText());
+            LocalDateTime endDate = convertDate(cmbEndMonth.getSelectedIndex(),cmbEndDay.getSelectedIndex(),txtEndYear.getText());
             pnlTblContainer.remove(scpnBalHistory);
-            BankLogic.GetList(txtSearch.getText());
-            tblBalHistory = BankLogic.createStyledTable(BankLogic.QueryList, historyColumns);
+            ArrayList<Transaction> filtered = BankLogic.getList(txtSearch.getText(), (String)cmbHistoryType.getSelectedItem(), startDate, endDate);
+            tblBalHistory = BankLogic.createStyledTable(filtered, historyColumns);
             scpnBalHistory = new JScrollPane(tblBalHistory);
             scpnBalHistory.setBounds(20, 25, 1530, 700);
             pnlTblContainer.add(scpnBalHistory);
+        }
+    }
+    public LocalDateTime convertDate(int month, int day, String year){
+        try{
+            if(year.trim().isEmpty()||year.trim().equals("Year")){
+            return null;
+        }
+        int intYear = Integer.parseInt(year);
+        if(month == 0) return null;
+        if(day==0)return null;
+        return LocalDateTime.of(intYear,month,day,0,0,0);
+        }catch(NumberFormatException e){
+            return null;
         }
     }
 }

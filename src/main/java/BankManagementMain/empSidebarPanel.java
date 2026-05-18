@@ -140,9 +140,9 @@ public class empSidebarPanel extends JPanel {
             updateMenuPositions();
         });
         
+      
         btnSubCheckBalance = createSubButton("Check Current Balance");
         btnSubCheckBalance.addActionListener(e -> navPage.turnPage(new CheckBalance())); //Paltan niyo nalang yung 'new Dashboard()'
-       
         
         btnBankBalance = createMainButton("Bank Balance");
         btnBankBalance.addActionListener(e -> {
@@ -238,7 +238,7 @@ public class empSidebarPanel extends JPanel {
             btnSubCheckBalance.setVisible(true);
             btnSubCheckBalance.setBounds(0, y, 250, 30);
             y += 35;
-
+            
         } else {
             btnSubCheckBalance.setVisible(false);
         }

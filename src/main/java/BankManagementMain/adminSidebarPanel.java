@@ -168,7 +168,7 @@ public class adminSidebarPanel extends JPanel {
         
         btnSubCheckBalance = createSubButton("Check Current Balance");
         btnSubCheckBalance.addActionListener(e -> navPage.turnPage(new CheckBalance())); //Paltan niyo nalang yung 'new Dashboard()'
-        
+
         btnBankBalance = createMainButton("Bank Balance");
         btnBankBalance.addActionListener(e -> {
             closeOtherMenus("");
@@ -210,8 +210,6 @@ public class adminSidebarPanel extends JPanel {
         add(btnSubWithdraw);
         
         add(btnAccQueries); 
-        add(btnSubCheckBalance);
-        
         add(btnBankBalance); 
         add(btnAccProfile); 
         add(btnChangePass);
@@ -283,7 +281,7 @@ public class adminSidebarPanel extends JPanel {
             btnSubCheckBalance.setVisible(true);
             btnSubCheckBalance.setBounds(0, y, 250, 30);
             y += 35;
-
+            
         } else {
             btnSubCheckBalance.setVisible(false);
         }
