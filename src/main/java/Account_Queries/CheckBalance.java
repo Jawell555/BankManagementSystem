@@ -1,7 +1,12 @@
 package Account_Queries;
 
 import Colors.ColorPalette;
+import Database.AccountDatabase;
+import Models.AccountModel;
+
 import java.awt.*;
+import java.awt.event.*;
+import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
@@ -55,7 +60,8 @@ public class CheckBalance extends JPanel implements ActionListener {
             add(lblTitle);
 
         }
-        //SEARCH
+
+        // SEARCH
         {
 
             searchBoard = new JPanel();
@@ -311,4 +317,42 @@ public class CheckBalance extends JPanel implements ActionListener {
             return null;
         }
     }
+}
+
+        // BUTTON FUNCTION
+        btnSearch.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                String searchAccNo = txtAccNum.getText().trim();
+
+                AccountModel acc =
+                        AccountDatabase.getAccountByNumber(searchAccNo);
+
+                if (acc != null) {
+
+                    txtHolderName.setText(acc.getName());
+                    txtAccNo.setText(acc.getAccNo());
+                    txtAccType.setText(acc.getAccType());
+
+                    txtAccBal.setText(
+                            "PHP " + String.format("%,.2f",
+                                    acc.getAccBal()));
+
+                } else {
+
+                    JOptionPane.showMessageDialog(
+                            null,
+                            "Account not found!"
+                    );
+
+                    txtHolderName.setText("");
+                    txtAccNo.setText("");
+                    txtAccType.setText("");
+                    txtAccBal.setText("");
+                }
+            }
+        });
+    }
+
 }
