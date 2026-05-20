@@ -15,6 +15,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,7 +27,7 @@ public class BankBalance extends JPanel implements ActionListener {
 
     TransactionDatabase BankLogic = new TransactionDatabase();
     AccountDatabase db = new AccountDatabase();
-    
+
     JLabel lblTitle, lblFrom, lblTo;
     JPanel pnlTblContainer, pnlSearch;
     JTextField txtTotalBal, txtSearch, txtStartYear, txtEndYear;
@@ -41,6 +42,7 @@ public class BankBalance extends JPanel implements ActionListener {
     private String[] historyColumns = {"Name", "Account Number", "Transaction Information", "Sender/Receiver Name", "Date & Time", "History Type", "Amount"};
 
     double TotalBal = db.getTotalBalance();
+    String formattedTotal = String.format("Php %,.2f", TotalBal);
 
     Font fntTitle = new Font("Segoe UI", Font.BOLD, 25);
     Font fntText = new Font("Segoe UI", Font.PLAIN, 12);
@@ -66,7 +68,7 @@ public class BankBalance extends JPanel implements ActionListener {
             lblTitle.setFont(fntTitle);
             add(lblTitle);
 
-            txtTotalBal = new JTextField("" + TotalBal);
+            txtTotalBal = new JTextField(formattedTotal);
             txtTotalBal.setHorizontalAlignment(JTextField.RIGHT);
             txtTotalBal.setEditable(false);
             txtTotalBal.setBackground(ColorPalette.Gray);
@@ -170,29 +172,33 @@ public class BankBalance extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == btnFilter) {
-            LocalDateTime startDate = convertDate(cmbStartMonth.getSelectedIndex(),cmbStartDay.getSelectedIndex(),txtStartYear.getText());
-            LocalDateTime endDate = convertDate(cmbEndMonth.getSelectedIndex(),cmbEndDay.getSelectedIndex(),txtEndYear.getText());
+            LocalDateTime startDate = convertDate(cmbStartMonth.getSelectedIndex(), cmbStartDay.getSelectedIndex(), txtStartYear.getText());
+            LocalDateTime endDate = convertDate(cmbEndMonth.getSelectedIndex(), cmbEndDay.getSelectedIndex(), txtEndYear.getText());
             pnlTblContainer.remove(scpnBalHistory);
-            ArrayList<Transaction> filtered = BankLogic.getList(txtSearch.getText(), (String)cmbHistoryType.getSelectedItem(), startDate, endDate);
+            ArrayList<Transaction> filtered = BankLogic.getList(txtSearch.getText(), (String) cmbHistoryType.getSelectedItem(), startDate, endDate);
             tblBalHistory = BankLogic.createStyledTable(filtered, historyColumns);
             scpnBalHistory = new JScrollPane(tblBalHistory);
             scpnBalHistory.setBounds(20, 25, 1530, 700);
             pnlTblContainer.add(scpnBalHistory);
         }
     }
-    public LocalDateTime convertDate(int month, int day, String year){
-        try{
-            if(year.trim().isEmpty()||year.trim().equals("Year")){
-            return null;
-        }
-        int intYear = Integer.parseInt(year);
-        if(month == 0) return null;
-        if(day==0)return null;
-        return LocalDateTime.of(intYear,month,day,0,0,0);
-        }catch(NumberFormatException e){
+
+    public LocalDateTime convertDate(int month, int day, String year) {
+        try {
+            if (year.trim().isEmpty() || year.trim().equals("Year")) {
+                return null;
+            }
+            int intYear = Integer.parseInt(year);
+            if (month == 0) {
+                return null;
+            }
+            if (day == 0) {
+                return null;
+            }
+            return LocalDateTime.of(intYear, month, day, 0, 0, 0);
+        } catch (NumberFormatException e) {
             return null;
         }
     }
+
 }
-
-

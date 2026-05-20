@@ -13,6 +13,7 @@ import java.awt.Font;
 import java.util.ArrayList;
 import javax.swing.JTable;
 import javax.swing.table.JTableHeader;
+import java.time.format.DateTimeFormatter;
 
 /**
  *
@@ -37,7 +38,7 @@ public class TransactionDatabase {
         "SPB1000000001",
         "Initial Deposit",
         "BANK SYSTEM",
-        LocalDateTime.of(2023, 1, 15, 10, 0),
+        LocalDateTime.of(2023, 1, 15, 10, 0,1),
         "Deposit",
         25000.00
         );
@@ -47,7 +48,7 @@ public class TransactionDatabase {
             "SPB1000000002",
             "Initial Deposit",
             "BANK SYSTEM",
-            LocalDateTime.of(2022, 11, 8, 9, 30),
+            LocalDateTime.of(2022, 11, 8, 9, 30,2),
             "Deposit",
             150000.00
         );
@@ -57,7 +58,7 @@ public class TransactionDatabase {
             "SPB1000000003",
             "Initial Deposit",
             "BANK SYSTEM",
-            LocalDateTime.of(2021, 6, 21, 14, 15),
+            LocalDateTime.of(2021, 6, 21, 14, 15,3),
             "Deposit",
             8900.50
         );
@@ -67,7 +68,7 @@ public class TransactionDatabase {
             "SPB1000000004",
             "Initial Deposit",
             "BANK SYSTEM",
-            LocalDateTime.of(2023, 3, 10, 11, 45),
+            LocalDateTime.of(2023, 3, 10, 11, 45,4),
             "Deposit",
             45600.00
         );
@@ -77,7 +78,7 @@ public class TransactionDatabase {
             "SPB1000000005",
             "Initial Deposit",
             "BANK SYSTEM",
-            LocalDateTime.of(2020, 9, 5, 16, 20),
+            LocalDateTime.of(2020, 9, 5, 16, 20,5),
             "Deposit",
             98000.00
         );
@@ -87,7 +88,7 @@ public class TransactionDatabase {
             "SPB1000000006",
             "Initial Deposit",
             "BANK SYSTEM",
-            LocalDateTime.of(2022, 7, 19, 10, 10),
+            LocalDateTime.of(2022, 7, 19, 10, 10,7),
             "Deposit",
             12340.75
         );
@@ -97,7 +98,7 @@ public class TransactionDatabase {
             "SPB1000000007",
             "Initial Deposit",
             "BANK SYSTEM",
-            LocalDateTime.of(2021, 12, 1, 13, 0),
+            LocalDateTime.of(2021, 12, 1, 13, 0,8),
             "Deposit",
             78500.00
         );
@@ -107,14 +108,14 @@ public class TransactionDatabase {
             "SPB1000000008",
             "Initial Deposit",
             "BANK SYSTEM",
-            LocalDateTime.of(2023, 5, 25, 9, 0),
+            LocalDateTime.of(2023, 5, 25, 9, 0,9),
             "Deposit",
             33210.90
         );
     }
 
     public static void addTransaction(String accName,
-            String accNumber, String altAccNumber,
+            String accNumber, String transacInfo,
             String altAccName, LocalDateTime transacDate,
             String historyType, double transacAmount) {
         Transaction transact = new Transaction();
@@ -124,7 +125,7 @@ public class TransactionDatabase {
         transact.setAccName(accName);
         transact.setAccNumber(accNumber);
         transact.setAltAccName(altAccName);
-        transact.setAltAccNumber(altAccNumber);
+        transact.setTransacInfo(transacInfo);
         transact.setTransacAmount(transacAmount);
         TransactionList.add(transact);
     }
@@ -135,16 +136,17 @@ public class TransactionDatabase {
 
     public JTable createStyledTable(ArrayList<Transaction> trans, String[] cols) {
         Object[][] data = new Object[trans.size()][7];
-
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        
         for (int i = 0; i < trans.size(); i++) {
             Transaction t = trans.get(i);
             data[i][0] = t.getAccName();
             data[i][1] = t.getAccNumber();
-            data[i][2] = t.getAltAccNumber();
+            data[i][2] = t.getTransacInfo();
             data[i][3] = t.getAltAccName();
-            data[i][4] = t.getTransacDate();
+            data[i][4] = t.getTransacDate().format(dateTimeFormatter);
             data[i][5] = t.getHistoryType();
-            data[i][6] = String.format("%.2f", t.getTransacAmount());
+            data[i][6] = String.format("PHP %,.2f", t.getTransacAmount());
         }
 
         JTable table = new JTable(data, cols);
@@ -217,5 +219,5 @@ public class TransactionDatabase {
     public boolean dateEndISNull(LocalDateTime dateEnd) {
         return dateEnd == null;
     }
-
+     
 }

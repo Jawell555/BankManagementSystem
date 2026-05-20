@@ -16,7 +16,7 @@ public class Transaction {
     private String historyType;
     private String accName;
     private String accNumber;
-    private String altAccNumber;
+    private String transacInfo;
     private String altAccName;
     private double transacAmount;
    
@@ -37,8 +37,8 @@ public class Transaction {
     public void setAltAccName(String altAccName){
         this.altAccName = altAccName;
     }
-    public void setAltAccNumber(String altAccNumber){
-        this.altAccNumber = altAccNumber;
+    public void setTransacInfo(String transacInfo){
+        this.transacInfo= transacInfo;
     }
     public void setTransacAmount(double transacAmount){
         this.transacAmount = transacAmount;
@@ -61,8 +61,8 @@ public class Transaction {
     public String getAltAccName(){
         return altAccName;
     }
-    public String getAltAccNumber(){
-        return altAccNumber;
+    public String getTransacInfo(){
+        return transacInfo;
     }
     public double getTransacAmount(){
         return transacAmount;
