@@ -4,6 +4,8 @@ import BankManagementMain.adminSidebarPanelFrame;
 import BankManagementMain.empSidebarPanelFrame;
 import Colors.ImagePanel;
 import Colors.ColorPalette;
+import Database.EmployeeDatabase;
+import Models.Employee;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Font;
@@ -35,6 +37,7 @@ public class LoginFormFrame extends JFrame implements ActionListener {
     Font fntX = new Font("Segoe UI", Font.BOLD, 30);
     Font fntText = new Font("Segoe UI", Font.BOLD, 15);
     Font fntTxtField = new Font("Segoe UI", Font.PLAIN, 15);
+    
     
     private final Border errorBorder = BorderFactory.createCompoundBorder(new LineBorder(ColorPalette.redPastel, 2), BorderFactory.createEmptyBorder(2, 4, 2, 4));
     
@@ -160,12 +163,17 @@ public class LoginFormFrame extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         user = txtUser.getText();
         pass = passPass.getText();
+        
+        Employee emp = EmployeeDatabase.getEmployeeByUsername(user);
         if (e.getSource() == btnLogin) {
             if (user.equals(usernameAdmin) && pass.equals(passwordAdmin)) {
                 adminSidebarPanelFrame sf = new adminSidebarPanelFrame();
                 sf.setVisible(true);
                 dispose();
-            } else if (user.equals(usernameEmp) && pass.equals(passwordEmp)) {
+            } else if (emp!= null && user.equals(emp.getUsername()) && pass.equals(emp.getPassword())) {
+                
+                EmployeeDatabase.currentEmployee = emp;
+                
                 empSidebarPanelFrame sf = new empSidebarPanelFrame();
                 sf.setVisible(true);
                 dispose();

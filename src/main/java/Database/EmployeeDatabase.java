@@ -16,7 +16,9 @@ public class EmployeeDatabase {
                 "juan.delacruz@summitphilbank.com",
                 "901234567890",
                 "2023-01-15",
-                "Employee"
+                "Employee",
+                "juandelacruz01",
+                "juan123"
         );
 
         addEmployee(
@@ -25,7 +27,9 @@ public class EmployeeDatabase {
                 "maria.santos@summitphilbank.com",
                 "902345678901",
                 "2022-11-08",
-                "Employee"
+                "Employee",
+                "maria02",
+                "maria123"
         );
 
         addEmployee(
@@ -34,7 +38,9 @@ public class EmployeeDatabase {
                 "carlos.reyes@summitphilbank.com",
                 "903456789012",
                 "2021-06-21",
-                "Employee"
+                "Employee",
+                "carlos03",
+                "carlos123"
         );
 
         addEmployee(
@@ -43,7 +49,9 @@ public class EmployeeDatabase {
                 "ana.lopez@summitphilbank.com",
                 "904567890123",
                 "2023-03-10",
-                "Employee"
+                "Employee",
+                "ana04",
+                "ana123"
         );
 
         addEmployee(
@@ -52,7 +60,9 @@ public class EmployeeDatabase {
                 "mark.bautista@summitphilbank.com",
                 "905678901234",
                 "2020-09-05",
-                "Employee"
+                "Employee",
+                "mark05",
+                "mark123"
         );
 
         addEmployee(
@@ -61,7 +71,9 @@ public class EmployeeDatabase {
                 "liza.gomez@summitphilbank.com",
                 "906789012345",
                 "2022-07-19",
-                "Employee"
+                "Employee",
+                "liza06",
+                "liza123"
         );
 
         addEmployee(
@@ -70,7 +82,9 @@ public class EmployeeDatabase {
                 "paul.navarro@summitphilbank.com",
                 "907890123456",
                 "2021-12-01",
-                "Employee"
+                "Employee",
+                "paul07",
+                "paul123"
         );
 
         addEmployee(
@@ -79,7 +93,9 @@ public class EmployeeDatabase {
                 "karla.mendoza@summitphilbank.com",
                 "908901234567",
                 "2023-05-25",
-                "Employee"
+                "Employee",
+                "karla08",
+                "karla123"
         );
 
         addEmployee(
@@ -88,7 +104,9 @@ public class EmployeeDatabase {
                 "ryan.castillo@summitphilbank.com",
                 "909012345678",
                 "2022-02-14",
-                "Employee"
+                "Employee",
+                "ryan09",
+                "ryan123"
         );
 
         addEmployee(
@@ -97,17 +115,21 @@ public class EmployeeDatabase {
                 "sophia.ramos@summitphilbank.com",
                 "910123456789",
                 "2023-08-30",
-                "Employee"
+                "Employee",
+                "sophia10",
+                "sophia123"
         );
     }
-
+ 
     private static void addEmployee(
             String empID,
             String empName,
             String email,
             String idNumber,
             String date,
-            String empType
+            String empType,
+            String username,
+            String password
     ) {
 
         Employee emp = new Employee();
@@ -118,14 +140,14 @@ public class EmployeeDatabase {
         emp.setIdNumber(idNumber);
         emp.setDate(date);
         emp.setEmpType(empType);
+        emp.setUsername(username);
+        emp.setPassword(password);
 
         employees.add(emp);
     }
 
     // GET EMPLOYEE BY ID
-    public static Employee getEmployeeByID(
-            String empID
-    ) {
+    public static Employee getEmployeeByID(String empID) {
 
         for (Employee emp : employees) {
 
@@ -136,4 +158,16 @@ public class EmployeeDatabase {
 
         return null;
     }
+    
+    public static Employee getEmployeeByUsername(String username){
+        
+        for(Employee emp : employees){
+            if(emp.getUsername().equalsIgnoreCase(username)){
+                return emp;
+            }
+        }
+        return null;
+    }
+    
+    public static Employee currentEmployee;
 }

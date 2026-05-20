@@ -1,6 +1,8 @@
 package AccountProfile;
 
 import Colors.ColorPalette;
+import Database.EmployeeDatabase;
+import Models.Employee;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
@@ -13,14 +15,19 @@ public class employeeAccountProfile extends JPanel {
             mobileLabel, emailLabel, genderLabel, addressLabel, postalLabel, homeLabel, cityLabel, educationLabel,
             educationlvlLabel, currjobLabel, experienceLabel, accDetailsLabel, usernameLabel, typeLabel, registerLabel;
 
-    private JTextField txtTotalBal, nameField, fatherField, dobField, idField, mobileField, emailField, genderField,
+    private JTextField txtEmpID, nameField, fatherField, dobField, idField, mobileField, emailField, genderField,
             postalField, homeField, cityField, educationlvlField, currjobField, experienceField, usernameField,
             typeField, registerField;
 
     private JSeparator topSep, midSep1, midSep2, midSep3, bottomSep;
     private ImageIcon icon;
+    
+    private Employee employee;
+    
 
+    
     public employeeAccountProfile() {
+       
         setLayout(null);
         setBackground(new Color(245, 247, 250));
         setBounds(0, 0, 1670, 1080);
@@ -40,17 +47,14 @@ public class employeeAccountProfile extends JPanel {
         lblTitle.setForeground(darkBlue);
         add(lblTitle);
 
-        txtTotalBal = new JTextField("EMP2001");
-        txtTotalBal.setHorizontalAlignment(JTextField.RIGHT);
-        txtTotalBal.setEditable(false);
-        txtTotalBal.setBackground(ColorPalette.Gray);
-        txtTotalBal.setBounds(1120, 30, 500, 40);
-        txtTotalBal.setFont(idFont);
-        txtTotalBal.setBorder(BorderFactory.createCompoundBorder(
-                new LineBorder(borderColor, 1, true),
-                BorderFactory.createEmptyBorder(4, 12, 4, 12)
-        ));
-        add(txtTotalBal);
+        txtEmpID = new JTextField("EMP2001");
+        txtEmpID.setHorizontalAlignment(JTextField.RIGHT);
+        txtEmpID.setEditable(false);
+        txtEmpID.setBackground(ColorPalette.Gray);
+        txtEmpID.setBounds(1120, 30, 500, 40);
+        txtEmpID.setFont(idFont);
+        txtEmpID.setBorder(BorderFactory.createCompoundBorder(new LineBorder(borderColor, 1, true),BorderFactory.createEmptyBorder(4, 12, 4, 12)));
+        add(txtEmpID);
 
         topSep = new JSeparator();
         topSep.setBounds(50, 85, 1585, 2);
@@ -97,10 +101,7 @@ public class employeeAccountProfile extends JPanel {
         nameField.setEditable(false);
         nameField.setBackground(Color.WHITE);
         nameField.setFont(fieldFont);
-        nameField.setBorder(BorderFactory.createCompoundBorder(
-                new LineBorder(borderColor, 1, true),
-                BorderFactory.createEmptyBorder(4, 12, 4, 12)
-        ));
+        nameField.setBorder(BorderFactory.createCompoundBorder(new LineBorder(borderColor, 1, true),BorderFactory.createEmptyBorder(4, 12, 4, 12)));
         add(nameField);
 
         fatherLabel = new JLabel("Father Name");
@@ -114,10 +115,7 @@ public class employeeAccountProfile extends JPanel {
         fatherField.setEditable(false);
         fatherField.setBackground(Color.WHITE);
         fatherField.setFont(fieldFont);
-        fatherField.setBorder(BorderFactory.createCompoundBorder(
-                new LineBorder(borderColor, 1, true),
-                BorderFactory.createEmptyBorder(4, 12, 4, 12)
-        ));
+        fatherField.setBorder(BorderFactory.createCompoundBorder(new LineBorder(borderColor, 1, true),BorderFactory.createEmptyBorder(4, 12, 4, 12)));
         add(fatherField);
 
         dobLabel = new JLabel("Date Of Birth");
@@ -131,10 +129,7 @@ public class employeeAccountProfile extends JPanel {
         dobField.setEditable(false);
         dobField.setBackground(Color.WHITE);
         dobField.setFont(fieldFont);
-        dobField.setBorder(BorderFactory.createCompoundBorder(
-                new LineBorder(borderColor, 1, true),
-                BorderFactory.createEmptyBorder(4, 12, 4, 12)
-        ));
+        dobField.setBorder(BorderFactory.createCompoundBorder(new LineBorder(borderColor, 1, true),BorderFactory.createEmptyBorder(4, 12, 4, 12)));
         add(dobField);
 
         idLabel = new JLabel("ID Number");
@@ -148,10 +143,7 @@ public class employeeAccountProfile extends JPanel {
         idField.setEditable(false);
         idField.setBackground(Color.WHITE);
         idField.setFont(fieldFont);
-        idField.setBorder(BorderFactory.createCompoundBorder(
-                new LineBorder(borderColor, 1, true),
-                BorderFactory.createEmptyBorder(4, 12, 4, 12)
-        ));
+        idField.setBorder(BorderFactory.createCompoundBorder(new LineBorder(borderColor, 1, true),BorderFactory.createEmptyBorder(4, 12, 4, 12)));
         add(idField);
 
         mobileLabel = new JLabel("Mobile Number");
@@ -165,10 +157,7 @@ public class employeeAccountProfile extends JPanel {
         mobileField.setEditable(false);
         mobileField.setBackground(Color.WHITE);
         mobileField.setFont(fieldFont);
-        mobileField.setBorder(BorderFactory.createCompoundBorder(
-                new LineBorder(borderColor, 1, true),
-                BorderFactory.createEmptyBorder(4, 12, 4, 12)
-        ));
+        mobileField.setBorder(BorderFactory.createCompoundBorder(new LineBorder(borderColor, 1, true),BorderFactory.createEmptyBorder(4, 12, 4, 12)));
         add(mobileField);
 
         emailLabel = new JLabel("Email Account");
@@ -182,10 +171,7 @@ public class employeeAccountProfile extends JPanel {
         emailField.setEditable(false);
         emailField.setBackground(Color.WHITE);
         emailField.setFont(fieldFont);
-        emailField.setBorder(BorderFactory.createCompoundBorder(
-                new LineBorder(borderColor, 1, true),
-                BorderFactory.createEmptyBorder(4, 12, 4, 12)
-        ));
+        emailField.setBorder(BorderFactory.createCompoundBorder(new LineBorder(borderColor, 1, true),BorderFactory.createEmptyBorder(4, 12, 4, 12)));
         add(emailField);
 
         genderLabel = new JLabel("Gender");
@@ -199,10 +185,7 @@ public class employeeAccountProfile extends JPanel {
         genderField.setEditable(false);
         genderField.setBackground(Color.WHITE);
         genderField.setFont(fieldFont);
-        genderField.setBorder(BorderFactory.createCompoundBorder(
-                new LineBorder(borderColor, 1, true),
-                BorderFactory.createEmptyBorder(4, 12, 4, 12)
-        ));
+        genderField.setBorder(BorderFactory.createCompoundBorder(new LineBorder(borderColor, 1, true),BorderFactory.createEmptyBorder(4, 12, 4, 12)));
         add(genderField);
 
         midSep2 = new JSeparator();
@@ -227,10 +210,7 @@ public class employeeAccountProfile extends JPanel {
         postalField.setEditable(false);
         postalField.setBackground(Color.WHITE);
         postalField.setFont(fieldFont);
-        postalField.setBorder(BorderFactory.createCompoundBorder(
-                new LineBorder(borderColor, 1, true),
-                BorderFactory.createEmptyBorder(4, 12, 4, 12)
-        ));
+        postalField.setBorder(BorderFactory.createCompoundBorder(new LineBorder(borderColor, 1, true),BorderFactory.createEmptyBorder(4, 12, 4, 12)));
         add(postalField);
 
         homeLabel = new JLabel("Home Address");
@@ -244,10 +224,7 @@ public class employeeAccountProfile extends JPanel {
         homeField.setEditable(false);
         homeField.setBackground(Color.WHITE);
         homeField.setFont(fieldFont);
-        homeField.setBorder(BorderFactory.createCompoundBorder(
-                new LineBorder(borderColor, 1, true),
-                BorderFactory.createEmptyBorder(4, 12, 4, 12)
-        ));
+        homeField.setBorder(BorderFactory.createCompoundBorder(new LineBorder(borderColor, 1, true),BorderFactory.createEmptyBorder(4, 12, 4, 12)));
         add(homeField);
 
         cityLabel = new JLabel("City");
@@ -261,10 +238,7 @@ public class employeeAccountProfile extends JPanel {
         cityField.setEditable(false);
         cityField.setBackground(Color.WHITE);
         cityField.setFont(fieldFont);
-        cityField.setBorder(BorderFactory.createCompoundBorder(
-                new LineBorder(borderColor, 1, true),
-                BorderFactory.createEmptyBorder(4, 12, 4, 12)
-        ));
+        cityField.setBorder(BorderFactory.createCompoundBorder(new LineBorder(borderColor, 1, true),BorderFactory.createEmptyBorder(4, 12, 4, 12)));
         add(cityField);
 
         midSep3 = new JSeparator();
@@ -289,10 +263,7 @@ public class employeeAccountProfile extends JPanel {
         educationlvlField.setEditable(false);
         educationlvlField.setBackground(Color.WHITE);
         educationlvlField.setFont(fieldFont);
-        educationlvlField.setBorder(BorderFactory.createCompoundBorder(
-                new LineBorder(borderColor, 1, true),
-                BorderFactory.createEmptyBorder(4, 12, 4, 12)
-        ));
+        educationlvlField.setBorder(BorderFactory.createCompoundBorder(new LineBorder(borderColor, 1, true),BorderFactory.createEmptyBorder(4, 12, 4, 12)));
         add(educationlvlField);
 
         currjobLabel = new JLabel("Current Job");
@@ -306,10 +277,7 @@ public class employeeAccountProfile extends JPanel {
         currjobField.setEditable(false);
         currjobField.setBackground(Color.WHITE);
         currjobField.setFont(fieldFont);
-        currjobField.setBorder(BorderFactory.createCompoundBorder(
-                new LineBorder(borderColor, 1, true),
-                BorderFactory.createEmptyBorder(4, 12, 4, 12)
-        ));
+        currjobField.setBorder(BorderFactory.createCompoundBorder(new LineBorder(borderColor, 1, true),BorderFactory.createEmptyBorder(4, 12, 4, 12)));
         add(currjobField);
 
         experienceLabel = new JLabel("Experience");
@@ -323,10 +291,7 @@ public class employeeAccountProfile extends JPanel {
         experienceField.setEditable(false);
         experienceField.setBackground(Color.WHITE);
         experienceField.setFont(fieldFont);
-        experienceField.setBorder(BorderFactory.createCompoundBorder(
-                new LineBorder(borderColor, 1, true),
-                BorderFactory.createEmptyBorder(4, 12, 4, 12)
-        ));
+        experienceField.setBorder(BorderFactory.createCompoundBorder(new LineBorder(borderColor, 1, true),BorderFactory.createEmptyBorder(4, 12, 4, 12)));
         add(experienceField);
 
         bottomSep = new JSeparator();
@@ -351,10 +316,7 @@ public class employeeAccountProfile extends JPanel {
         usernameField.setEditable(false);
         usernameField.setBackground(Color.WHITE);
         usernameField.setFont(fieldFont);
-        usernameField.setBorder(BorderFactory.createCompoundBorder(
-                new LineBorder(borderColor, 1, true),
-                BorderFactory.createEmptyBorder(4, 12, 4, 12)
-        ));
+        usernameField.setBorder(BorderFactory.createCompoundBorder(new LineBorder(borderColor, 1, true),BorderFactory.createEmptyBorder(4, 12, 4, 12)));
         add(usernameField);
 
         typeLabel = new JLabel("User Type");
@@ -368,10 +330,7 @@ public class employeeAccountProfile extends JPanel {
         typeField.setEditable(false);
         typeField.setBackground(Color.WHITE);
         typeField.setFont(fieldFont);
-        typeField.setBorder(BorderFactory.createCompoundBorder(
-                new LineBorder(borderColor, 1, true),
-                BorderFactory.createEmptyBorder(4, 12, 4, 12)
-        ));
+        typeField.setBorder(BorderFactory.createCompoundBorder(new LineBorder(borderColor, 1, true),BorderFactory.createEmptyBorder(4, 12, 4, 12)));
         add(typeField);
 
         registerLabel = new JLabel("Registered Date");
@@ -385,10 +344,28 @@ public class employeeAccountProfile extends JPanel {
         registerField.setEditable(false);
         registerField.setBackground(Color.WHITE);
         registerField.setFont(fieldFont);
-        registerField.setBorder(BorderFactory.createCompoundBorder(
-                new LineBorder(borderColor, 1, true),
-                BorderFactory.createEmptyBorder(4, 12, 4, 12)
-        ));
+        registerField.setBorder(BorderFactory.createCompoundBorder(new LineBorder(borderColor, 1, true),BorderFactory.createEmptyBorder(4, 12, 4, 12)));
         add(registerField);
+        
+                loadEmployee();
+    }
+    
+    private void loadEmployee() {
+        
+        employee = EmployeeDatabase.currentEmployee;
+        
+        if (employee == null) return;
+
+        txtEmpID.setText(employee.getEmpID());
+        nameField.setText(employee.getEmpName());
+        dobField.setText(employee.getDate());
+        idField.setText(employee.getIdNumber());
+        mobileField.setText("N/A"); // not in model yet
+        emailField.setText(employee.getEmail());
+        genderField.setText("N/A"); // not in model yet
+
+        usernameField.setText(employee.getUsername());
+        typeField.setText(employee.getEmpType());
+        registerField.setText(employee.getDate());
     }
 }

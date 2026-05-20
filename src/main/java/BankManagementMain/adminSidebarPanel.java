@@ -1,9 +1,9 @@
 package BankManagementMain;
 
 import AccountProfile.admnAccountProfile;
-import Account_Queries.CheckBalance;
+import bank_Account_Queries.CheckBalance;
 import Colors.ColorPalette;
-import BankBalance.BankBalance;
+import bank_BankBalance.BankBalance;
 import ChangePassword.ChangePasswordPanel;
 import Colors.ImagePanel;
 import bank_AccountOperations.DepositBoard;

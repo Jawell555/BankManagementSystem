@@ -20,7 +20,7 @@ public class employeeDashboard extends JPanel {
     private JScrollPane scrollPaneEmployee, scrollPaneAccounts, scrollPaneTrans;
     private JTableHeader header;
 
-    public employeeDashboard() {
+    public employeeDashboard(){
         
         setLayout(null);
         setBounds(0, 0, 1670, 1080);

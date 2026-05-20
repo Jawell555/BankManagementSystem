@@ -9,6 +9,8 @@ public class Employee {
     private String idNumber;
     private String date;
     private String empType;
+    private String username;
+    private String password;
 
     // GETTERS
 
@@ -35,6 +37,15 @@ public class Employee {
     public String getEmpType() {
         return empType;
     }
+    
+    public String getUsername(){
+        return username;
+    }
+    
+    public String getPassword(){
+        return password;
+    }
+
 
     // SETTERS
 
@@ -60,5 +71,13 @@ public class Employee {
 
     public void setEmpType(String empType) {
         this.empType = empType;
+    }
+    
+    public void setUsername(String username){
+        this.username = username;
+    }
+    
+    public void setPassword(String password){
+        this.password = password;
     }
 }

@@ -1,8 +1,5 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package BankManagementMain;
+import Models.Employee;
 import bank_Dashboard.employeeDashboard;
 import java.awt.Color;
 import java.awt.GraphicsDevice;
@@ -20,8 +17,10 @@ public class empSidebarPanelFrame extends JFrame {
 
     private JPanel window;
     private AppHeaderPanel header;
+    private Employee currentEmployee;
 
     public empSidebarPanelFrame() {
+        
         setTitle("SUMMIT PHILBANK");
         setSize(1920, 1080);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

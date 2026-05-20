@@ -1,4 +1,4 @@
-package Account_Queries;
+package bank_Account_Queries;
 
 import Colors.ColorPalette;
 import Database.AccountDatabase;

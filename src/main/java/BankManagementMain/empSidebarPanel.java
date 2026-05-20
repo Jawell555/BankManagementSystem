@@ -1,11 +1,12 @@
 package BankManagementMain;
 
 import AccountProfile.employeeAccountProfile;
-import Account_Queries.CheckBalance;
+import bank_Account_Queries.CheckBalance;
 import Colors.ColorPalette;
-import BankBalance.BankBalance;
+import bank_BankBalance.BankBalance;
 import ChangePassword.ChangePasswordPanel;
 import Colors.ImagePanel;
+import Models.Employee;
 import bank_AccountOperations.DepositBoard;
 import bank_AccountOperations.TransferBoard;
 import bank_AccountOperations.WithdrawBoard;
@@ -29,7 +30,10 @@ public class empSidebarPanel extends JPanel {
     private boolean isAccOpsExpanded = false; 
     private boolean isAccQueriesExpanded = false;
     
+    private Employee currentEmployee;
+    
     public empSidebarPanel(empSidebarPanelFrame navPage) {
+        
         setLayout(null);
         setBackground(ColorPalette.Blue5); 
         setBounds(0, 0, 250, 1080);
@@ -121,7 +125,7 @@ public class empSidebarPanel extends JPanel {
         btnSubDeposit = createSubButton("Deposit Balance");
         btnSubDeposit.addActionListener(e -> navPage.turnPage(new DepositBoard())); 
         btnSubWithdraw = createSubButton("Withdraw Balance");
-//        btnSubWithdraw.addActionListener(e -> navPage.turnPage(new WithdrawBoard())); 
+        btnSubWithdraw.addActionListener(e -> navPage.turnPage(new WithdrawBoard())); 
         
         btnAccQueries = createMainButton("Account Queries              +");
         btnAccQueries.addActionListener(e -> {
