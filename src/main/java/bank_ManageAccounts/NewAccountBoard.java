@@ -5,6 +5,8 @@
 package bank_ManageAccounts;
 
 import Colors.ColorPalette;
+import Database.AccountDatabase;
+import Models.Account;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Font;
@@ -314,7 +316,31 @@ public class NewAccountBoard extends JPanel {
             return;
         }
         
-        JOptionPane.showMessageDialog(this, "Account form submitted.\n");
+        Account acc = new Account();
+
+        acc.setAccNo(txtAccNum.getText());
+        acc.setName(txtName.getText());
+        acc.setFatherName(txtFN.getText());
+        acc.setEmail(txtEmail.getText());
+        acc.setIdType(cbIdType.getSelectedItem().toString());
+        acc.setIdNumber(txtIdNum.getText());
+        acc.setAccType(cbAccType.getSelectedItem().toString());
+        acc.setAccTitle(txtAccTitle.getText());
+        acc.setAccBal(Double.parseDouble(txtAccBal.getText()));
+        acc.setDate(java.time.LocalDate.now().toString());
+        acc.setAccStatus("Active");
+        acc.setDob(txtDOB.getText());
+        acc.setGender(cbGender.getSelectedItem().toString());
+        acc.setMobileNumber(txtMobNum.getText());
+
+        acc.setPostalCode(txtPC.getText());
+        acc.setHomeAddress(txtHA.getText());
+        acc.setCity(txtCity.getText());
+
+        AccountDatabase.accounts.add(acc);
+
+        JOptionPane.showMessageDialog(this, "Account Registered Successfully!");
+
         clearFields();
         
     }

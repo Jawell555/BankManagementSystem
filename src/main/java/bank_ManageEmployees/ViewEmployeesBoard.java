@@ -5,6 +5,8 @@
 package bank_ManageEmployees;
 
 import Colors.ColorPalette;
+import Database.EmployeeDatabase;
+import Models.Employee;
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -34,7 +36,7 @@ public class ViewEmployeesBoard extends JPanel {
 
     public ViewEmployeesBoard() {
         this.months = new String[]{"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
-        this.accTypes = new String[]{"Savings", "Current", "All"};
+        this.accTypes = new String[]{"Employee", "Admin", "All"};
         for(int i = 1; i<=31; i++){
             this.days[i-1] = i;
         }
@@ -140,13 +142,8 @@ public class ViewEmployeesBoard extends JPanel {
 
         // Account data
         String[] columns = {"Image", "Employee ID", "Name", "Email", "Contact", "Employee Type", "Status", "Operation"};
-        
-        Object[][] data = {{tableIcon, "EMP2004", "Ana Lopez","ana.lopez@summitphilbank.com", "904567890123", "Employee", "Active", "" }, 
-                          {tableIcon, "EMP2005", "Mark Bautista","mark.bautista@summitphilbank.com", "905678901234", "Employee", "Active", "" },
-                          {tableIcon, "EMP2006", "Liza Gomez","liza.gomez@summitphilbank.com", "906789012345", "Employee", "Active", "" }
-        };
-        
-        model = new DefaultTableModel(data, columns) {
+
+        model = new DefaultTableModel(columns, 0) {
             
         @Override
             public Class<?> getColumnClass(int column) {
@@ -194,6 +191,8 @@ public class ViewEmployeesBoard extends JPanel {
 
         sorter = new TableRowSorter<>(model);
         tblAccounts.setRowSorter(sorter);
+        
+        loadEmployees();
 
         btnFilter.addActionListener(e -> filterTable());
         btnReset.addActionListener(e -> resetFields());
@@ -246,7 +245,6 @@ public class ViewEmployeesBoard extends JPanel {
     class ButtonRenderer extends JPanel implements javax.swing.table.TableCellRenderer {
 
         JButton btnView = new JButton("View");
-        JButton btnDeact = new JButton("Deactivate");
         JButton btnEdit = new JButton("Edit");
         JButton btnDelete = new JButton("Delete");
 
@@ -274,7 +272,6 @@ public class ViewEmployeesBoard extends JPanel {
         JPanel panel;
 
         JButton btnView = new JButton("View");
-//        JButton btnDeact = new JButton("Deactivate");
         JButton btnEdit = new JButton("Edit");
         JButton btnDelete = new JButton("Delete");
 
@@ -289,12 +286,6 @@ public class ViewEmployeesBoard extends JPanel {
             btnView.addActionListener(e -> {int row = tblAccounts.getSelectedRow();
             JOptionPane.showMessageDialog(null, "View account of " + tblAccounts.getValueAt(row, 2));
             });
-            
-//            styleTableButton(btnDeact);
-//            panel.add(btnDeact);
-//            btnView.addActionListener(e -> {int row = tblAccounts.getSelectedRow();
-//            JOptionPane.showMessageDialog(null, "Deactivate account of " + tblAccounts.getValueAt(row, 2));
-//            });
             
             styleTableButton(btnEdit);
             panel.add(btnEdit);
@@ -314,6 +305,33 @@ public class ViewEmployeesBoard extends JPanel {
     @Override
         public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
             return panel;
+        }
+    }
+    
+    private void loadEmployees() {
+
+    model.setRowCount(0);
+
+    ImageIcon icon = new ImageIcon(
+            getClass().getResource("/profile.png"));
+
+    Image img = icon.getImage()
+            .getScaledInstance(40, 40, Image.SCALE_SMOOTH);
+
+    ImageIcon tableIcon = new ImageIcon(img);
+
+        for (Employee emp : EmployeeDatabase.employees) {
+
+            model.addRow(new Object[]{
+                tableIcon,
+                emp.getEmpID(),
+                emp.getEmpName(),
+                emp.getEmail(),
+                emp.getMobileNumber(),
+                emp.getEmpType(),
+                emp.getStatus(),
+                "Action"
+            });
         }
     }
 }

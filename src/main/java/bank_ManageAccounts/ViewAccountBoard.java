@@ -5,6 +5,8 @@
 package bank_ManageAccounts;
 
 import Colors.ColorPalette;
+import Database.AccountDatabase;
+import Models.Account;
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -136,14 +138,9 @@ public class ViewAccountBoard extends JPanel {
         ImageIcon tableIcon = new ImageIcon(img);
 
         // Account data
-        String[] columns = {"Image", "Name", "ID Number", "Account Title", "Account Number", "Account Type", "Date", "Operation"};
-        
-        Object[][] data = {{tableIcon, "Juan Dela Cruz", "2147483647","Juan", "SPB10000001", "Savings", "2026-01-15", "Action"}, 
-                          {tableIcon, "Maria Santos", "93209109", "Maria", "SPB10000002", "Current", "2026-03-20", "Action"},
-                          {tableIcon, "Carlos Reyes", "2147483000", "Carlos", "SPB10000003", "Savings", "2026-04-01", "Action"}
-        };
-        
-        model = new DefaultTableModel(data, columns) {
+        String[] columns = {"Image", "Name", "ID Type", "ID Number", "Account Title", "Account Number", "Account Type", "Date", "Operation"};
+       
+        model = new DefaultTableModel(columns, 0) {
             
         @Override
             public Class<?> getColumnClass(int column) {
@@ -155,7 +152,7 @@ public class ViewAccountBoard extends JPanel {
 
         @Override
             public boolean isCellEditable(int row, int column) {
-                return column == 7;
+                return column == 8;
             }
         };
 
@@ -177,12 +174,14 @@ public class ViewAccountBoard extends JPanel {
         tblAccounts.getColumnModel().getColumn(2).setPreferredWidth(130);
         tblAccounts.getColumnModel().getColumn(3).setPreferredWidth(150);
         tblAccounts.getColumnModel().getColumn(4).setPreferredWidth(170);
-        tblAccounts.getColumnModel().getColumn(5).setPreferredWidth(120);
-        tblAccounts.getColumnModel().getColumn(6).setPreferredWidth(70);
-        tblAccounts.getColumnModel().getColumn(7).setPreferredWidth(200);
+        tblAccounts.getColumnModel().getColumn(5).setPreferredWidth(150);
+        tblAccounts.getColumnModel().getColumn(6).setPreferredWidth(120);
+        tblAccounts.getColumnModel().getColumn(7).setPreferredWidth(120);
+        tblAccounts.getColumnModel().getColumn(8).setPreferredWidth(250);
 
-        tblAccounts.getColumnModel().getColumn(7).setCellRenderer(new ButtonRenderer());
-        tblAccounts.getColumnModel().getColumn(7).setCellEditor(new ButtonEditor(new JCheckBox()));
+        // Operation column
+        tblAccounts.getColumnModel().getColumn(8).setCellRenderer(new ButtonRenderer());
+        tblAccounts.getColumnModel().getColumn(8).setCellEditor(new ButtonEditor(new JCheckBox()));
 
         scpnAccounts = new JScrollPane(tblAccounts);
         scpnAccounts.setBounds(20, 25, 1530, 780);
@@ -191,6 +190,7 @@ public class ViewAccountBoard extends JPanel {
 
         sorter = new TableRowSorter<>(model);
         tblAccounts.setRowSorter(sorter);
+        loadAccounts();
 
         btnFilter.addActionListener(e -> filterTable());
         btnReset.addActionListener(e -> resetFields());
@@ -291,9 +291,33 @@ public class ViewAccountBoard extends JPanel {
             
             styleTableButton(btnDelete); 
             panel.add(btnDelete);
-            btnDelete.addActionListener(e -> {int row = tblAccounts.getSelectedRow();
+            btnDelete.addActionListener(e -> {
+
+            int row = tblAccounts.getSelectedRow();
+
                 if (row != -1) {
-                    model.removeRow(tblAccounts.convertRowIndexToModel(row));
+
+                    int modelRow =
+                            tblAccounts.convertRowIndexToModel(row);
+
+                    String accNo =
+                            model.getValueAt(modelRow, 5).toString();
+
+                    for (int i = 0;
+                         i < AccountDatabase.accounts.size();
+                         i++) {
+
+                        if (AccountDatabase.accounts
+                                .get(i)
+                                .getAccNo()
+                                .equals(accNo)) {
+
+                            AccountDatabase.accounts.remove(i);
+                            break;
+                        }
+                    }
+
+                    model.removeRow(modelRow);
                 }
             });
         }
@@ -301,6 +325,34 @@ public class ViewAccountBoard extends JPanel {
     @Override
         public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
             return panel;
+        }
+    }
+    
+    private void loadAccounts() {
+
+        model.setRowCount(0);
+
+        ImageIcon icon = new ImageIcon(
+                getClass().getResource("/profile.png"));
+
+        Image img = icon.getImage()
+                .getScaledInstance(40, 40, Image.SCALE_SMOOTH);
+
+        ImageIcon tableIcon = new ImageIcon(img);
+
+        for (Account acc : AccountDatabase.accounts) {
+
+            model.addRow(new Object[]{
+                tableIcon,
+                acc.getName(),
+                acc.getIdType(),
+                acc.getIdNumber(),
+                acc.getAccTitle(),
+                acc.getAccNo(),
+                acc.getAccType(),
+                acc.getDate(),
+                "Action"
+            });
         }
     }
 }

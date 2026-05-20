@@ -14,113 +14,223 @@ public class EmployeeDatabase {
                 "EMP2001",
                 "Juan Dela Cruz",
                 "juan.delacruz@summitphilbank.com",
-                "901234567890",
+                "812345678901",
                 "2023-01-15",
                 "Employee",
                 "juandelacruz01",
-                "juan123"
+                "juan123",
+                "1998-05-14",
+                "Male",
+                "Single",
+                "09123456789",
+                "4024",
+                "Purok 1 Brgy. San Isidro",
+                "Cabuyao",
+                "BS Information Technology",
+                "Bank Staff",
+                "3 Years",
+                "Active"
         );
 
         addEmployee(
                 "EMP2002",
-                "Maria Santos",
-                "maria.santos@summitphilbank.com",
-                "902345678901",
-                "2022-11-08",
+                "Angela Villanueva",
+                "angela.villanueva@summitphilbank.com",
+                "823456789012",
+                "2022-10-11",
                 "Employee",
-                "maria02",
-                "maria123"
+                "angela02",
+                "angela123",
+                "1997-03-22",
+                "Female",
+                "Married",
+                "09187654321",
+                "4102",
+                "Block 12 San Pedro Homes",
+                "San Pedro",
+                "BS Business Administration",
+                "Customer Service Representative",
+                "5 Years",
+                "Active"
         );
 
         addEmployee(
                 "EMP2003",
-                "Carlos Reyes",
-                "carlos.reyes@summitphilbank.com",
-                "903456789012",
-                "2021-06-21",
+                "Michael Torres",
+                "michael.torres@summitphilbank.com",
+                "834567890123",
+                "2021-06-08",
                 "Employee",
-                "carlos03",
-                "carlos123"
+                "michael03",
+                "michael123",
+                "1995-11-09",
+                "Male",
+                "Single",
+                "09234567891",
+                "4114",
+                "Phase 2 Green Village",
+                "Calamba",
+                "BS Accountancy",
+                "Accounting Assistant",
+                "4 Years",
+                "Active"
         );
 
         addEmployee(
                 "EMP2004",
-                "Ana Lopez",
-                "ana.lopez@summitphilbank.com",
-                "904567890123",
-                "2023-03-10",
+                "Patricia Gomez",
+                "patricia.gomez@summitphilbank.com",
+                "845678901234",
+                "2020-09-15",
                 "Employee",
-                "ana04",
-                "ana123"
+                "patricia04",
+                "patricia123",
+                "1996-01-17",
+                "Female",
+                "Single",
+                "09345678123",
+                "4009",
+                "Villa Rosario Subdivision",
+                "Santa Rosa",
+                "BS Financial Management",
+                "Loan Officer",
+                "6 Years",
+                "Active"
         );
 
         addEmployee(
                 "EMP2005",
-                "Mark Bautista",
-                "mark.bautista@summitphilbank.com",
-                "905678901234",
-                "2020-09-05",
+                "Daniel Navarro",
+                "daniel.navarro@summitphilbank.com",
+                "856789012345",
+                "2023-02-28",
                 "Employee",
-                "mark05",
-                "mark123"
+                "daniel05",
+                "daniel123",
+                "1999-07-05",
+                "Male",
+                "Single",
+                "09456781234",
+                "4027",
+                "Barangay Mabuhay",
+                "Cabuyao",
+                "BS Information Systems",
+                "IT Support Staff",
+                "2 Years",
+                "Active"
         );
 
         addEmployee(
                 "EMP2006",
-                "Liza Gomez",
-                "liza.gomez@summitphilbank.com",
-                "906789012345",
-                "2022-07-19",
+                "Nicole Reyes",
+                "nicole.reyes@summitphilbank.com",
+                "867890123456",
+                "2021-04-18",
                 "Employee",
-                "liza06",
-                "liza123"
+                "nicole06",
+                "nicole123",
+                "1994-09-10",
+                "Female",
+                "Married",
+                "09567812345",
+                "4012",
+                "Rosewood Village",
+                "Biñan",
+                "BS Marketing Management",
+                "Marketing Associate",
+                "7 Years",
+                "Active"
         );
 
         addEmployee(
                 "EMP2007",
-                "Paul Navarro",
-                "paul.navarro@summitphilbank.com",
-                "907890123456",
-                "2021-12-01",
+                "Kevin Ramirez",
+                "kevin.ramirez@summitphilbank.com",
+                "878901234567",
+                "2022-08-03",
                 "Employee",
-                "paul07",
-                "paul123"
+                "kevin07",
+                "kevin123",
+                "1997-12-01",
+                "Male",
+                "Single",
+                "09678123456",
+                "4005",
+                "Sunshine Homes",
+                "Santa Rosa",
+                "BS Computer Science",
+                "System Administrator",
+                "4 Years",
+                "Active"
         );
 
         addEmployee(
                 "EMP2008",
-                "Karla Mendoza",
-                "karla.mendoza@summitphilbank.com",
-                "908901234567",
-                "2023-05-25",
+                "Sophia Mendoza",
+                "sophia.mendoza@summitphilbank.com",
+                "889012345678",
+                "2020-11-25",
                 "Employee",
-                "karla08",
-                "karla123"
+                "sophia08",
+                "sophia123",
+                "1993-06-27",
+                "Female",
+                "Married",
+                "09781234567",
+                "4030",
+                "Lakeside Residences",
+                "Calamba",
+                "BS Human Resource Management",
+                "HR Officer",
+                "8 Years",
+                "Active"
         );
 
         addEmployee(
                 "EMP2009",
-                "Ryan Castillo",
-                "ryan.castillo@summitphilbank.com",
-                "909012345678",
-                "2022-02-14",
+                "Ethan Cruz",
+                "ethan.cruz@summitphilbank.com",
+                "890123456789",
+                "2023-01-09",
                 "Employee",
-                "ryan09",
-                "ryan123"
+                "ethan09",
+                "ethan123",
+                "2000-02-15",
+                "Male",
+                "Single",
+                "09812345678",
+                "4021",
+                "Greenfield Estate",
+                "San Pablo",
+                "BS Entrepreneurship",
+                "Sales Associate",
+                "1 Year",
+                "Active"
         );
 
         addEmployee(
                 "EMP2010",
-                "Sophia Ramos",
-                "sophia.ramos@summitphilbank.com",
-                "910123456789",
-                "2023-08-30",
+                "Camille Bautista",
+                "camille.bautista@summitphilbank.com",
+                "901234567891",
+                "2021-09-14",
                 "Employee",
-                "sophia10",
-                "sophia123"
+                "camille10",
+                "camille123",
+                "1995-04-30",
+                "Female",
+                "Single",
+                "09923456789",
+                "4018",
+                "Golden Meadows",
+                "Los Baños",
+                "BS Office Administration",
+                "Administrative Assistant",
+                "5 Years",
+                "Active"
         );
     }
- 
+
     private static void addEmployee(
             String empID,
             String empName,
@@ -129,7 +239,18 @@ public class EmployeeDatabase {
             String date,
             String empType,
             String username,
-            String password
+            String password,
+            String dob,
+            String gender,
+            String maritalStatus,
+            String mobileNumber,
+            String postalCode,
+            String homeAddress,
+            String city,
+            String educationLevel,
+            String currentJob,
+            String yearsExperience,
+            String status
     ) {
 
         Employee emp = new Employee();
@@ -142,6 +263,17 @@ public class EmployeeDatabase {
         emp.setEmpType(empType);
         emp.setUsername(username);
         emp.setPassword(password);
+        emp.setDob(dob);
+        emp.setGender(gender);
+        emp.setMaritalStatus(maritalStatus);
+        emp.setMobileNumber(mobileNumber);
+        emp.setPostalCode(postalCode);
+        emp.setHomeAddress(homeAddress);
+        emp.setCity(city);
+        emp.setEducationLevel(educationLevel);
+        emp.setCurrentJob(currentJob);
+        emp.setYearsExperience(yearsExperience);
+        emp.setStatus(status);
 
         employees.add(emp);
     }
@@ -158,16 +290,19 @@ public class EmployeeDatabase {
 
         return null;
     }
-    
-    public static Employee getEmployeeByUsername(String username){
-        
-        for(Employee emp : employees){
-            if(emp.getUsername().equalsIgnoreCase(username)){
+
+    // GET EMPLOYEE BY USERNAME
+    public static Employee getEmployeeByUsername(String username) {
+
+        for (Employee emp : employees) {
+
+            if (emp.getUsername().equalsIgnoreCase(username)) {
                 return emp;
             }
         }
+
         return null;
     }
-    
+
     public static Employee currentEmployee;
 }

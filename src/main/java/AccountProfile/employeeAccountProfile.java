@@ -347,7 +347,7 @@ public class employeeAccountProfile extends JPanel {
         registerField.setBorder(BorderFactory.createCompoundBorder(new LineBorder(borderColor, 1, true),BorderFactory.createEmptyBorder(4, 12, 4, 12)));
         add(registerField);
         
-                loadEmployee();
+        loadEmployee();
     }
     
     private void loadEmployee() {
@@ -360,10 +360,15 @@ public class employeeAccountProfile extends JPanel {
         nameField.setText(employee.getEmpName());
         dobField.setText(employee.getDate());
         idField.setText(employee.getIdNumber());
-        mobileField.setText("N/A"); // not in model yet
+        mobileField.setText(employee.getMobileNumber());
         emailField.setText(employee.getEmail());
-        genderField.setText("N/A"); // not in model yet
-
+        genderField.setText(employee.getGender());
+        postalField.setText(employee.getPostalCode());
+        homeField.setText(employee.getHomeAddress());
+        cityField.setText(employee.getCity());
+        educationlvlField.setText(employee.getEducationLevel());
+        currjobField.setText(employee.getCurrentJob());
+        experienceField.setText(employee.getYearsExperience());
         usernameField.setText(employee.getUsername());
         typeField.setText(employee.getEmpType());
         registerField.setText(employee.getDate());

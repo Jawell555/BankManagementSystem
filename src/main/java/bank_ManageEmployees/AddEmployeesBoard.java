@@ -5,6 +5,8 @@
 package bank_ManageEmployees;
 
 import Colors.ColorPalette;
+import Database.EmployeeDatabase;
+import Models.Employee;
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -53,7 +55,7 @@ public class AddEmployeesBoard extends JPanel {
         lblMTitle.setFont(new Font("Segoe UI", Font.BOLD, 25));
         contentPanel.add(lblMTitle);
         
-        txtAccNum = new JTextField("      EMP2011");
+        txtAccNum = new JTextField("EMP2011");
         txtAccNum.setHorizontalAlignment(JTextField.RIGHT);
         txtAccNum.setBackground(ColorPalette.Gray);
         txtAccNum.setBounds(1120, 40, 500, 40);
@@ -363,7 +365,38 @@ public class AddEmployeesBoard extends JPanel {
             return;
         }
         
-        JOptionPane.showMessageDialog(this, "Account form submitted.\n");
+        Employee emp = new Employee();
+
+        emp.setEmpID(txtAccNum.getText());
+        emp.setEmpName(txtName.getText());
+        emp.setEmail(txtEmail.getText());
+        emp.setIdNumber(txtIdNum.getText());
+
+        emp.setDob(txtDOB.getText());
+        emp.setGender(cbGender.getSelectedItem().toString());
+        emp.setMaritalStatus(cbMarital.getSelectedItem().toString());
+        emp.setMobileNumber(txtMobNum.getText());
+
+        emp.setPostalCode(txtPC.getText());
+        emp.setHomeAddress(txtHA.getText());
+        emp.setCity(txtCity.getText());
+
+        emp.setEducationLevel(txtEducLvl.getText());
+        emp.setCurrentJob(txtCurrJob.getText());
+        emp.setYearsExperience(txtYrExp.getText());
+
+        emp.setUsername(txtUsername.getText());
+        emp.setPassword("password123");
+
+        emp.setEmpType(txtUserType.getText());
+        emp.setDate(java.time.LocalDate.now().toString());
+        emp.setStatus("Active");
+
+        EmployeeDatabase.employees.add(emp);
+
+        JOptionPane.showMessageDialog(this,
+                "Employee Registered Successfully!");
+
         clearFields();
     }
     
