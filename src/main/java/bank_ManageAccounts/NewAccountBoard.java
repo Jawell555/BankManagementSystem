@@ -47,7 +47,6 @@ public class NewAccountBoard extends JPanel {
         
         txtAccNum = new JTextField("SPB1000000009");
         txtAccNum.setHorizontalAlignment(JTextField.RIGHT);
-        txtAccNum.setEditable(false);
         txtAccNum.setBackground(ColorPalette.Gray);
         txtAccNum.setBounds(1120, 40, 500, 40);
         txtAccNum.setFont(new Font("Segoe UI", Font.BOLD, 25));
@@ -78,7 +77,6 @@ public class NewAccountBoard extends JPanel {
         txtName = new JTextField("Enter full name");
         txtName.setBounds(60, 185, 450, 35);
         txtName.setFont(fieldFont);
-        txtName.setEditable(false);
         add(txtName);
         
         lblDOB = new JLabel("Date of Birth");
@@ -89,7 +87,6 @@ public class NewAccountBoard extends JPanel {
         txtDOB = new JTextField("MM/DD/YYYY");
         txtDOB.setBounds(550, 185, 450, 35);
         txtDOB.setFont(fieldFont);
-        txtDOB.setEditable(false);
         add(txtDOB);
         
         lblFN = new JLabel("Gender");
@@ -111,7 +108,6 @@ public class NewAccountBoard extends JPanel {
         txtMobNum = new JTextField("Enter mobile number");
         txtMobNum.setBounds(60, 260, 450, 35);
         txtMobNum.setFont(fieldFont);
-        txtMobNum.setEditable(false);
         add(txtMobNum);
         
         lblIdType = new JLabel("Type of Valid ID");
@@ -132,7 +128,6 @@ public class NewAccountBoard extends JPanel {
         txtIdNum = new JTextField("Enter ID number");
         txtIdNum.setBounds(1050, 260, 450, 35);
         txtIdNum.setFont(fieldFont);
-        txtIdNum.setEditable(false);
         add(txtIdNum);
         
         // Personal Infos: Row 3
@@ -144,7 +139,6 @@ public class NewAccountBoard extends JPanel {
         txtEmail = new JTextField("Enter email account");
         txtEmail.setBounds(60, 335, 450, 35);
         txtEmail.setFont(fieldFont);
-        txtEmail.setEditable(false);
         add(txtEmail);
         
         lblFN = new JLabel("Father Name");
@@ -155,7 +149,6 @@ public class NewAccountBoard extends JPanel {
         txtFN = new JTextField("Enter father name");
         txtFN.setBounds(550, 335, 450, 35);
         txtFN.setFont(fieldFont);
-        txtFN.setEditable(false);
         add(txtFN);
         
         // Blue Separator
@@ -212,7 +205,6 @@ public class NewAccountBoard extends JPanel {
         txtPC = new JTextField("Enter postal code");
         txtPC.setBounds(60, 670, 450, 35);
         txtPC.setFont(fieldFont);
-        txtPC.setEditable(false);
         add(txtPC);
         
         lblHA = new JLabel("Home Address");
@@ -223,7 +215,6 @@ public class NewAccountBoard extends JPanel {
         txtHA = new JTextField("Enter home address");
         txtHA.setBounds(550, 670, 450, 35);
         txtHA.setFont(fieldFont);
-        txtHA.setEditable(false);
         add(txtHA);
         
         lblCity = new JLabel("City");
@@ -234,7 +225,6 @@ public class NewAccountBoard extends JPanel {
         txtCity = new JTextField("Enter city name");
         txtCity.setBounds(1050, 670, 450, 35);
         txtCity.setFont(fieldFont);
-        txtCity.setEditable(false);
         add(txtCity);
         
         // Blue Separator
@@ -257,7 +247,6 @@ public class NewAccountBoard extends JPanel {
         txtAccTitle = new JTextField("Enter account title");
         txtAccTitle.setBounds(60, 815, 450, 35);
         txtAccTitle.setFont(fieldFont);
-        txtAccTitle.setEditable(false);
         add(txtAccTitle);
         
         lblAccBal = new JLabel("Account Balance");
@@ -268,7 +257,6 @@ public class NewAccountBoard extends JPanel {
         txtAccBal = new JTextField("Enter account balance");
         txtAccBal.setBounds(550, 815, 450, 35);
         txtAccBal.setFont(fieldFont);
-        txtAccBal.setEditable(false);
         add(txtAccBal);
         
         lblAccType = new JLabel("Account Type");

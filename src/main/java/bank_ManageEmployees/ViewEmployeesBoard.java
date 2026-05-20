@@ -5,165 +5,315 @@
 package bank_ManageEmployees;
 
 import Colors.ColorPalette;
-import java.awt.Color;
-import java.awt.Cursor;
-import java.awt.Dimension;
-import java.awt.Font;
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JTextField;
-import javax.swing.RowFilter;
+import java.awt.*;
+import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableRowSorter;
 
 public class ViewEmployeesBoard extends JPanel {
 
-    private JTable employeeTable;
-    private DefaultTableModel model;
-    private JTextField txtSearch;
-    private TableRowSorter<DefaultTableModel> sorter;
+    JLabel lblTitle, lblFrom, lblTo;
+    JPanel pnlTblContainer, pnlSearch;
+    JTextField txtSearch, txtStartYear, txtEndYear;
+    JTable tblAccounts;
+    JScrollPane scpnAccounts;
+    JComboBox<String> cmbAccountType, cmbStartMonth, cmbEndMonth;
+    JComboBox<Integer> cmbStartDay, cmbEndDay;
+    JButton btnFilter, btnReset;
+    JTableHeader header;
+    DefaultTableModel model;
+    TableRowSorter<DefaultTableModel> sorter;
+
+    private final String[] accTypes;
+    private final String[] months;
+    private final Integer[] days = new Integer[31];
+
+    Font fntTitle = new Font("Segoe UI", Font.BOLD, 25);
+    Font fntText = new Font("Segoe UI", Font.PLAIN, 12);
 
     public ViewEmployeesBoard() {
+        this.months = new String[]{"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
+        this.accTypes = new String[]{"Savings", "Current", "All"};
+        for(int i = 1; i<=31; i++){
+            this.days[i-1] = i;
+        }
+
         setLayout(null);
         setBounds(0, 0, 1670, 1080);
-        setBackground(new Color(245, 247, 250));
 
-        JLabel lblTitle = new JLabel("View Employees");
-        lblTitle.setBounds(50, 30, 400, 40);
-        lblTitle.setFont(new Font("Segoe UI", Font.BOLD, 30));
-        lblTitle.setForeground(new Color(33, 37, 41));
+        // Title
+        lblTitle = new JLabel("Accounts List");
+        lblTitle.setBounds(50, 40, 700, 50);
+        lblTitle.setFont(fntTitle);
         add(lblTitle);
 
-        txtSearch = new JTextField();
-        txtSearch.setBounds(50, 95, 350, 38);
-        txtSearch.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-        add(txtSearch);
+        // Filter/search section
+        pnlSearch = new JPanel(null);
+        pnlSearch.setBounds(50, 100, 1570, 70);
+        pnlSearch.setBorder(ColorPalette.panelBorder("Search Board"));
+        add(pnlSearch);
+        
+        // Search bar
+        txtSearch = new JTextField("Search account");
+        txtSearch.setBounds(20, 25, 470, 30);
+        txtSearch.setFont(fntText);
+        txtSearch.setBackground(Color.white);
+        pnlSearch.add(txtSearch);
 
-        JButton btnSearch = new JButton("Search");
-        btnSearch.setBounds(420, 95, 120, 38);
-        styleButton(btnSearch);
-        add(btnSearch);
+        // Account Types
+        cmbAccountType = new JComboBox<>(accTypes);
+        cmbAccountType.setBounds(510, 25, 120, 30);
+        cmbAccountType.setFont(fntText);
+        cmbAccountType.setBackground(Color.white);
+        pnlSearch.add(cmbAccountType);
 
-        JButton btnReset = new JButton("Reset");
-        btnReset.setBounds(555, 95, 120, 38);
+        lblFrom = new JLabel("From:");
+        lblFrom.setBounds(650, 25, 40, 30);
+        lblFrom.setFont(fntText);
+        pnlSearch.add(lblFrom);
+
+        // Date
+        cmbStartMonth = new JComboBox<>(months);
+        cmbStartMonth.setBounds(695, 25, 95, 30);
+        cmbStartMonth.setFont(fntText);
+        cmbStartMonth.setBackground(Color.white);
+        pnlSearch.add(cmbStartMonth);
+
+        cmbStartDay = new JComboBox<>(days);
+        cmbStartDay.setBounds(790, 25, 60, 30);
+        cmbStartDay.setFont(fntText);
+        cmbStartDay.setBackground(Color.white);
+        pnlSearch.add(cmbStartDay);
+
+        txtStartYear = new JTextField("Year");
+        txtStartYear.setBounds(850, 25, 70, 30);
+        txtStartYear.setFont(fntText);
+        txtStartYear.setBackground(Color.white);
+        pnlSearch.add(txtStartYear);
+
+        lblTo = new JLabel("To:");
+        lblTo.setBounds(950, 25, 25, 30);
+        lblTo.setFont(fntText);
+        pnlSearch.add(lblTo);
+
+        // Date
+        cmbEndMonth = new JComboBox<>(months);
+        cmbEndMonth.setBounds(980, 25, 95, 30);
+        cmbEndMonth.setFont(fntText);
+        cmbEndMonth.setBackground(Color.white);
+        pnlSearch.add(cmbEndMonth);
+
+        cmbEndDay = new JComboBox<>(days);
+        cmbEndDay.setBounds(1075, 25, 60, 30);
+        cmbEndDay.setFont(fntText);
+        cmbEndDay.setBackground(Color.white);
+        pnlSearch.add(cmbEndDay);
+
+        txtEndYear = new JTextField("Year");
+        txtEndYear.setBounds(1135, 25, 70, 30);
+        txtEndYear.setFont(fntText);
+        txtEndYear.setBackground(Color.white);
+        pnlSearch.add(txtEndYear);
+
+        // Search/filter and Reset button
+        btnFilter = new JButton("Search");
+        btnFilter.setBounds(1260, 25, 100, 30);
+        styleButton(btnFilter);
+        pnlSearch.add(btnFilter);
+
+        btnReset = new JButton("Reset");
+        btnReset.setBounds(1390, 25, 100, 30);
         styleButton(btnReset);
-        add(btnReset);
+        pnlSearch.add(btnReset);
 
-        JPanel tablePanel = new JPanel();
-        tablePanel.setLayout(null);
-        tablePanel.setBounds(50, 160, 1500, 600);
-        tablePanel.setBackground(Color.WHITE);
-        tablePanel.setBorder(BorderFactory.createLineBorder(new Color(225, 230, 235), 1));
-        add(tablePanel);
+        // Account Table
+        pnlTblContainer = new JPanel(null);
+        pnlTblContainer.setBounds(50, 180, 1570, 820);
+        pnlTblContainer.setBorder(ColorPalette.panelBorder("Accounts Table"));
+        add(pnlTblContainer);
 
-        String[] columns = {
-            "Employee ID", "Employee Name", "Father Name", "Email", "ID Number", "Date", "Type"
+        // Image (will be replaced by user image)
+        ImageIcon icon = new ImageIcon(getClass().getResource("/profile.png"));
+        Image img = icon.getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
+        ImageIcon tableIcon = new ImageIcon(img);
+
+        // Account data
+        String[] columns = {"Image", "Employee ID", "Name", "Email", "Contact", "Employee Type", "Status", "Operation"};
+        
+        Object[][] data = {{tableIcon, "EMP2004", "Ana Lopez","ana.lopez@summitphilbank.com", "904567890123", "Employee", "Active", "" }, 
+                          {tableIcon, "EMP2005", "Mark Bautista","mark.bautista@summitphilbank.com", "905678901234", "Employee", "Active", "" },
+                          {tableIcon, "EMP2006", "Liza Gomez","liza.gomez@summitphilbank.com", "906789012345", "Employee", "Active", "" }
         };
-
-        Object[][] data = {
-            {"EMP2001", "Juan Dela Cruz", "Pedro Dela Cruz", "juan.delacruz@summitphilbank.com", "901234567890", "2023-01-15", "Employee"},
-            {"EMP2002", "Maria Santos", "Jose Santos", "maria.santos@summitphilbank.com", "902345678901", "2022-11-08", "Employee"},
-            {"EMP2003", "Carlos Reyes", "Antonio Reyes", "carlos.reyes@summitphilbank.com", "903456789012", "2021-06-21", "Employee"},
-            {"EMP2004", "Ana Lopez", "Ricardo Lopez", "ana.lopez@summitphilbank.com", "904567890123", "2023-03-10", "Employee"},
-            {"EMP2005", "Mark Bautista", "Daniel Bautista", "mark.bautista@summitphilbank.com", "905678901234", "2020-09-05", "Employee"},
-            {"EMP2006", "Liza Gomez", "Fernando Gomez", "liza.gomez@summitphilbank.com", "906789012345", "2022-07-19", "Employee"},
-            {"EMP2007", "Paul Navarro", "Victor Navarro", "paul.navarro@summitphilbank.com", "907890123456", "2021-12-01", "Employee"},
-            {"EMP2008", "Karla Mendoza", "Ernesto Mendoza", "karla.mendoza@summitphilbank.com", "908901234567", "2023-05-25", "Employee"},
-            {"EMP2009", "Ryan Castillo", "Oscar Castillo", "ryan.castillo@summitphilbank.com", "909012345678", "2022-02-14", "Employee"},
-            {"EMP2010", "Sophia Ramos", "Luis Ramos", "sophia.ramos@summitphilbank.com", "910123456789", "2023-08-30", "Employee"}
-        };
-
+        
         model = new DefaultTableModel(data, columns) {
-            @Override
+            
+        @Override
+            public Class<?> getColumnClass(int column) {
+                if (column == 0) {
+                    return Icon.class;
+                }
+                return String.class;
+            }
+
+        @Override
             public boolean isCellEditable(int row, int column) {
-                return false;
+                return column == 7;
             }
         };
 
-        employeeTable = new JTable(model);
-        employeeTable.setRowHeight(32);
-        employeeTable.setFont(new Font("Segoe UI", Font.PLAIN, 13));
-        employeeTable.setGridColor(new Color(230, 233, 238));
-        employeeTable.setSelectionBackground(ColorPalette.Blue2);
-        employeeTable.setSelectionForeground(new Color(33, 37, 41));
-        employeeTable.setShowVerticalLines(false);
-        employeeTable.setIntercellSpacing(new Dimension(0, 1));
-
-        JTableHeader header = employeeTable.getTableHeader();
-        header.setFont(new Font("Segoe UI", Font.BOLD, 13));
+        tblAccounts = new JTable(model);
+        tblAccounts.setRowHeight(50);
+        tblAccounts.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+        tblAccounts.setGridColor(new Color(230, 230, 230));
+        
+        header = tblAccounts.getTableHeader();
+        header.setFont(new Font("Segoe UI", Font.BOLD, 15));
         header.setBackground(ColorPalette.Blue4);
         header.setForeground(Color.WHITE);
         header.setResizingAllowed(false);
         header.setReorderingAllowed(false);
-        header.setPreferredSize(new Dimension(100, 38));
+        header.setPreferredSize(new Dimension(100, 40));
+        
+        tblAccounts.getColumnModel().getColumn(0).setPreferredWidth(55);
+        tblAccounts.getColumnModel().getColumn(1).setPreferredWidth(60);
+        tblAccounts.getColumnModel().getColumn(2).setPreferredWidth(130);
+        tblAccounts.getColumnModel().getColumn(3).setPreferredWidth(170);
+        tblAccounts.getColumnModel().getColumn(4).setPreferredWidth(170);
+        tblAccounts.getColumnModel().getColumn(5).setPreferredWidth(120);
+        tblAccounts.getColumnModel().getColumn(6).setPreferredWidth(70);
+        tblAccounts.getColumnModel().getColumn(7).setPreferredWidth(200);
+
+        tblAccounts.getColumnModel().getColumn(7).setCellRenderer(new ButtonRenderer());
+        tblAccounts.getColumnModel().getColumn(7).setCellEditor(new ButtonEditor(new JCheckBox()));
+
+        scpnAccounts = new JScrollPane(tblAccounts);
+        scpnAccounts.setBounds(20, 25, 1530, 780);
+        scpnAccounts.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        pnlTblContainer.add(scpnAccounts);
 
         sorter = new TableRowSorter<>(model);
-        employeeTable.setRowSorter(sorter);
+        tblAccounts.setRowSorter(sorter);
 
-        JScrollPane scrollPane = new JScrollPane(employeeTable);
-        scrollPane.setBounds(15, 15, 1470, 500);
-        scrollPane.setBorder(BorderFactory.createEmptyBorder());
-        tablePanel.add(scrollPane);
-
-        JButton btnUpdate = new JButton("Update");
-        btnUpdate.setBounds(15, 535, 130, 40);
-        styleButton(btnUpdate);
-        tablePanel.add(btnUpdate);
-
-        JButton btnDelete = new JButton("Delete");
-        btnDelete.setBounds(160, 535, 130, 40);
-        styleButton(btnDelete);
-        tablePanel.add(btnDelete);
-
-        btnSearch.addActionListener(e -> applySearch());
-        btnReset.addActionListener(e -> resetSearch());
-
-        btnUpdate.addActionListener(e -> {
-            int row = employeeTable.getSelectedRow();
-            if (row != -1) {
-                javax.swing.JOptionPane.showMessageDialog(this,
-                        "Update logic can be added later.\nSelected Employee: "
-                        + employeeTable.getValueAt(row, 1));
-            } else {
-                javax.swing.JOptionPane.showMessageDialog(this, "Please select an employee first.");
-            }
-        });
-
-        btnDelete.addActionListener(e -> {
-            int row = employeeTable.getSelectedRow();
-            if (row != -1) {
-                model.removeRow(employeeTable.convertRowIndexToModel(row));
-            } else {
-                javax.swing.JOptionPane.showMessageDialog(this, "Please select an employee first.");
-            }
-        });
+        btnFilter.addActionListener(e -> filterTable());
+        btnReset.addActionListener(e -> resetFields());
     }
 
     private void styleButton(JButton btn) {
         btn.setFont(new Font("Segoe UI", Font.BOLD, 14));
         btn.setForeground(Color.WHITE);
-        btn.setBackground(ColorPalette.Blue5);
+        btn.setBackground(ColorPalette.Blue4);
         btn.setFocusPainted(false);
         btn.setBorderPainted(false);
         btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
     }
 
-    private void applySearch() {
-        String keyword = txtSearch.getText().trim();
-        if (keyword.isEmpty()) {
+    private void styleTableButton(JButton btn) {
+        btn.setPreferredSize(new Dimension(75, 30));
+        btn.setFont(new Font("Segoe UI", Font.BOLD, 12));
+        btn.setForeground(Color.WHITE);
+        btn.setBackground(ColorPalette.Blue4);
+        btn.setFocusPainted(false);
+        btn.setBorderPainted(false);
+        btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
+    }
+
+    private void filterTable() {
+        String search = txtSearch.getText();
+        String type = cmbAccountType.getSelectedItem().toString();
+
+        if (search.trim().length() == 0 && type.equals("All")) {
             sorter.setRowFilter(null);
+        } else if (type.equals("All")) {
+            sorter.setRowFilter(RowFilter.regexFilter("(?i)" + search));
         } else {
-            sorter.setRowFilter(RowFilter.regexFilter("(?i)" + keyword));
+            sorter.setRowFilter(RowFilter.regexFilter(type, 5));
         }
     }
 
-    private void resetSearch() {
-        txtSearch.setText("");
+    private void resetFields() {
+        txtSearch.setText("Search account");
+        cmbAccountType.setSelectedIndex(2);
+        cmbStartMonth.setSelectedIndex(0);
+        cmbStartDay.setSelectedIndex(0);
+        txtStartYear.setText("Year");
+        cmbEndMonth.setSelectedIndex(0);
+        cmbEndDay.setSelectedIndex(0);
+        txtEndYear.setText("Year");
         sorter.setRowFilter(null);
+    }
+
+    class ButtonRenderer extends JPanel implements javax.swing.table.TableCellRenderer {
+
+        JButton btnView = new JButton("View");
+        JButton btnDeact = new JButton("Deactivate");
+        JButton btnEdit = new JButton("Edit");
+        JButton btnDelete = new JButton("Delete");
+
+        public ButtonRenderer() {
+            setLayout(new FlowLayout(FlowLayout.CENTER, 3, 10));
+
+            styleTableButton(btnView);
+            add(btnView);
+//            styleTableButton(btnDeact);
+//            add(btnDeact);
+            styleTableButton(btnEdit);
+            add(btnEdit);
+            styleTableButton(btnDelete);
+            add(btnDelete);
+        }
+
+    @Override
+        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+            return this;
+        }
+    }
+
+    class ButtonEditor extends DefaultCellEditor {
+
+        JPanel panel;
+
+        JButton btnView = new JButton("View");
+//        JButton btnDeact = new JButton("Deactivate");
+        JButton btnEdit = new JButton("Edit");
+        JButton btnDelete = new JButton("Delete");
+
+        public ButtonEditor(JCheckBox checkBox) {
+
+            super(checkBox);
+
+            panel = new JPanel(new FlowLayout(FlowLayout.CENTER, 5, 10));
+            
+            styleTableButton(btnView);
+            panel.add(btnView);
+            btnView.addActionListener(e -> {int row = tblAccounts.getSelectedRow();
+            JOptionPane.showMessageDialog(null, "View account of " + tblAccounts.getValueAt(row, 2));
+            });
+            
+//            styleTableButton(btnDeact);
+//            panel.add(btnDeact);
+//            btnView.addActionListener(e -> {int row = tblAccounts.getSelectedRow();
+//            JOptionPane.showMessageDialog(null, "Deactivate account of " + tblAccounts.getValueAt(row, 2));
+//            });
+            
+            styleTableButton(btnEdit);
+            panel.add(btnEdit);
+            btnEdit.addActionListener(e -> {int row = tblAccounts.getSelectedRow();
+            JOptionPane.showMessageDialog(null, "Edit account of " + tblAccounts.getValueAt(row, 2));
+            });
+            
+            styleTableButton(btnDelete); 
+            panel.add(btnDelete);
+            btnDelete.addActionListener(e -> {int row = tblAccounts.getSelectedRow();
+                if (row != -1) {
+                    model.removeRow(tblAccounts.convertRowIndexToModel(row));
+                }
+            });
+        }
+
+    @Override
+        public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
+            return panel;
+        }
     }
 }
