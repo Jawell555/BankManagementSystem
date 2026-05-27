@@ -253,8 +253,6 @@ public class ViewEmployeesBoard extends JPanel {
 
             styleTableButton(btnView);
             add(btnView);
-//            styleTableButton(btnDeact);
-//            add(btnDeact);
             styleTableButton(btnEdit);
             add(btnEdit);
             styleTableButton(btnDelete);

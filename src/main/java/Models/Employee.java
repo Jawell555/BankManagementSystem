@@ -22,8 +22,6 @@ public class Employee {
     private String yearsExperience;
     private String status;
 
-    public Employee() {
-    }
 
     // GETTERS
 

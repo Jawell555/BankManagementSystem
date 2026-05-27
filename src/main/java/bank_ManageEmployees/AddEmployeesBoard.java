@@ -151,16 +151,6 @@ public class AddEmployeesBoard extends JPanel {
         txtEmail.setFont(fieldFont);
         contentPanel.add(txtEmail);
         
-        lblFN = new JLabel("Father Name");
-        lblFN.setBounds(550, 310, 150, 22);
-        lblFN.setFont(labelFont);
-        contentPanel.add(lblFN);
-        
-        txtFN = new JTextField("Enter father name");
-        txtFN.setBounds(550, 335, 450, 35);
-        txtFN.setFont(fieldFont);
-        contentPanel.add(txtFN);
-        
         // Blue Separator
         midSep1 = new JSeparator();
         midSep1.setBounds(50, 390, 1585, 2);
