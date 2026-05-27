@@ -17,6 +17,13 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 public class LoginFormFrame extends JFrame implements ActionListener {
     
     JPanel pnlBG, pnlLogo, pnlSq, pnlLoginArea, pnlTitle;
@@ -25,11 +32,6 @@ public class LoginFormFrame extends JFrame implements ActionListener {
     JTextField txtUser;
     JButton btnLogin, btnExit;
     private String pass, user;
-    
-    private String usernameAdmin = "admin";
-    private String passwordAdmin = "admin123!";
-    private String usernameEmp = "employee";
-    private String passwordEmp = "employee123!";
     
     Font fntTitle = new Font("Segoe UI", Font.BOLD, 50);
     Font fntX = new Font("Segoe UI", Font.BOLD, 30);
@@ -158,28 +160,81 @@ public class LoginFormFrame extends JFrame implements ActionListener {
     
     @Override
     public void actionPerformed(ActionEvent e) {
+
         user = txtUser.getText();
-        pass = passPass.getText();
+        pass = String.valueOf(passPass.getPassword());
+
         if (e.getSource() == btnLogin) {
-            if (user.equals(usernameAdmin) && pass.equals(passwordAdmin)) {
-                adminSidebarPanelFrame sf = new adminSidebarPanelFrame();
-                sf.setVisible(true);
-                dispose();
-            } else if (user.equals(usernameEmp) && pass.equals(passwordEmp)) {
-                empSidebarPanelFrame sf = new empSidebarPanelFrame();
-                sf.setVisible(true);
-                dispose();
-            } else {
-                passPass.setText("");
-                txtUser.setBorder(errorBorder);
-                passPass.setBorder(errorBorder);
-                JOptionPane.showMessageDialog(null, "Incorrect Credentials. Try Again.", "Login Failed", JOptionPane.ERROR_MESSAGE);
+
+            try {
+
+                Connection conn = DriverManager.getConnection(
+                    "jdbc:mysql://localhost:3306/BankManagementSystem",
+                    "root",
+                    ""
+                );
+
+                String sql = "SELECT role FROM users WHERE username=? AND password=?";
+
+                PreparedStatement pst = conn.prepareStatement(sql);
+
+                pst.setString(1, user);
+                pst.setString(2, pass);
+
+                ResultSet rs = pst.executeQuery();
+
+                if (rs.next()) {
+
+                    String role = rs.getString("role");
+
+                    if (role.equals("admin")) {
+
+                        adminSidebarPanelFrame sf = new adminSidebarPanelFrame();
+
+                        sf.setVisible(true);
+                        dispose();
+
+                    } else if (role.equals("employee")) {
+
+                        empSidebarPanelFrame sf = new empSidebarPanelFrame();
+
+                        sf.setVisible(true);
+                        dispose();
+                    }
+
+                } else {
+
+                    passPass.setText("");
+
+                    txtUser.setBorder(errorBorder);
+                    passPass.setBorder(errorBorder);
+
+                    JOptionPane.showMessageDialog(
+                            null,
+                            "Incorrect Credentials. Try Again.",
+                            "Login Failed",
+                            JOptionPane.ERROR_MESSAGE
+                    );
+                }
+
+                rs.close();
+                pst.close();
+                conn.close();
+
+            } catch (SQLException ex) {
+
+                ex.printStackTrace();
+
+                JOptionPane.showMessageDialog(
+                        null,
+                        "Database Connection Failed!"
+                );
             }
-            
-        }else if(e.getSource()==btnExit){
+
+        } else if (e.getSource() == btnExit) {
+
             System.exit(0);
         }
-        
     }
     
     private JButton createButton(String strN, Color c1, Color c2){

@@ -5,8 +5,7 @@ import java.util.ArrayList;
 
 public class EmployeeDatabase {
 
-    public static ArrayList<Employee> employees =
-            new ArrayList<>();
+    public static ArrayList<Employee> employees = new ArrayList<>();
 
     static {
 
