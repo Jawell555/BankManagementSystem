@@ -19,6 +19,7 @@ public class Account {
     private String postalCode;
     private String homeAddress;
     private String city;
+    private String profileImage;
 
     public Account() {
     }
@@ -92,6 +93,10 @@ public class Account {
         return city;
     }
     
+    public String getProfileImage(){
+        return profileImage;
+    }
+    
     // SETTERS
     public void setAccNo(String accNo) {
         this.accNo = accNo;
@@ -159,5 +164,9 @@ public class Account {
 
     public void setCity(String city) {
         this.city = city;
+    }
+    
+    public void setProfileImage(String profileImage) {
+        this.profileImage = profileImage;
     }
 }

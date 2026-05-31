@@ -21,6 +21,7 @@ public class Employee {
     private String currentJob;
     private String yearsExperience;
     private String status;
+    private String profileImage;
 
 
     // GETTERS
@@ -100,7 +101,10 @@ public class Employee {
     public String getStatus() {
         return status;
     }
-
+    
+    public String getProfileImage(){
+        return profileImage;
+    }
     // SETTERS
 
     public void setEmpID(String empID) {
@@ -177,5 +181,9 @@ public class Employee {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+    
+     public void setProfileImage(String profileImage) {
+        this.profileImage = profileImage;
     }
 }

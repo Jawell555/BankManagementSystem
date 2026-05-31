@@ -8,6 +8,10 @@ import Colors.ColorPalette;
 import Database.EmployeeDatabase;
 import Models.Employee;
 import java.awt.*;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 
@@ -37,6 +41,11 @@ public class AddEmployeesBoard extends JPanel {
     
     private JPanel contentPanel;
     private JScrollPane scrollPane;
+    
+    private final LineBorder RED_BORDER = new LineBorder(Color.RED, 2);
+    private final LineBorder DEFAULT_BORDER = new LineBorder(Color.GRAY, 1);
+    
+    private String selectedImagePath;
 
     public AddEmployeesBoard() {
         setLayout(null);
@@ -55,7 +64,7 @@ public class AddEmployeesBoard extends JPanel {
         lblMTitle.setFont(new Font("Segoe UI", Font.BOLD, 25));
         contentPanel.add(lblMTitle);
         
-        txtAccNum = new JTextField("EMP2011");
+        txtAccNum = new JTextField(generateEmployeeID());
         txtAccNum.setHorizontalAlignment(JTextField.RIGHT);
         txtAccNum.setBackground(ColorPalette.Gray);
         txtAccNum.setBounds(1120, 40, 500, 40);
@@ -99,10 +108,10 @@ public class AddEmployeesBoard extends JPanel {
         txtDOB.setFont(fieldFont);
         contentPanel.add(txtDOB);
         
-        lblFN = new JLabel("Gender");
-        lblFN.setBounds(1050, 160, 150, 22);
-        lblFN.setFont(labelFont);
-        contentPanel.add(lblFN);
+        lblGender = new JLabel("Gender");
+        lblGender.setBounds(1050, 160, 150, 22);
+        lblGender.setFont(labelFont);
+        contentPanel.add(lblGender);
         
         cbGender = new JComboBox<>(new String[]{"Select gender","Male","Female"});
         cbGender.setFont(fieldFont);
@@ -150,6 +159,16 @@ public class AddEmployeesBoard extends JPanel {
         txtEmail.setBounds(60, 335, 450, 35);
         txtEmail.setFont(fieldFont);
         contentPanel.add(txtEmail);
+        
+        lblFN = new JLabel("Father Name");
+        lblFN.setBounds(550, 310, 100, 22);
+        lblFN.setFont(labelFont);
+        contentPanel.add(lblFN);
+        
+        txtFN = new JTextField("Enter father name");
+        txtFN.setBounds(550, 335, 450, 35);
+        txtFN.setFont(fieldFont);
+        contentPanel.add(txtFN);
         
         // Blue Separator
         midSep1 = new JSeparator();
@@ -335,23 +354,9 @@ public class AddEmployeesBoard extends JPanel {
     }
 
     private void saveAccount() {
-        if (txtName.getText().trim().isEmpty()
-            || txtDOB.getText().trim().isEmpty()
-            || txtMobNum.getText().trim().isEmpty()
-            || txtIdNum.getText().trim().isEmpty()
-            || txtEmail.getText().trim().isEmpty()
-            || txtFN.getText().trim().isEmpty()
-            || txtPC.getText().trim().isEmpty()
-            || txtHA.getText().trim().isEmpty()
-            || txtCity.getText().trim().isEmpty()
-            || txtUsername.getText().trim().isEmpty()  
-            || cbGender.getSelectedItem() == null
-            || cbGender.getSelectedItem().toString().equals("Select Gender")
-            || cbMarital.getSelectedItem() == null
-            || cbMarital.getSelectedItem().toString().equals("Select marital status")
-                )
-        {
-            JOptionPane.showMessageDialog(this, "Please fill in all fields.");
+        if (!validateForm()) {
+            JOptionPane.showMessageDialog(this,
+                    "Please fill in all required fields.");
             return;
         }
         
@@ -359,12 +364,29 @@ public class AddEmployeesBoard extends JPanel {
 
         emp.setEmpID(txtAccNum.getText());
         emp.setEmpName(txtName.getText());
+        
+        //Email format validation
+        if (!txtEmail.getText().matches("^[A-Za-z0-9+_.-]+@(.+)$")) {
+            txtEmail.setBorder(RED_BORDER);
+            JOptionPane.showMessageDialog(this,
+                    "Invalid email address.");
+            return;
+        }
+        
         emp.setEmail(txtEmail.getText());
         emp.setIdNumber(txtIdNum.getText());
 
         emp.setDob(txtDOB.getText());
         emp.setGender(cbGender.getSelectedItem().toString());
         emp.setMaritalStatus(cbMarital.getSelectedItem().toString());
+        
+        //Mobile # format validation
+        if (!txtMobNum.getText().matches("^09\\d{9}$")) {
+            txtMobNum.setBorder(RED_BORDER);
+            JOptionPane.showMessageDialog(this,
+                    "Mobile number must be 11 digits and start with 09.");
+            return;
+        }
         emp.setMobileNumber(txtMobNum.getText());
 
         emp.setPostalCode(txtPC.getText());
@@ -373,30 +395,120 @@ public class AddEmployeesBoard extends JPanel {
 
         emp.setEducationLevel(txtEducLvl.getText());
         emp.setCurrentJob(txtCurrJob.getText());
-        emp.setYearsExperience(txtYrExp.getText());
+        
+        //Years of Experience validation
+        try {
+            int years = Integer.parseInt(txtYrExp.getText());
 
+            if (years < 0) {
+                throw new NumberFormatException();
+            }
+
+        } catch (NumberFormatException ex) {
+
+            txtYrExp.setBorder(RED_BORDER);
+
+            JOptionPane.showMessageDialog(this,
+                    "Years of experience must be a valid number.");
+
+            return;
+        }
+        
+        emp.setYearsExperience(txtYrExp.getText());
+        
+        for (Employee emplo : EmployeeDatabase.employees) {
+
+           if (emplo.getUsername().equalsIgnoreCase(txtUsername.getText().trim())) {
+
+               txtUsername.setBorder(RED_BORDER);
+
+               JOptionPane.showMessageDialog(this,"Username already exists.");
+
+               return;
+           }
+       }
+        
         emp.setUsername(txtUsername.getText());
         emp.setPassword("password123");
 
         emp.setEmpType(txtUserType.getText());
         emp.setDate(java.time.LocalDate.now().toString());
         emp.setStatus("Active");
+        
+        //Profile Picture logic
+        String savedImagePath = "profile_images/default.png";
 
+        if (selectedImagePath != null) {
+
+            try {
+
+                File source = new File(selectedImagePath);
+
+                File folder = new File("profile_images");
+
+                if (!folder.exists()) {
+                    folder.mkdirs();
+                }
+
+                String extension = "";
+
+                int dot = source.getName().lastIndexOf('.');
+
+                if (dot > 0) {
+                    extension = source.getName().substring(dot);
+                }
+
+                File destination = new File(
+                        folder,
+                        txtAccNum.getText() + extension
+                );
+
+                Files.copy(
+                        source.toPath(),
+                        destination.toPath(),
+                        StandardCopyOption.REPLACE_EXISTING
+                );
+
+                savedImagePath = destination.getAbsolutePath();
+
+            } catch (IOException ex) {
+
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Failed to save profile image."
+                );
+            }
+        }
+        
+        emp.setProfileImage(savedImagePath);
+       
         EmployeeDatabase.employees.add(emp);
 
         JOptionPane.showMessageDialog(this,
                 "Employee Registered Successfully!");
-
         clearFields();
     }
     
     private void chooseImage() {
-        JOptionPane.showMessageDialog(this,
-                "This feature is not yet available :( \n");
+        JFileChooser chooser = new JFileChooser();
+
+        int result = chooser.showOpenDialog(this);
+
+        if (result == JFileChooser.APPROVE_OPTION) {
+
+            File file = chooser.getSelectedFile();
+
+            selectedImagePath = file.getAbsolutePath();
+            lblImagePath.setText(file.getName());
+
+            ImageIcon icon = new ImageIcon(selectedImagePath);
+            Image img = icon.getImage().getScaledInstance(120, 120, Image.SCALE_SMOOTH);
+            lblImage.setIcon(new ImageIcon(img));
+        }
     }
 
     private void clearFields() {
-        txtAccNum.setText("");
+        txtAccNum.setText(generateEmployeeID());
         txtName.setText("");
         txtDOB.setText("");
         txtMobNum.setText("");
@@ -410,5 +522,81 @@ public class AddEmployeesBoard extends JPanel {
         cbGender.setSelectedIndex(0);
         cbMarital.setSelectedIndex(0);
     }
- 
+    
+    private String generateEmployeeID() {
+
+        int highest = 2000;
+
+        for (Employee emp : EmployeeDatabase.employees) {
+
+            if (emp.getEmpID() != null &&
+                emp.getEmpID().startsWith("EMP")) {
+
+                try {
+
+                    int num = Integer.parseInt(
+                            emp.getEmpID().substring(3));
+
+                    if (num > highest) {
+                        highest = num;
+                    }
+
+                } catch (NumberFormatException ex) {
+                    // Ignore invalid IDs
+                }
+            }
+        }
+
+        return "EMP" + (highest + 1);
+    }
+    
+    private boolean validateTextField(JTextField field, String placeholder) {
+
+        String text = field.getText().trim();
+
+        if (text.isEmpty() || text.equalsIgnoreCase(placeholder)) {
+            field.setBorder(RED_BORDER);
+            return false;
+        }
+
+        field.setBorder(DEFAULT_BORDER);
+        return true;
+    }
+
+    private boolean validateComboBox(JComboBox<?> combo) {
+
+        if (combo.getSelectedIndex() == 0) {
+            combo.setBorder(RED_BORDER);
+            return false;
+        }
+
+        combo.setBorder(UIManager.getBorder("ComboBox.border"));
+        return true;
+    }
+    
+    private boolean validateForm(){
+        boolean valid = true;
+
+        valid &= validateTextField(txtName, "Enter full name");
+        valid &= validateTextField(txtDOB, "MM/DD/YYYY");
+        valid &= validateTextField(txtMobNum, "Enter mobile number");
+        valid &= validateTextField(txtIdNum, "Enter ID number");
+        valid &= validateTextField(txtEmail, "Enter email account");
+        valid &= validateTextField(txtFN, "Enter father name");
+
+        valid &= validateTextField(txtPC, "Enter postal code");
+        valid &= validateTextField(txtHA, "Enter home address");
+        valid &= validateTextField(txtCity, "Enter city name");
+
+        valid &= validateTextField(txtEducLvl, "Enter education");
+        valid &= validateTextField(txtCurrJob, "Enter current job title");
+        valid &= validateTextField(txtYrExp, "Enter year experience");
+
+        valid &= validateTextField(txtUsername, "Enter username for login");
+
+        valid &= validateComboBox(cbGender);
+        valid &= validateComboBox(cbMarital);
+
+        return valid;
+    }
 }

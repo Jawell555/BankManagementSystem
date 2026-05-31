@@ -5,8 +5,7 @@ import java.util.ArrayList;
 
 public class EmployeeDatabase {
 
-    public static ArrayList<Employee> employees =
-            new ArrayList<>();
+    public static ArrayList<Employee> employees = new ArrayList<>();
 
     static {
 
@@ -29,7 +28,8 @@ public class EmployeeDatabase {
                 "BS Information Technology",
                 "Bank Staff",
                 "3 Years",
-                "Active"
+                "Active",
+                "profile_images/EMP2001.png"
         );
 
         addEmployee(
@@ -51,7 +51,8 @@ public class EmployeeDatabase {
                 "BS Business Administration",
                 "Customer Service Representative",
                 "5 Years",
-                "Active"
+                "Active",
+                "profile_images/EMP2002.png"
         );
 
         addEmployee(
@@ -73,7 +74,8 @@ public class EmployeeDatabase {
                 "BS Accountancy",
                 "Accounting Assistant",
                 "4 Years",
-                "Active"
+                "Active",
+                "profile_images/EMP2003.png"
         );
 
         addEmployee(
@@ -95,7 +97,8 @@ public class EmployeeDatabase {
                 "BS Financial Management",
                 "Loan Officer",
                 "6 Years",
-                "Active"
+                "Active",
+                "profile_images/EMP2004.png"
         );
 
         addEmployee(
@@ -117,7 +120,8 @@ public class EmployeeDatabase {
                 "BS Information Systems",
                 "IT Support Staff",
                 "2 Years",
-                "Active"
+                "Active",
+                "profile_images/EMP2005.png"
         );
 
         addEmployee(
@@ -139,7 +143,8 @@ public class EmployeeDatabase {
                 "BS Marketing Management",
                 "Marketing Associate",
                 "7 Years",
-                "Active"
+                "Active",
+                "profile_images/EMP2006.png"
         );
 
         addEmployee(
@@ -161,7 +166,8 @@ public class EmployeeDatabase {
                 "BS Computer Science",
                 "System Administrator",
                 "4 Years",
-                "Active"
+                "Active",
+                "profile_images/EMP2007.png"
         );
 
         addEmployee(
@@ -183,7 +189,8 @@ public class EmployeeDatabase {
                 "BS Human Resource Management",
                 "HR Officer",
                 "8 Years",
-                "Active"
+                "Active",
+                "profile_images/EMP2008.png"
         );
 
         addEmployee(
@@ -205,7 +212,8 @@ public class EmployeeDatabase {
                 "BS Entrepreneurship",
                 "Sales Associate",
                 "1 Year",
-                "Active"
+                "Active",
+                "profile_images/EMP2009.png"
         );
 
         addEmployee(
@@ -227,7 +235,8 @@ public class EmployeeDatabase {
                 "BS Office Administration",
                 "Administrative Assistant",
                 "5 Years",
-                "Active"
+                "Active",
+                "profile_images/EMP2010.png"
         );
     }
 
@@ -250,7 +259,8 @@ public class EmployeeDatabase {
             String educationLevel,
             String currentJob,
             String yearsExperience,
-            String status
+            String status,
+            String profileImage
     ) {
 
         Employee emp = new Employee();
@@ -274,6 +284,7 @@ public class EmployeeDatabase {
         emp.setCurrentJob(currentJob);
         emp.setYearsExperience(yearsExperience);
         emp.setStatus(status);
+        emp.setProfileImage(profileImage);
 
         employees.add(emp);
     }
@@ -305,4 +316,6 @@ public class EmployeeDatabase {
     }
 
     public static Employee currentEmployee;
+    
+    
 }

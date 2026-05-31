@@ -6,6 +6,7 @@ import Colors.ColorPalette;
 import bank_BankBalance.BankBalance;
 import ChangePassword.ChangePasswordPanel;
 import Colors.ImagePanel;
+import Database.EmployeeDatabase;
 import Models.Employee;
 import bank_AccountOperations.DepositBoard;
 import bank_AccountOperations.TransferBoard;
@@ -42,19 +43,22 @@ public class empSidebarPanel extends JPanel {
         profilePanel.setLayout(null);
         profilePanel.setBounds(0, 0, 250, 150);
         
-        profile = new ImageIcon(getClass().getResource("/profile.png"));
+        Employee emp = EmployeeDatabase.currentEmployee;
+        
+        profile = new ImageIcon(emp.getProfileImage());
         Image scaledProfile = profile.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH);
         lblProfile = new JLabel(new ImageIcon(scaledProfile));
         lblProfile.setBounds(90, 20, 75, 75);
         profilePanel.add(lblProfile);
-
-        lblName = new JLabel("Employee", SwingConstants.CENTER);
+        
+        
+        lblName = new JLabel(emp.getEmpName(), SwingConstants.CENTER);
         lblName.setFont(new Font("Segoe UI", Font.BOLD, 15));
         lblName.setForeground(Color.WHITE);
         lblName.setBounds(0, 95, 250, 20); 
         profilePanel.add(lblName);
 
-        lblEmail = new JLabel("employee@summitphilbank.com", SwingConstants.CENTER);
+        lblEmail = new JLabel(emp.getEmail(), SwingConstants.CENTER);
         lblEmail.setFont(new Font("Segoe UI", Font.PLAIN, 11));
         lblEmail.setForeground(ColorPalette.Blue1);
         lblEmail.setBounds(0, 115, 250, 20); 
@@ -162,7 +166,7 @@ public class empSidebarPanel extends JPanel {
             closeOtherMenus("");
             resetMainButtonColors();
             btnAccProfile.setForeground(ColorPalette.redPastel);
-            navPage.turnPage(new employeeAccountProfile()); 
+            navPage.turnPage(new employeeAccountProfile(emp)); 
             updateMenuPositions();
         });
         btnChangePass = createMainButton("Change Password");

@@ -8,7 +8,12 @@ import Colors.ColorPalette;
 import Database.AccountDatabase;
 import Models.Account;
 import java.awt.*;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableRowSorter;
@@ -279,14 +284,48 @@ public class ViewAccountBoard extends JPanel {
             
             styleTableButton(btnView);
             panel.add(btnView);
-            btnView.addActionListener(e -> {int row = tblAccounts.getSelectedRow();
-            JOptionPane.showMessageDialog(null, "View account of " + tblAccounts.getValueAt(row, 1));
+            btnView.addActionListener(e -> {
+
+                int row = tblAccounts.getSelectedRow();
+
+                if (row != -1) {
+
+                    int modelRow =
+                            tblAccounts.convertRowIndexToModel(row);
+
+                    String accNo =
+                            model.getValueAt(modelRow, 5).toString();
+
+                    Account acc =
+                            AccountDatabase.getAccountByNumber(accNo);
+
+                    if (acc != null) {
+                        showViewDialog(acc);
+                    }
+                }
             });
             
             styleTableButton(btnEdit);
             panel.add(btnEdit);
-            btnEdit.addActionListener(e -> {int row = tblAccounts.getSelectedRow();
-            JOptionPane.showMessageDialog(null, "Edit account of " + tblAccounts.getValueAt(row, 1));
+            btnEdit.addActionListener(e -> {
+
+                int row = tblAccounts.getSelectedRow();
+
+                if (row != -1) {
+
+                    int modelRow =
+                            tblAccounts.convertRowIndexToModel(row);
+
+                    String accNo =
+                            model.getValueAt(modelRow, 5).toString();
+
+                    Account acc =
+                            AccountDatabase.getAccountByNumber(accNo);
+
+                    if (acc != null) {
+                        showEditDialog(acc);
+                    }
+                }
             });
             
             styleTableButton(btnDelete); 
@@ -332,15 +371,38 @@ public class ViewAccountBoard extends JPanel {
 
         model.setRowCount(0);
 
-        ImageIcon icon = new ImageIcon(
-                getClass().getResource("/profile.png"));
-
-        Image img = icon.getImage()
-                .getScaledInstance(40, 40, Image.SCALE_SMOOTH);
-
-        ImageIcon tableIcon = new ImageIcon(img);
+        ImageIcon tableIcon;
 
         for (Account acc : AccountDatabase.accounts) {
+
+            if (acc.getProfileImage()!= null &&
+                !acc.getProfileImage().isEmpty()) {
+
+                ImageIcon icon =
+                        new ImageIcon(acc.getProfileImage());
+
+                Image img = icon.getImage()
+                        .getScaledInstance(
+                                40,
+                                40,
+                                Image.SCALE_SMOOTH);
+
+                tableIcon = new ImageIcon(img);
+
+            } else {
+
+                ImageIcon icon =
+                        new ImageIcon(
+                                getClass().getResource("/profile.png"));
+
+                Image img = icon.getImage()
+                        .getScaledInstance(
+                                40,
+                                40,
+                                Image.SCALE_SMOOTH);
+
+                tableIcon = new ImageIcon(img);
+            }
 
             model.addRow(new Object[]{
                 tableIcon,
@@ -354,5 +416,717 @@ public class ViewAccountBoard extends JPanel {
                 "Action"
             });
         }
+    }
+    
+    private void showViewDialog(Account acc) {
+
+        Window parentWindow = SwingUtilities.getWindowAncestor(this);
+
+        JDialog dialog = new JDialog(
+                (JFrame) parentWindow,
+                "Account Information",
+                true
+        );
+
+        dialog.setSize(700, 850);
+        dialog.setLayout(null);
+        dialog.setLocationRelativeTo(parentWindow);
+        dialog.getContentPane().setBackground(Color.WHITE);
+
+        // HEADER
+        JPanel header = new JPanel();
+        header.setBackground(ColorPalette.Blue4);
+        header.setBounds(0, 0, 700, 50);
+        header.setLayout(null);
+
+        JLabel lblTitle = new JLabel(
+                "Account Information",
+                SwingConstants.CENTER
+        );
+
+        lblTitle.setForeground(Color.WHITE);
+        lblTitle.setFont(new Font("Segoe UI", Font.BOLD, 18));
+        lblTitle.setBounds(0, 10, 700, 30);
+
+        header.add(lblTitle);
+        dialog.add(header);
+
+        int y = 70;
+        
+        JLabel lblProfile = new JLabel();
+        lblProfile.setBounds(520, y, 120, 120);
+
+        if (acc.getProfileImage()!= null && !acc.getProfileImage().isEmpty()) {
+            ImageIcon icon =new ImageIcon(acc.getProfileImage());
+            Image img = icon.getImage().getScaledInstance(120, 120,Image.SCALE_SMOOTH);
+            lblProfile.setIcon(new ImageIcon(img));
+
+        } else {
+            ImageIcon icon = new ImageIcon(getClass().getResource("/profile.png"));
+            Image img = icon.getImage().getScaledInstance(120,120,Image.SCALE_SMOOTH);
+            lblProfile.setIcon(new ImageIcon(img));
+        }
+
+        dialog.add(lblProfile);
+       
+        // Account Number
+        JLabel lblAccNo = new JLabel("Account Number:");
+        lblAccNo.setBounds(30, y, 150, 25);
+        dialog.add(lblAccNo);
+
+        JLabel valAccNo = new JLabel(acc.getAccNo());
+        valAccNo.setBounds(200, y, 450, 25);
+        dialog.add(valAccNo);
+
+        y += 35;
+
+        // Account Holder
+        JLabel lblName = new JLabel("Account Holder:");
+        lblName.setBounds(30, y, 150, 25);
+        dialog.add(lblName);
+
+        JLabel valName = new JLabel(acc.getName());
+        valName.setBounds(200, y, 450, 25);
+        dialog.add(valName);
+
+        y += 35;
+
+        // Father Name
+        JLabel lblFather = new JLabel("Father Name:");
+        lblFather.setBounds(30, y, 150, 25);
+        dialog.add(lblFather);
+
+        JLabel valFather = new JLabel(acc.getFatherName());
+        valFather.setBounds(200, y, 450, 25);
+        dialog.add(valFather);
+
+        y += 35;
+
+        // Email
+        JLabel lblEmail = new JLabel("Email:");
+        lblEmail.setBounds(30, y, 150, 25);
+        dialog.add(lblEmail);
+
+        JLabel valEmail = new JLabel(acc.getEmail());
+        valEmail.setBounds(200, y, 450, 25);
+        dialog.add(valEmail);
+
+        y += 35;
+
+        // ID Type
+        JLabel lblIDType = new JLabel("ID Type:");
+        lblIDType.setBounds(30, y, 150, 25);
+        dialog.add(lblIDType);
+
+        JLabel valIDType = new JLabel(acc.getIdType());
+        valIDType.setBounds(200, y, 450, 25);
+        dialog.add(valIDType);
+
+        y += 35;
+
+        // ID Number
+        JLabel lblIDNumber = new JLabel("ID Number:");
+        lblIDNumber.setBounds(30, y, 150, 25);
+        dialog.add(lblIDNumber);
+
+        JLabel valIDNumber = new JLabel(acc.getIdNumber());
+        valIDNumber.setBounds(200, y, 450, 25);
+        dialog.add(valIDNumber);
+
+        y += 35;
+
+        // Date Opened
+        JLabel lblDate = new JLabel("Date Opened:");
+        lblDate.setBounds(30, y, 150, 25);
+        dialog.add(lblDate);
+
+        JLabel valDate = new JLabel(acc.getDate());
+        valDate.setBounds(200, y, 450, 25);
+        dialog.add(valDate);
+
+        y += 35;
+
+        // Account Type
+        JLabel lblAccType = new JLabel("Account Type:");
+        lblAccType.setBounds(30, y, 150, 25);
+        dialog.add(lblAccType);
+
+        JLabel valAccType = new JLabel(acc.getAccType());
+        valAccType.setBounds(200, y, 450, 25);
+        dialog.add(valAccType);
+
+        y += 35;
+
+        // Account Title
+        JLabel lblAccTitle = new JLabel("Account Title:");
+        lblAccTitle.setBounds(30, y, 150, 25);
+        dialog.add(lblAccTitle);
+
+        JLabel valAccTitle = new JLabel(acc.getAccTitle());
+        valAccTitle.setBounds(200, y, 450, 25);
+        dialog.add(valAccTitle);
+        
+        y += 35;
+        
+        JLabel lblBalance = new JLabel("Balance:");
+        lblBalance.setBounds(30, y, 150, 25);
+        dialog.add(lblBalance);
+
+        JLabel valBalance = new JLabel(
+                String.format("PHP %,.2f", acc.getAccBal())
+        );
+       
+        valBalance.setBounds(200, y, 450, 25);
+        valBalance.setForeground(new Color(0, 153, 51));
+        valBalance.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        dialog.add(valBalance);
+
+        y += 45;
+
+        JSeparator sep = new JSeparator();
+        sep.setBounds(30, y, 620, 2);
+        dialog.add(sep);
+
+        y += 20;
+
+        JLabel lblPersonal = new JLabel("Personal Information");
+        lblPersonal.setFont(new Font("Segoe UI", Font.BOLD, 15));
+        lblPersonal.setForeground(ColorPalette.Blue4);
+        lblPersonal.setBounds(30, y, 250, 25);
+        dialog.add(lblPersonal);
+
+        y += 40;
+
+        // DOB
+        JLabel lblDOB = new JLabel("Date of Birth:");
+        lblDOB.setBounds(30, y, 150, 25);
+        dialog.add(lblDOB);
+
+        JLabel valDOB = new JLabel(
+                acc.getDob() == null ? "" : acc.getDob()
+        );
+
+        valDOB.setBounds(200, y, 450, 25);
+        dialog.add(valDOB);
+
+        y += 35;
+
+        // Gender
+        JLabel lblGender = new JLabel("Gender:");
+        lblGender.setBounds(30, y, 150, 25);
+        dialog.add(lblGender);
+
+        JLabel valGender = new JLabel(
+                acc.getGender() == null ? "" : acc.getGender()
+        );
+
+        valGender.setBounds(200, y, 450, 25);
+        dialog.add(valGender);
+
+        y += 35;
+
+        // Mobile Number
+        JLabel lblMobile = new JLabel("Mobile Number:");
+        lblMobile.setBounds(30, y, 150, 25);
+        dialog.add(lblMobile);
+
+        JLabel valMobile = new JLabel(
+                acc.getMobileNumber() == null ? "" : acc.getMobileNumber()
+        );
+
+        valMobile.setBounds(200, y, 450, 25);
+        dialog.add(valMobile);
+
+        y += 35;
+
+        // Postal Code
+        JLabel lblPostal = new JLabel("Postal Code:");
+        lblPostal.setBounds(30, y, 150, 25);
+        dialog.add(lblPostal);
+
+        JLabel valPostal = new JLabel(
+                acc.getPostalCode() == null ? "" : acc.getPostalCode()
+        );
+
+        valPostal.setBounds(200, y, 450, 25);
+        dialog.add(valPostal);
+
+        y += 35;
+
+        // Home Address
+        JLabel lblAddress = new JLabel("Home Address:");
+        lblAddress.setBounds(30, y, 150, 25);
+        dialog.add(lblAddress);
+
+        JLabel valAddress = new JLabel(
+                acc.getHomeAddress() == null ? "" : acc.getHomeAddress()
+        );
+
+        valAddress.setBounds(200, y, 450, 25);
+        dialog.add(valAddress);
+
+        y += 35;
+
+        // City
+        JLabel lblCity = new JLabel("City:");
+        lblCity.setBounds(30, y, 150, 25);
+        dialog.add(lblCity);
+
+        JLabel valCity = new JLabel(
+                acc.getCity() == null ? "" : acc.getCity()
+        );
+
+        valCity.setBounds(200, y, 450, 25);
+        dialog.add(valCity);
+
+        // Close Button
+        JButton btnClose = new JButton("Close");
+        btnClose.setBounds(275, 730, 150, 40);
+
+        btnClose.setBackground(ColorPalette.Blue4);
+        btnClose.setForeground(Color.WHITE);
+        btnClose.setFont(new Font("Segoe UI", Font.BOLD, 14));
+
+        btnClose.addActionListener(e -> dialog.dispose());
+
+        dialog.add(btnClose);
+
+        dialog.setVisible(true);
+    }
+    
+    private void showEditDialog(Account acc) {
+
+        Window parentWindow = SwingUtilities.getWindowAncestor(this);
+
+        JDialog dialog = new JDialog(
+                (JFrame) parentWindow,
+                "Edit Account",
+                true
+        );
+
+        dialog.setSize(900, 900);
+        dialog.setLayout(null);
+        dialog.setLocationRelativeTo(parentWindow);
+        dialog.getContentPane().setBackground(Color.WHITE);
+
+        JPanel header = new JPanel();
+        header.setBackground(ColorPalette.Blue4);
+        header.setBounds(0, 0, 900, 50);
+        header.setLayout(null);
+
+        JLabel lblTitle = new JLabel(
+                "Edit Account Information",
+                SwingConstants.CENTER
+        );
+
+        lblTitle.setForeground(Color.WHITE);
+        lblTitle.setFont(new Font("Segoe UI", Font.BOLD, 18));
+        lblTitle.setBounds(0, 10, 900, 30);
+
+        header.add(lblTitle);
+        dialog.add(header);
+
+        int y = 70;
+        
+        JLabel lblProfile = new JLabel();
+        lblProfile.setBounds(680, 80, 150, 150);
+        lblProfile.setBorder(new LineBorder(Color.GRAY, 1, true));
+
+        if (acc.getProfileImage()!= null && !acc.getProfileImage().isEmpty()) {
+            ImageIcon icon =new ImageIcon(acc.getProfileImage());
+            Image img = icon.getImage().getScaledInstance(150, 150,Image.SCALE_SMOOTH);
+            lblProfile.setIcon(new ImageIcon(img));
+
+        } else {
+            ImageIcon icon = new ImageIcon(getClass().getResource("/profile.png"));
+            Image img = icon.getImage().getScaledInstance(150,150,Image.SCALE_SMOOTH);
+            lblProfile.setIcon(new ImageIcon(img));
+        }
+
+        dialog.add(lblProfile);
+        
+        JButton btnChooseImage =new JButton("Choose New Profile");
+        
+        btnChooseImage.setBounds(655, 250, 200, 35);
+        styleButton(btnChooseImage);
+
+        dialog.add(btnChooseImage);
+        
+        final String[] newImagePath = {null};
+        
+        btnChooseImage.addActionListener(e -> {
+            
+            JFileChooser chooser = new JFileChooser();
+
+            int result = chooser.showOpenDialog(dialog);
+
+            if (result == JFileChooser.APPROVE_OPTION) {
+
+                File file = chooser.getSelectedFile();
+
+                newImagePath[0] =
+                        file.getAbsolutePath();
+
+                ImageIcon icon = new ImageIcon(newImagePath[0]);
+
+                Image img = icon.getImage().getScaledInstance(150,150,Image.SCALE_SMOOTH);
+
+                lblProfile.setIcon(new ImageIcon(img)
+                );
+            }
+        });
+        
+        JLabel lblAccNo = new JLabel("Account Number:");
+        lblAccNo.setBounds(30, y, 150, 25);
+        dialog.add(lblAccNo);
+
+        JTextField txtAccNo = new JTextField(acc.getAccNo());
+        txtAccNo.setBounds(200, y, 400, 25);
+        txtAccNo.setEditable(false);
+        dialog.add(txtAccNo);
+
+        y += 35;
+
+        JLabel lblName = new JLabel("Account Holder:");
+        lblName.setBounds(30, y, 150, 25);
+        dialog.add(lblName);
+
+        JTextField txtName = new JTextField(acc.getName());
+        txtName.setBounds(200, y, 400, 25);
+        dialog.add(txtName);
+
+        y += 35;
+
+        JLabel lblFather = new JLabel("Father Name:");
+        lblFather.setBounds(30, y, 150, 25);
+        dialog.add(lblFather);
+
+        JTextField txtFather = new JTextField(acc.getFatherName());
+        txtFather.setBounds(200, y, 400, 25);
+        dialog.add(txtFather);
+
+        y += 35;
+
+        JLabel lblEmail = new JLabel("Email:");
+        lblEmail.setBounds(30, y, 150, 25);
+        dialog.add(lblEmail);
+
+        JTextField txtEmail = new JTextField(acc.getEmail());
+        txtEmail.setBounds(200, y, 400, 25);
+        dialog.add(txtEmail);
+
+        y += 35;
+
+        JLabel lblIDType = new JLabel("ID Type:");
+        lblIDType.setBounds(30, y, 150, 25);
+        dialog.add(lblIDType);
+
+        JComboBox<String> cmbIDType = new JComboBox<>(new String[]{
+            "National ID",
+            "Passport",
+            "Driver's License",
+            "SSS",
+            "UMID",
+            "PhilHealth"
+        });
+
+        cmbIDType.setBounds(200, y, 400, 25);
+        cmbIDType.setSelectedItem(acc.getIdType());
+        dialog.add(cmbIDType);
+
+        y += 35;
+
+        JLabel lblIDNumber = new JLabel("ID Number:");
+        lblIDNumber.setBounds(30, y, 150, 25);
+        dialog.add(lblIDNumber);
+
+        JTextField txtIDNumber = new JTextField(acc.getIdNumber());
+        txtIDNumber.setBounds(200, y, 400, 25);
+        dialog.add(txtIDNumber);
+
+        y += 35;
+
+        JLabel lblDate = new JLabel("Date Opened:");
+        lblDate.setBounds(30, y, 150, 25);
+        dialog.add(lblDate);
+
+        JTextField txtDate = new JTextField(acc.getDate());
+        txtDate.setBounds(200, y, 400, 25);
+        txtDate.setEditable(false);
+        dialog.add(txtDate);
+
+        y += 35;
+
+        JLabel lblAccType = new JLabel("Account Type:");
+        lblAccType.setBounds(30, y, 150, 25);
+        dialog.add(lblAccType);
+
+        JComboBox<String> cmbAccType = new JComboBox<>(new String[]{
+            "Savings",
+            "Current"
+        });
+
+        cmbAccType.setBounds(200, y, 400, 25);
+        cmbAccType.setSelectedItem(acc.getAccType());
+        dialog.add(cmbAccType);
+
+        y += 35;
+
+        JLabel lblAccTitle = new JLabel("Account Title:");
+        lblAccTitle.setBounds(30, y, 150, 25);
+        dialog.add(lblAccTitle);
+
+        JTextField txtAccTitle = new JTextField(acc.getAccTitle());
+        txtAccTitle.setBounds(200, y, 400, 25);
+        dialog.add(txtAccTitle);
+
+        y += 35;
+
+        JLabel lblStatus = new JLabel("Status:");
+        lblStatus.setBounds(30, y, 150, 25);
+        dialog.add(lblStatus);
+
+        JComboBox<String> cmbStatus = new JComboBox<>(new String[]{
+            "Active",
+            "Inactive",
+            "Dormant"
+        });
+
+        cmbStatus.setBounds(200, y, 400, 25);
+        cmbStatus.setSelectedItem(acc.getAccStatus());
+        dialog.add(cmbStatus);
+
+        y += 35;
+
+        JLabel lblBalance = new JLabel("Balance:");
+        lblBalance.setBounds(30, y, 150, 25);
+        dialog.add(lblBalance);
+
+        JTextField txtBalance = new JTextField(
+                String.format("%.2f", acc.getAccBal())
+        );
+
+        txtBalance.setBounds(200, y, 400, 25);
+        txtBalance.setEditable(false);
+        dialog.add(txtBalance);
+
+        y += 45;
+
+        JSeparator sep = new JSeparator();
+        sep.setBounds(30, y, 620, 2);
+        dialog.add(sep);
+
+        y += 20;
+
+        JLabel lblPersonal = new JLabel("Personal Information");
+        lblPersonal.setForeground(ColorPalette.Blue4);
+        lblPersonal.setFont(new Font("Segoe UI", Font.BOLD, 15));
+        lblPersonal.setBounds(30, y, 250, 25);
+        dialog.add(lblPersonal);
+
+        y += 40;
+
+        JLabel lblDOB = new JLabel("Date of Birth:");
+        lblDOB.setBounds(30, y, 150, 25);
+        dialog.add(lblDOB);
+
+        JTextField txtDOB = new JTextField(
+                acc.getDob() == null ? "" : acc.getDob()
+        );
+
+        txtDOB.setBounds(200, y, 400, 25);
+        dialog.add(txtDOB);
+
+        y += 35;
+
+        JLabel lblGender = new JLabel("Gender:");
+        lblGender.setBounds(30, y, 150, 25);
+        dialog.add(lblGender);
+
+        JComboBox<String> cmbGender = new JComboBox<>(new String[]{
+            "Male",
+            "Female"
+        });
+
+        cmbGender.setBounds(200, y, 400, 25);
+
+        if (acc.getGender() != null) {
+            cmbGender.setSelectedItem(acc.getGender());
+        }
+
+        dialog.add(cmbGender);
+
+        y += 35;
+
+        JLabel lblMobile = new JLabel("Mobile Number:");
+        lblMobile.setBounds(30, y, 150, 25);
+        dialog.add(lblMobile);
+
+        JTextField txtMobile = new JTextField(
+                acc.getMobileNumber() == null ? "" : acc.getMobileNumber()
+        );
+
+        txtMobile.setBounds(200, y, 400, 25);
+        dialog.add(txtMobile);
+
+        y += 35;
+
+        JLabel lblPostal = new JLabel("Postal Code:");
+        lblPostal.setBounds(30, y, 150, 25);
+        dialog.add(lblPostal);
+
+        JTextField txtPostal = new JTextField(
+                acc.getPostalCode() == null ? "" : acc.getPostalCode()
+        );
+
+        txtPostal.setBounds(200, y, 400, 25);
+        dialog.add(txtPostal);
+
+        y += 35;
+
+        JLabel lblAddress = new JLabel("Home Address:");
+        lblAddress.setBounds(30, y, 150, 25);
+        dialog.add(lblAddress);
+
+        JTextField txtAddress = new JTextField(
+                acc.getHomeAddress() == null ? "" : acc.getHomeAddress()
+        );
+
+        txtAddress.setBounds(200, y, 400, 25);
+        dialog.add(txtAddress);
+
+        y += 35;
+
+        JLabel lblCity = new JLabel("City:");
+        lblCity.setBounds(30, y, 150, 25);
+        dialog.add(lblCity);
+
+        JTextField txtCity = new JTextField(
+                acc.getCity() == null ? "" : acc.getCity()
+        );
+
+        txtCity.setBounds(200, y, 400, 25);
+        dialog.add(txtCity);
+
+        JButton btnSave = new JButton("Save");
+        btnSave.setBounds(170, 790, 150, 40);
+        styleButton(btnSave);
+        
+        btnSave.addActionListener(e -> {
+
+            acc.setName(txtName.getText());
+            acc.setFatherName(txtFather.getText());
+            acc.setEmail(txtEmail.getText());
+
+            acc.setIdType(
+                    cmbIDType.getSelectedItem().toString()
+            );
+
+            acc.setIdNumber(txtIDNumber.getText());
+
+            acc.setAccType(
+                    cmbAccType.getSelectedItem().toString()
+            );
+
+            acc.setAccTitle(
+                    txtAccTitle.getText()
+            );
+
+            acc.setAccStatus(
+                    cmbStatus.getSelectedItem().toString()
+            );
+
+            acc.setDob(txtDOB.getText());
+
+            acc.setGender(
+                    cmbGender.getSelectedItem().toString()
+            );
+
+            acc.setMobileNumber(
+                    txtMobile.getText()
+            );
+
+            acc.setPostalCode(
+                    txtPostal.getText()
+            );
+
+            acc.setHomeAddress(
+                    txtAddress.getText()
+            );
+
+            acc.setCity(
+                    txtCity.getText()
+            );
+            
+            if (newImagePath[0] != null) {
+
+                try {
+
+                    File source = new File(newImagePath[0]);
+
+                    File folder = new File("profile_images");
+
+                    if (!folder.exists()) {
+                        folder.mkdirs();
+                    }
+
+                    String extension = "";
+
+                    int dot = source.getName().lastIndexOf('.');
+
+                    if (dot > 0) {
+                        extension = source.getName().substring(dot);
+                    }
+
+                    File destination =
+                            new File(
+                                    folder,
+                                    acc.getAccNo() + extension
+                            );
+
+                    Files.copy(
+                            source.toPath(),
+                            destination.toPath(),
+                            StandardCopyOption.REPLACE_EXISTING
+                    );
+
+                    acc.setProfileImage(
+                            destination.getPath()
+                    );
+
+                } catch (IOException ex) {
+
+                    JOptionPane.showMessageDialog(
+                            dialog,
+                            "Failed to save profile image."
+                    );
+                }
+            }
+
+            loadAccounts();
+
+            JOptionPane.showMessageDialog(
+                    dialog,
+                    "Account updated successfully!",
+                    "Success",
+                    JOptionPane.INFORMATION_MESSAGE
+            );
+
+            dialog.dispose();
+        });
+
+        dialog.add(btnSave);
+
+        JButton btnCancel = new JButton("Cancel");
+        btnCancel.setBounds(370, 790, 150, 40);
+
+        btnCancel.setBackground(Color.LIGHT_GRAY);
+        btnCancel.setFont(new Font("Segoe UI", Font.BOLD, 14));
+
+        btnCancel.addActionListener(e -> dialog.dispose());
+
+        dialog.add(btnCancel);
+
+        dialog.setVisible(true);
     }
 }

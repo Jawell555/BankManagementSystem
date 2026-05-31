@@ -1,6 +1,7 @@
 package AccountProfile;
 
 import Colors.ColorPalette;
+import Models.Employee;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
@@ -18,6 +19,7 @@ public class admnAccountProfile extends JPanel {
 
     private JSeparator topSep, midSep, bottomSep;
     private ImageIcon icon;
+    private Employee employee;
 
     public admnAccountProfile() {
         setLayout(null);
@@ -66,7 +68,7 @@ public class admnAccountProfile extends JPanel {
         imageLabel.setOpaque(true);
         imageLabel.setBackground(Color.WHITE);
 
-        icon = new ImageIcon(getClass().getResource("/profile.png"));
+        icon = new ImageIcon(employee.getProfileImage());
         Image img = icon.getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH);
         imageLabel.setIcon(new ImageIcon(img));
         add(imageLabel);
