@@ -2,6 +2,7 @@ package AccountProfile;
 
 import Colors.ColorPalette;
 import Database.EmployeeDatabase;
+import Database.EmployeeSQL;
 import Models.Employee;
 import java.awt.Color;
 import java.awt.Font;
@@ -339,7 +340,7 @@ public class employeeAccountProfile extends JPanel {
     
     private void loadEmployee() {
         
-        employee = EmployeeDatabase.currentEmployee;
+        employee = EmployeeSQL.currentEmployee;
         
         if (employee == null) return;
 

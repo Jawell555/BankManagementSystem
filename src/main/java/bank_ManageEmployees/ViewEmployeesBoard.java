@@ -6,6 +6,7 @@ package bank_ManageEmployees;
 
 import Colors.ColorPalette;
 import Database.EmployeeDatabase;
+import Database.EmployeeSQL;
 import Models.Employee;
 import java.awt.*;
 import java.io.File;
@@ -298,7 +299,7 @@ public class ViewEmployeesBoard extends JPanel {
 
                 String empID = model.getValueAt(modelRow, 1).toString();
 
-                Employee emp = EmployeeDatabase.getEmployeeByID(empID);
+                Employee emp = EmployeeSQL.getEmployeeByID(empID);
 
                 showViewDialog(emp);
             });
@@ -317,7 +318,7 @@ public class ViewEmployeesBoard extends JPanel {
 
                 String empID = model.getValueAt(modelRow, 1).toString();
 
-                Employee emp = EmployeeDatabase.getEmployeeByID(empID);
+                Employee emp = EmployeeSQL.getEmployeeByID(empID);
 
                 showEditDialog(emp);
             });
@@ -343,7 +344,7 @@ public class ViewEmployeesBoard extends JPanel {
     
     ImageIcon tableIcon;
 
-        for (Employee emp : EmployeeDatabase.employees) {
+        for (Employee emp : EmployeeSQL.getAllEmployees()) {
             
             if (emp.getProfileImage()!= null &&
                 !emp.getProfileImage().isEmpty()) {

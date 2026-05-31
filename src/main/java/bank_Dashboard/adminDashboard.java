@@ -1,8 +1,8 @@
 package bank_Dashboard;
 
 import Colors.ColorPalette;
-import Database.AccountDatabase;
-import Database.EmployeeDatabase;
+import Database.AccountSQL;
+import Database.EmployeeSQL;
 import Database.TransactionDatabase;
 import Models.Account;
 import Models.Employee;
@@ -215,10 +215,10 @@ public class adminDashboard extends JPanel {
         // Employee Table
         String[] empCols = {"Employee ID", "Employee Name", "Email", "ID Number", "Date", "Type"};
 
-        Object[][] empData = new Object[EmployeeDatabase.employees.size()][6];
-        for (int i = 0; i < EmployeeDatabase.employees.size(); i++) {
+        Object[][] empData = new Object[EmployeeSQL.getAllEmployees().size()][6];
+        for (int i = 0; i < EmployeeSQL.getAllEmployees().size(); i++) {
 
-            Employee emp = EmployeeDatabase.employees.get(i);
+            Employee emp = EmployeeSQL.getAllEmployees().get(i);
 
             empData[i][0] = emp.getEmpID();
             empData[i][1] = emp.getEmpName();
@@ -237,11 +237,11 @@ public class adminDashboard extends JPanel {
 
         // Accounts Table
         String[] accCols = {"Account Number", "Name", "Father Name", "Email","Type of ID", "ID Number", "Date", "Type"};
-       Object[][] accData = new Object[AccountDatabase.accounts.size()][8];
+       Object[][] accData = new Object[AccountSQL.getAllAccounts().size()][8];
 
-        for (int i = 0; i < AccountDatabase.accounts.size(); i++) {
+        for (int i = 0; i < AccountSQL.getAllAccounts().size(); i++) {
 
-            Account acc = AccountDatabase.accounts.get(i);
+            Account acc = AccountSQL.getAllAccounts().get(i);
 
             accData[i][0] = acc.getAccNo();
             accData[i][1] = acc.getName();
@@ -320,7 +320,7 @@ public class adminDashboard extends JPanel {
 
         double totalBankBalance = 0;
 
-        for (Account acc : AccountDatabase.accounts) {
+        for (Account acc : AccountSQL.getAllAccounts()) {
 
             if (acc.getAccType().equalsIgnoreCase("Savings")) {
                 savings++;
@@ -341,7 +341,7 @@ public class adminDashboard extends JPanel {
                 "PHP " + String.format("%,.2f", totalBankBalance)
         );
 
-        for(Employee emp : EmployeeDatabase.employees){
+        for(Employee emp : EmployeeSQL.getAllEmployees()){
             if(emp.getEmpType().equalsIgnoreCase("Employee")){
                 employees++;
             }

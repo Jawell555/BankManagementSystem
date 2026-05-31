@@ -5,6 +5,7 @@ import BankManagementMain.empSidebarPanelFrame;
 import Colors.ImagePanel;
 import Colors.ColorPalette;
 import Database.EmployeeDatabase;
+import Database.EmployeeSQL;
 import Models.Employee;
 import java.awt.Color;
 import java.awt.Cursor;
@@ -177,7 +178,7 @@ public class LoginFormFrame extends JFrame implements ActionListener {
                     ""
                 );
 
-                String sql = "SELECT role FROM users WHERE username=? AND password=?";
+                String sql = "SELECT emp_id, emp_type FROM employees WHERE username=? AND password=?";
 
                 PreparedStatement pst = conn.prepareStatement(sql);
 
@@ -187,17 +188,20 @@ public class LoginFormFrame extends JFrame implements ActionListener {
                 ResultSet rs = pst.executeQuery();
 
                 if (rs.next()) {
+                    String empID = rs.getString("emp_id");
+                
+                    EmployeeSQL.currentEmployee = EmployeeSQL.getEmployeeByID(empID);
+                    
+                    String role = rs.getString("emp_type");
 
-                    String role = rs.getString("role");
-
-                    if (role.equals("admin")) {
+                    if (role.equalsIgnoreCase("admin")) {
 
                         adminSidebarPanelFrame sf = new adminSidebarPanelFrame();
 
                         sf.setVisible(true);
                         dispose();
 
-                    } else if (role.equals("employee")) {
+                    } else if (role.equalsIgnoreCase("employee")) {
 
                         empSidebarPanelFrame sf = new empSidebarPanelFrame();
 

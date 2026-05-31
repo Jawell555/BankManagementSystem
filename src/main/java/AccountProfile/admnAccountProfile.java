@@ -21,7 +21,8 @@ public class admnAccountProfile extends JPanel {
     private ImageIcon icon;
     private Employee employee;
 
-    public admnAccountProfile() {
+    public admnAccountProfile(Employee employee) {
+        this.employee = employee;
         setLayout(null);
         setBackground(new Color(245, 247, 250));
         setBounds(0, 0, 1670, 1080);
@@ -41,7 +42,7 @@ public class admnAccountProfile extends JPanel {
         lblTitle.setForeground(darkBlue);
         add(lblTitle);
 
-        txtTotalBal = new JTextField("ADM1001");
+        txtTotalBal = new JTextField();
         txtTotalBal.setHorizontalAlignment(JTextField.RIGHT);
         txtTotalBal.setEditable(false);
         txtTotalBal.setBackground(ColorPalette.Gray);
@@ -220,5 +221,54 @@ public class admnAccountProfile extends JPanel {
         cityField.setFont(fieldFont);
         cityField.setBorder(BorderFactory.createCompoundBorder(new LineBorder(borderColor, 1, true), BorderFactory.createEmptyBorder(5, 12, 5, 12)));
         add(cityField);
+        
+        loadEmployeeData();
+    }
+    
+    private void loadEmployeeData() {
+
+        txtTotalBal.setText(employee.getEmpID());
+
+        nameField.setText(employee.getEmpName());
+        dobField.setText(employee.getDob());
+        idField.setText(employee.getIdNumber());
+        mobileField.setText(employee.getMobileNumber());
+        emailField.setText(employee.getEmail());
+        genderField.setText(employee.getGender());
+        postalField.setText(employee.getPostalCode());
+        homeField.setText(employee.getHomeAddress());
+        cityField.setText(employee.getCity());
+
+        if (employee.getProfileImage() != null
+                && !employee.getProfileImage().isEmpty()) {
+
+            ImageIcon icon =
+                    new ImageIcon(employee.getProfileImage());
+
+            Image img =
+                    icon.getImage().getScaledInstance(
+                            150,
+                            150,
+                            Image.SCALE_SMOOTH
+                    );
+
+            imageLabel.setIcon(new ImageIcon(img));
+
+        } else {
+
+            ImageIcon icon =
+                    new ImageIcon(
+                            getClass().getResource("/profile.png")
+                    );
+
+            Image img =
+                    icon.getImage().getScaledInstance(
+                            150,
+                            150,
+                            Image.SCALE_SMOOTH
+                    );
+
+            imageLabel.setIcon(new ImageIcon(img));
+        }
     }
 }

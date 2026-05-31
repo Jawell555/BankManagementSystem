@@ -7,6 +7,7 @@ import bank_BankBalance.BankBalance;
 import ChangePassword.ChangePasswordPanel;
 import Colors.ImagePanel;
 import Database.EmployeeDatabase;
+import Database.EmployeeSQL;
 import Models.Employee;
 import bank_AccountOperations.DepositBoard;
 import bank_AccountOperations.TransferBoard;
@@ -43,7 +44,7 @@ public class empSidebarPanel extends JPanel {
         profilePanel.setLayout(null);
         profilePanel.setBounds(0, 0, 250, 150);
         
-        Employee emp = EmployeeDatabase.currentEmployee;
+        Employee emp = EmployeeSQL.currentEmployee;
         
         profile = new ImageIcon(emp.getProfileImage());
         Image scaledProfile = profile.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH);

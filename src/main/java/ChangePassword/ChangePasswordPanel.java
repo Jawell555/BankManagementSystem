@@ -1,5 +1,6 @@
 package ChangePassword;
 
+import Database.EmployeeSQL;
 import Models.Employee;
 import java.awt.Color;
 import java.awt.Font;
@@ -147,15 +148,28 @@ public class ChangePasswordPanel extends JPanel {
             JOptionPane.showMessageDialog(this, "New passwords do not match.");
             return;
         }
+        
+        // Prevent same password
+        if (oldPass.equals(newPass)) {JOptionPane.showMessageDialog(this, "New password must be different from the old password.");
+            return;
+        }
 
         //Update password
-        emp.setPassword(newPass);
+        boolean success = EmployeeSQL.changePassword(emp.getEmpID(),newPass);
 
-        JOptionPane.showMessageDialog(this, "Password changed successfully!");
+        if (success) {
 
-        //Clear fields
-        oldPasswordField.setText("");
-        newPasswordField.setText("");
-        confirmPasswordField.setText("");
+            // Update currently loaded object
+            emp.setPassword(newPass);
+
+            JOptionPane.showMessageDialog(this,"Password changed successfully!");
+
+            oldPasswordField.setText("");
+            newPasswordField.setText("");
+            confirmPasswordField.setText("");
+
+        } else {
+            JOptionPane.showMessageDialog(this,"Failed to update password.","Database Error",JOptionPane.ERROR_MESSAGE);
+        }
     }
 }

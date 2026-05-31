@@ -1,11 +1,8 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package bank_ManageAccounts;
 
 import Colors.ColorPalette;
 import Database.AccountDatabase;
+import Database.AccountSQL;
 import Models.Account;
 import java.awt.*;
 import java.io.File;
@@ -41,7 +38,7 @@ public class ViewAccountBoard extends JPanel {
 
     public ViewAccountBoard() {
         this.months = new String[]{"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
-        this.accTypes = new String[]{"Savings", "Current", "All"};
+        this.accTypes = new String[]{"All", "Current", "Savings"};
         for(int i = 1; i<=31; i++){
             this.days[i-1] = i;
         }
@@ -221,15 +218,93 @@ public class ViewAccountBoard extends JPanel {
     }
 
     private void filterTable() {
-        String search = txtSearch.getText();
-        String type = cmbAccountType.getSelectedItem().toString();
 
-        if (search.trim().length() == 0 && type.equals("All")) {
+        java.util.List<RowFilter<Object, Object>> filters = new java.util.ArrayList<>();
+
+        // Search filter
+        String search = txtSearch.getText().trim();
+
+        if (!search.isEmpty() &&
+            !search.equalsIgnoreCase("Search account")) {
+
+            filters.add(
+                RowFilter.orFilter(java.util.Arrays.asList(
+                    RowFilter.regexFilter(
+                        "(?i)" + java.util.regex.Pattern.quote(search), 1),
+                    RowFilter.regexFilter(
+                        "(?i)" + java.util.regex.Pattern.quote(search), 4),
+                    RowFilter.regexFilter(
+                        "(?i)" + java.util.regex.Pattern.quote(search), 5)
+                ))
+            );
+        }
+
+        // Account Type filter
+        String accountType = cmbAccountType.getSelectedItem().toString();
+
+        if (!accountType.equals("All")) {
+
+            filters.add(
+                RowFilter.regexFilter(
+                    "^" + accountType + "$",
+                    6 // Account Type column
+                )
+            );
+        }
+
+        // Date range filter
+        try {
+
+            String startDate =
+                    txtStartYear.getText().trim() + "-"
+                    + String.format("%02d", cmbStartMonth.getSelectedIndex() + 1)
+                    + "-"
+                    + String.format("%02d", cmbStartDay.getSelectedItem());
+
+            String endDate =
+                    txtEndYear.getText().trim() + "-"
+                    + String.format("%02d", cmbEndMonth.getSelectedIndex() + 1)
+                    + "-"
+                    + String.format("%02d", cmbEndDay.getSelectedItem());
+
+            java.time.LocalDate from =
+                    java.time.LocalDate.parse(startDate);
+
+            java.time.LocalDate to =
+                    java.time.LocalDate.parse(endDate);
+
+            filters.add(new RowFilter<Object, Object>() {
+
+                @Override
+                public boolean include(
+                        Entry<? extends Object,
+                        ? extends Object> entry) {
+
+                    try {
+
+                        String dateValue =
+                                entry.getStringValue(7); // Date column
+
+                        java.time.LocalDate rowDate =
+                                java.time.LocalDate.parse(dateValue);
+
+                        return !rowDate.isBefore(from)
+                                && !rowDate.isAfter(to);
+
+                    } catch (Exception ex) {
+                        return false;
+                    }
+                }
+            });
+
+        } catch (Exception ex) {
+            // Ignore invalid date fields
+        }
+
+        if (filters.isEmpty()) {
             sorter.setRowFilter(null);
-        } else if (type.equals("All")) {
-            sorter.setRowFilter(RowFilter.regexFilter("(?i)" + search));
         } else {
-            sorter.setRowFilter(RowFilter.regexFilter(type, 5));
+            sorter.setRowFilter(RowFilter.andFilter(filters));
         }
     }
 
@@ -297,7 +372,7 @@ public class ViewAccountBoard extends JPanel {
                             model.getValueAt(modelRow, 5).toString();
 
                     Account acc =
-                            AccountDatabase.getAccountByNumber(accNo);
+                            AccountSQL.getAccountByNumber(accNo);
 
                     if (acc != null) {
                         showViewDialog(acc);
@@ -309,54 +384,44 @@ public class ViewAccountBoard extends JPanel {
             panel.add(btnEdit);
             btnEdit.addActionListener(e -> {
 
-                int row = tblAccounts.getSelectedRow();
+                            int row = tblAccounts.getSelectedRow();
 
-                if (row != -1) {
+                            if (row != -1) {
 
-                    int modelRow =
-                            tblAccounts.convertRowIndexToModel(row);
+                                int modelRow =
+                                        tblAccounts.convertRowIndexToModel(row);
 
-                    String accNo =
-                            model.getValueAt(modelRow, 5).toString();
+                                String accNo =
+                                        model.getValueAt(modelRow, 5).toString();
 
-                    Account acc =
-                            AccountDatabase.getAccountByNumber(accNo);
+                                Account acc =
+                                        AccountSQL.getAccountByNumber(accNo);
 
-                    if (acc != null) {
-                        showEditDialog(acc);
-                    }
-                }
-            });
-            
+                                if (acc != null) {
+                                    showEditDialog(acc);
+                                }
+                            }
+                        });
+
             styleTableButton(btnDelete); 
             panel.add(btnDelete);
             btnDelete.addActionListener(e -> {
 
-            int row = tblAccounts.getSelectedRow();
+                int row = tblAccounts.getSelectedRow();
 
                 if (row != -1) {
 
-                    int modelRow =
-                            tblAccounts.convertRowIndexToModel(row);
+                    int modelRow = tblAccounts.convertRowIndexToModel(row);
 
-                    String accNo =
-                            model.getValueAt(modelRow, 5).toString();
+                    String accNo = model.getValueAt(modelRow, 5).toString();
 
-                    for (int i = 0;
-                         i < AccountDatabase.accounts.size();
-                         i++) {
+                    boolean deleted = AccountSQL.deleteAccount(accNo);
 
-                        if (AccountDatabase.accounts
-                                .get(i)
-                                .getAccNo()
-                                .equals(accNo)) {
-
-                            AccountDatabase.accounts.remove(i);
-                            break;
-                        }
+                    if (deleted) {
+                        model.removeRow(modelRow);
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Delete failed!");
                     }
-
-                    model.removeRow(modelRow);
                 }
             });
         }
@@ -373,7 +438,7 @@ public class ViewAccountBoard extends JPanel {
 
         ImageIcon tableIcon;
 
-        for (Account acc : AccountDatabase.accounts) {
+        for (Account acc : AccountSQL.getAllAccounts()) {
 
             if (acc.getProfileImage()!= null &&
                 !acc.getProfileImage().isEmpty()) {
@@ -1057,6 +1122,18 @@ public class ViewAccountBoard extends JPanel {
             acc.setCity(
                     txtCity.getText()
             );
+            
+            boolean updated = AccountSQL.updateAccount(acc);
+
+            if (!updated) {
+                JOptionPane.showMessageDialog(
+                        dialog,
+                        "Failed to update account.",
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE
+                );
+                return;
+            }
             
             if (newImagePath[0] != null) {
 

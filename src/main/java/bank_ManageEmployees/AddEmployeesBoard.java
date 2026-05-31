@@ -6,6 +6,7 @@ package bank_ManageEmployees;
 
 import Colors.ColorPalette;
 import Database.EmployeeDatabase;
+import Database.EmployeeSQL;
 import Models.Employee;
 import java.awt.*;
 import java.io.File;
@@ -427,7 +428,7 @@ public class AddEmployeesBoard extends JPanel {
         
         emp.setYearsExperience(txtYrExp.getText());
         
-        for (Employee emplo : EmployeeDatabase.employees) {
+        for (Employee emplo : EmployeeSQL.getAllEmployees()) {
 
            if (emplo.getUsername().equalsIgnoreCase(txtUsername.getText().trim())) {
 
@@ -493,7 +494,7 @@ public class AddEmployeesBoard extends JPanel {
         
         emp.setProfileImage(savedImagePath);
        
-        EmployeeDatabase.employees.add(emp);
+        EmployeeSQL.addEmployee(emp);
 
         JOptionPane.showMessageDialog(this,
                 "Employee Registered Successfully!");
@@ -538,7 +539,7 @@ public class AddEmployeesBoard extends JPanel {
 
         int highest = 2000;
 
-        for (Employee emp : EmployeeDatabase.employees) {
+        for (Employee emp : EmployeeSQL.getAllEmployees()) {
 
             if (emp.getEmpID() != null &&
                 emp.getEmpID().startsWith("EMP")) {

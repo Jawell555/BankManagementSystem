@@ -6,6 +6,7 @@ package bank_ManageAccounts;
 
 import Colors.ColorPalette;
 import Database.AccountDatabase;
+import Database.AccountSQL;
 import Models.Account;
 import java.awt.Color;
 import java.awt.Cursor;
@@ -19,6 +20,10 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 public class NewAccountBoard extends JPanel {
 
@@ -63,6 +68,7 @@ public class NewAccountBoard extends JPanel {
         txtAccNum.setBackground(ColorPalette.Gray);
         txtAccNum.setBounds(1120, 40, 500, 40);
         txtAccNum.setFont(new Font("Segoe UI", Font.BOLD, 25));
+        txtAccNum.setEditable(false);
         add(txtAccNum);
         
         // Blue Separator
@@ -277,7 +283,7 @@ public class NewAccountBoard extends JPanel {
         lblAccType.setFont(labelFont);
         add(lblAccType);
         
-        cbAccType = new JComboBox<>(new String[]{"Select account type","Current","Saving"});
+        cbAccType = new JComboBox<>(new String[]{"Select account type","Savings","Current"});
         cbAccType.setFont(fieldFont);
         cbAccType.setBounds(1050, 815, 450, 35);
         add(cbAccType);
@@ -346,7 +352,37 @@ public class NewAccountBoard extends JPanel {
         acc.setAccBal(balance);
         acc.setDate(java.time.LocalDate.now().toString());
         acc.setAccStatus("Active");
-        acc.setDob(txtDOB.getText());
+        String dobInput = txtDOB.getText().trim();
+
+        try {
+
+            DateTimeFormatter inputFormat = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+          
+            LocalDate dob = LocalDate.parse(dobInput, inputFormat);
+            acc.setDob(dob.toString()); // yyyy-MM-dd
+            
+            LocalDate birthDate = LocalDate.parse(dobInput, inputFormat);
+            
+            //Future Date Validation
+            if (birthDate.isAfter(LocalDate.now())) {
+            JOptionPane.showMessageDialog(this,"Birth date cannot be in the future.");
+            markInvalid(txtDOB);
+            }
+            
+            // Age validation
+            int age = Period.between(birthDate,LocalDate.now()).getYears();
+
+            if (age < 18) {
+                JOptionPane.showMessageDialog(this,"Customer must be at least 18 years old.");
+                markInvalid(txtDOB);
+            }
+
+            markValid(txtDOB);
+
+        } catch (DateTimeParseException ex) {
+            JOptionPane.showMessageDialog(this,"Invalid Date of Birth format.\nUse MM/DD/YYYY");
+            return;
+        }
         acc.setGender(cbGender.getSelectedItem().toString());
         
         //Mobile # format validation
@@ -408,10 +444,23 @@ public class NewAccountBoard extends JPanel {
         
         acc.setProfileImage(savedImagePath);
         
-        AccountDatabase.accounts.add(acc);
+      boolean success = AccountSQL.addAccount(acc);
 
-        JOptionPane.showMessageDialog(this, "Account Registered Successfully!");
+        if (success) {
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Account Registered Successfully!"
+            );
 
+            clearFields();
+
+        } else {
+
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Failed to register account."
+            );
+        }
         clearFields();
         
     }
@@ -457,12 +506,27 @@ public class NewAccountBoard extends JPanel {
         cbGender.setSelectedIndex(0);
         cbIdType.setSelectedIndex(0);
         cbAccType.setSelectedIndex(0);
+        
+        selectedImagePath = null;
+        lblImagePath.setText("No file chosen");
+
+        ImageIcon icon =
+                new ImageIcon(
+                        getClass().getResource("/profile.png"));
+
+        Image img =
+                icon.getImage().getScaledInstance(
+                        120,
+                        120,
+                        Image.SCALE_SMOOTH);
+
+        lblImage.setIcon(new ImageIcon(img));
     }
     private String generateAccountID() {
 
            long highest = 1000000000L;
 
-           for (Account acc : AccountDatabase.accounts) {
+           for (Account acc : AccountSQL.getAllAccounts()) {
 
                if (acc.getAccNo()!= null &&
                    acc.getAccNo().startsWith("SPB")) {

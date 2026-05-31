@@ -2,6 +2,7 @@ package bank_Dashboard;
 
 import Colors.ColorPalette;
 import Database.AccountDatabase;
+import Database.AccountSQL;
 import Database.TransactionDatabase;
 import Models.Account;
 import Models.Transaction;
@@ -194,11 +195,11 @@ public class employeeDashboard extends JPanel {
 
         // Accounts Table
         String[] accCols = {"Account Number", "Name", "Father Name", "Email","Type of ID", "ID Number", "Date", "Type"};
-       Object[][] accData = new Object[AccountDatabase.accounts.size()][8];
+       Object[][] accData = new Object[AccountSQL.getAllAccounts().size()][8];
 
-        for (int i = 0; i < AccountDatabase.accounts.size(); i++) {
+        for (int i = 0; i < AccountSQL.getAllAccounts().size(); i++) {
 
-            Account acc = AccountDatabase.accounts.get(i);
+            Account acc = AccountSQL.getAllAccounts().get(i);
 
             accData[i][0] = acc.getAccNo();
             accData[i][1] = acc.getName();
@@ -272,14 +273,14 @@ public class employeeDashboard extends JPanel {
     
     private void loadDashboardData() {
 
-        int totalAccounts = AccountDatabase.accounts.size();
+        int totalAccounts = AccountSQL.getAllAccounts().size();
 
         int savings = 0;
         int current = 0;
 
         double totalBankBalance = 0;
 
-        for (Account acc : AccountDatabase.accounts) {
+        for (Account acc : AccountSQL.getAllAccounts()) {
 
             if (acc.getAccType().equalsIgnoreCase("Savings")) {
                 savings++;
