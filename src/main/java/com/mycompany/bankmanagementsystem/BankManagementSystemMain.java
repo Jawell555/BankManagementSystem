@@ -9,7 +9,7 @@ public class BankManagementSystemMain {
         log.setVisible(true);
         
         //Admin Login Credentials:
-        //Username: Admin | Password: admin123!
+        //Username: admin | Password: admin123!
         
         //Employee Login Credentials Sample:
         //Username: juandelacruz01 | Password: juan123

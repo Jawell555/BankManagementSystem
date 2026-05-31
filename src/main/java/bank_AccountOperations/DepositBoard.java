@@ -4,6 +4,7 @@ import Colors.ColorPalette;
 import Models.Account;
 import Database.AccountDatabase;
 import Database.TransactionDatabase;
+import Database.TransactionSQL;
 import bank_Dashboard.adminDashboard;
 import javax.swing.*;
 import java.awt.*;
@@ -16,6 +17,7 @@ import java.util.Date;
 public class DepositBoard extends JPanel implements ActionListener {
     
     private TransactionDatabase transactionDB = new TransactionDatabase();
+    private TransactionSQL transactionSql = new TransactionSQL();
     //Main title
     private JLabel lblTitle;
 
@@ -432,6 +434,7 @@ public class DepositBoard extends JPanel implements ActionListener {
             
             //Save transaction
             transactionDB.addTransaction(
+                    transactionSql.generateRefNumber(),//Reference No
                     foundAcc.getName(),                //Account Name
                     foundAcc.getAccNo(),               //Account Number
                     method,                    //Transaction Information

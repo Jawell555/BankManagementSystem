@@ -19,7 +19,21 @@ public class Transaction {
     private String transacInfo;
     private String altAccName;
     private double transacAmount;
+    private String refNumber;
    
+    
+    public Transaction(String refNumber, String accName, String accNumber, String transacInfo,
+            String altAccName, LocalDateTime transacDate, String historyType,
+            double transacAmount){
+    this.transacDate = transacDate;
+    this.historyType = historyType;
+    this.accName = accName;
+    this.accNumber = accNumber;
+    this.transacInfo = transacInfo;
+    this.altAccName = altAccName;
+    this.transacAmount = transacAmount;
+    this.refNumber = refNumber;
+}
     //SET
     
     public void setTransacDate(LocalDateTime transacDate){
@@ -42,6 +56,9 @@ public class Transaction {
     }
     public void setTransacAmount(double transacAmount){
         this.transacAmount = transacAmount;
+    }
+    public void setRefNumber(String refNumber){
+        this.refNumber = refNumber;
     }
     
     
@@ -66,6 +83,9 @@ public class Transaction {
     }
     public double getTransacAmount(){
         return transacAmount;
+    }
+    public String getRefNumber(){
+        return refNumber;
     }
     
   
