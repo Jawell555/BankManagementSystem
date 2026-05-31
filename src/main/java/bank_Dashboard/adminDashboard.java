@@ -314,8 +314,6 @@ public class adminDashboard extends JPanel {
     
     private void loadDashboardData() {
 
-        int totalAccounts = AccountDatabase.accounts.size();
-
         int savings = 0;
         int current = 0;
         int employees = 0;

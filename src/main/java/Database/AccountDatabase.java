@@ -20,7 +20,14 @@ public class AccountDatabase {
             "Savings",
             "Juan Dela Cruz",
             "Active",
-            25000.00
+            25000.00,
+            "1998-05-14",
+            "Male",
+            "09123456789",
+            "4024",
+            "Purok 1 Brgy. San Isidro",
+            "Cabuyao City",
+            "profile_images/SPB1000000001.png"
     );
 
     addAccount(
@@ -34,7 +41,14 @@ public class AccountDatabase {
             "Current",
             "Maria Santos",
             "Active",
-            150000.00
+            150000.00,
+            "1995-08-22",
+            "Female",
+            "09187654321",
+            "4026",
+            "Block 12 San Pedro Homes",
+            "San Pedro City",
+            "profile_images/SPB1000000002.png"
     );
 
     addAccount(
@@ -48,7 +62,14 @@ public class AccountDatabase {
             "Savings",
             "Carlos Reyes ITF Nathan Reyes",
             "Inactive",
-            8900.50
+            8900.50,
+            "1990-11-03",
+            "Male",
+            "09234567891",
+            "4027",
+            "Phase 2 Green Village",
+            "Calamba City",
+            "profile_images/SPB1000000003.png"
     );
 
     addAccount(
@@ -62,7 +83,14 @@ public class AccountDatabase {
             "Savings",
             "Ana Lopez",
             "Active",
-            45600.00
+            45600.00,
+            "1997-01-17",
+            "Female",
+            "09345678123",
+            "4028",
+            "Villa Rosario Subdivision",
+            "Santa Rosa City",
+            "profile_images/SPB1000000004.png"
     );
 
     addAccount(
@@ -76,7 +104,14 @@ public class AccountDatabase {
             "Current",
             "Mark Bautista",
             "Dormant",
-            98000.00
+            98000.00,
+            "1988-07-09",
+            "Male",
+            "09456781234",
+            "4000",
+            "Barangay Mabuhay",
+            "Cabuyao City",
+            "profile_images/SPB1000000005.png"
     );
 
     addAccount(
@@ -90,7 +125,14 @@ public class AccountDatabase {
             "Savings",
             "Liza Gomez ITF Sophia Gomez",
             "Active",
-            12340.75
+            12340.75,
+            "1993-09-10",
+            "Female",
+            "09567812345",
+            "4025",
+            "Rosewood Village",
+            "Biñan City",
+            "profile_images/SPB1000000006.png"
     );
 
     addAccount(
@@ -104,7 +146,14 @@ public class AccountDatabase {
             "Current",
             "Paul Navarro",
             "Active",
-            78500.00
+            78500.00,
+            "1996-12-01",
+            "Male",
+            "09678123456",
+            "4029",
+            "Sunshine Homes",
+            "Santa Rosa City",
+            "profile_images/SPB1000000007.png"
     );
 
     addAccount(
@@ -118,7 +167,14 @@ public class AccountDatabase {
             "Savings",
             "Karla Mendoza",
             "Active",
-            33210.90
+            33210.90,
+            "1999-06-27",
+            "Female",
+            "09781234567",
+            "4001",
+            "Lakeside Residences",
+            "Calamba City",
+            "profile_images/SPB1000000008.png"
     );
     }
 
@@ -133,7 +189,15 @@ public class AccountDatabase {
             String accType,
             String accTitle,
             String accStatus,
-            double balance
+            double balance,
+            String dob,
+            String gender,
+            String mobileNumber,
+            String postalCode,
+            String homeAddress,
+            String city,
+            String profileImage
+          
     ) {
 
         Account acc = new Account();
@@ -149,6 +213,13 @@ public class AccountDatabase {
         acc.setAccTitle(accTitle);
         acc.setAccStatus(accStatus);
         acc.setAccBal(balance);
+        acc.setDob(dob);
+        acc.setGender(gender);
+        acc.setMobileNumber(mobileNumber);
+        acc.setPostalCode(postalCode);
+        acc.setHomeAddress(homeAddress);
+        acc.setCity(city);
+        acc.setProfileImage(profileImage);
 
         accounts.add(acc);
     }

@@ -13,6 +13,13 @@ public class Account {
     private double accBal;
     private String accTitle;
     private String accStatus;
+    private String dob;
+    private String gender;
+    private String mobileNumber;
+    private String postalCode;
+    private String homeAddress;
+    private String city;
+    private String profileImage;
 
     public Account() {
     }
@@ -60,8 +67,36 @@ public class Account {
     
     public String getAccStatus(){
             return accStatus;
-        }
+    }
+    
+    public String getDob() {
+    return dob;
+    }
 
+    public String getGender() {
+        return gender;
+    }
+
+    public String getMobileNumber() {
+        return mobileNumber;
+    }
+
+    public String getPostalCode() {
+        return postalCode;
+    }
+
+    public String getHomeAddress() {
+        return homeAddress;
+    }
+
+    public String getCity() {
+        return city;
+    }
+    
+    public String getProfileImage(){
+        return profileImage;
+    }
+    
     // SETTERS
     public void setAccNo(String accNo) {
         this.accNo = accNo;
@@ -105,5 +140,33 @@ public class Account {
     
     public void setAccStatus(String accStatus) {
         this.accStatus = accStatus;
+    }
+    
+    public void setDob(String dob) {
+    this.dob = dob;
+}
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public void setMobileNumber(String mobileNumber) {
+        this.mobileNumber = mobileNumber;
+    }
+
+    public void setPostalCode(String postalCode) {
+        this.postalCode = postalCode;
+    }
+
+    public void setHomeAddress(String homeAddress) {
+        this.homeAddress = homeAddress;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+    
+    public void setProfileImage(String profileImage) {
+        this.profileImage = profileImage;
     }
 }

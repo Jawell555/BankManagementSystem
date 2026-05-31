@@ -1,5 +1,6 @@
 package ChangePassword;
 
+import Models.Employee;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Cursor;
@@ -12,8 +13,11 @@ public class ChangePasswordPanel extends JPanel {
     private JPasswordField oldPasswordField, newPasswordField, confirmPasswordField;
     private JButton changePasswordButton;
     private JSeparator separator;
+    private Employee emp;
 
-    public ChangePasswordPanel() {
+    public ChangePasswordPanel(Employee emp) {
+        this.emp = emp;
+        
         setLayout(null);
         setBackground(new Color(245, 247, 250));
         setBounds(0, 0, 1670, 450);
@@ -105,7 +109,7 @@ public class ChangePasswordPanel extends JPanel {
         changePasswordButton.setFocusPainted(false);
         changePasswordButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
         changePasswordButton.setBorder(new LineBorder(buttonColor, 1, true));
-
+        changePasswordButton.addActionListener(e -> changePassword());
         // Hover effect
         changePasswordButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
@@ -118,5 +122,40 @@ public class ChangePasswordPanel extends JPanel {
         });
 
         add(changePasswordButton);
+    }
+    
+    private void changePassword() {
+
+        String oldPass = new String(oldPasswordField.getPassword());
+        String newPass = new String(newPasswordField.getPassword());
+        String confirmPass = new String(confirmPasswordField.getPassword());
+
+        //Check old password
+        if (!emp.getPassword().equals(oldPass)) {
+            JOptionPane.showMessageDialog(this, "Old password is incorrect.");
+            return;
+        }
+
+        //Check empty fields
+        if (newPass.isEmpty() || confirmPass.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Password fields cannot be empty.");
+            return;
+        }
+
+        //Check match
+        if (!newPass.equals(confirmPass)) {
+            JOptionPane.showMessageDialog(this, "New passwords do not match.");
+            return;
+        }
+
+        //Update password
+        emp.setPassword(newPass);
+
+        JOptionPane.showMessageDialog(this, "Password changed successfully!");
+
+        //Clear fields
+        oldPasswordField.setText("");
+        newPasswordField.setText("");
+        confirmPasswordField.setText("");
     }
 }

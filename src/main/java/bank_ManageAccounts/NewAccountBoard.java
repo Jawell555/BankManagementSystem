@@ -5,12 +5,20 @@
 package bank_ManageAccounts;
 
 import Colors.ColorPalette;
+import Database.AccountDatabase;
+import Models.Account;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.Image;
 import javax.swing.*;
+import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 
 public class NewAccountBoard extends JPanel {
 
@@ -33,6 +41,11 @@ public class NewAccountBoard extends JPanel {
     private JButton btnRegister, btnImage; 
     private JComboBox<String> cbGender,cbIdType, cbAccType;
     private JSeparator topSep, midSep1, midSep2, botSep;
+    
+    private final Border normalBorder = new LineBorder(Color.GRAY, 1);
+    private final Border errorBorder = new LineBorder(Color.RED, 2);
+    
+    private String selectedImagePath;
 
     public NewAccountBoard() {
         setLayout(null);
@@ -45,9 +58,8 @@ public class NewAccountBoard extends JPanel {
         lblMTitle.setFont(new Font("Segoe UI", Font.BOLD, 25));
         add(lblMTitle);
         
-        txtAccNum = new JTextField("SPB1000000009");
+        txtAccNum = new JTextField(generateAccountID());
         txtAccNum.setHorizontalAlignment(JTextField.RIGHT);
-        txtAccNum.setEditable(false);
         txtAccNum.setBackground(ColorPalette.Gray);
         txtAccNum.setBounds(1120, 40, 500, 40);
         txtAccNum.setFont(new Font("Segoe UI", Font.BOLD, 25));
@@ -78,7 +90,6 @@ public class NewAccountBoard extends JPanel {
         txtName = new JTextField("Enter full name");
         txtName.setBounds(60, 185, 450, 35);
         txtName.setFont(fieldFont);
-        txtName.setEditable(false);
         add(txtName);
         
         lblDOB = new JLabel("Date of Birth");
@@ -89,7 +100,6 @@ public class NewAccountBoard extends JPanel {
         txtDOB = new JTextField("MM/DD/YYYY");
         txtDOB.setBounds(550, 185, 450, 35);
         txtDOB.setFont(fieldFont);
-        txtDOB.setEditable(false);
         add(txtDOB);
         
         lblFN = new JLabel("Gender");
@@ -111,7 +121,6 @@ public class NewAccountBoard extends JPanel {
         txtMobNum = new JTextField("Enter mobile number");
         txtMobNum.setBounds(60, 260, 450, 35);
         txtMobNum.setFont(fieldFont);
-        txtMobNum.setEditable(false);
         add(txtMobNum);
         
         lblIdType = new JLabel("Type of Valid ID");
@@ -132,7 +141,6 @@ public class NewAccountBoard extends JPanel {
         txtIdNum = new JTextField("Enter ID number");
         txtIdNum.setBounds(1050, 260, 450, 35);
         txtIdNum.setFont(fieldFont);
-        txtIdNum.setEditable(false);
         add(txtIdNum);
         
         // Personal Infos: Row 3
@@ -144,7 +152,6 @@ public class NewAccountBoard extends JPanel {
         txtEmail = new JTextField("Enter email account");
         txtEmail.setBounds(60, 335, 450, 35);
         txtEmail.setFont(fieldFont);
-        txtEmail.setEditable(false);
         add(txtEmail);
         
         lblFN = new JLabel("Father Name");
@@ -155,7 +162,6 @@ public class NewAccountBoard extends JPanel {
         txtFN = new JTextField("Enter father name");
         txtFN.setBounds(550, 335, 450, 35);
         txtFN.setFont(fieldFont);
-        txtFN.setEditable(false);
         add(txtFN);
         
         // Blue Separator
@@ -212,7 +218,6 @@ public class NewAccountBoard extends JPanel {
         txtPC = new JTextField("Enter postal code");
         txtPC.setBounds(60, 670, 450, 35);
         txtPC.setFont(fieldFont);
-        txtPC.setEditable(false);
         add(txtPC);
         
         lblHA = new JLabel("Home Address");
@@ -223,7 +228,6 @@ public class NewAccountBoard extends JPanel {
         txtHA = new JTextField("Enter home address");
         txtHA.setBounds(550, 670, 450, 35);
         txtHA.setFont(fieldFont);
-        txtHA.setEditable(false);
         add(txtHA);
         
         lblCity = new JLabel("City");
@@ -234,7 +238,6 @@ public class NewAccountBoard extends JPanel {
         txtCity = new JTextField("Enter city name");
         txtCity.setBounds(1050, 670, 450, 35);
         txtCity.setFont(fieldFont);
-        txtCity.setEditable(false);
         add(txtCity);
         
         // Blue Separator
@@ -257,7 +260,6 @@ public class NewAccountBoard extends JPanel {
         txtAccTitle = new JTextField("Enter account title");
         txtAccTitle.setBounds(60, 815, 450, 35);
         txtAccTitle.setFont(fieldFont);
-        txtAccTitle.setEditable(false);
         add(txtAccTitle);
         
         lblAccBal = new JLabel("Account Balance");
@@ -268,7 +270,6 @@ public class NewAccountBoard extends JPanel {
         txtAccBal = new JTextField("Enter account balance");
         txtAccBal.setBounds(550, 815, 450, 35);
         txtAccBal.setFont(fieldFont);
-        txtAccBal.setEditable(false);
         add(txtAccBal);
         
         lblAccType = new JLabel("Account Type");
@@ -304,41 +305,144 @@ public class NewAccountBoard extends JPanel {
     }
 
     private void saveAccount() {
-        if (txtName.getText().trim().isEmpty()
-            || txtDOB.getText().trim().isEmpty()
-            || txtMobNum.getText().trim().isEmpty()
-            || txtIdNum.getText().trim().isEmpty()
-            || txtEmail.getText().trim().isEmpty()
-            || txtFN.getText().trim().isEmpty()
-            || txtPC.getText().trim().isEmpty()
-            || txtHA.getText().trim().isEmpty()
-            || txtCity.getText().trim().isEmpty()
-            || txtAccTitle.getText().trim().isEmpty()
-            || txtAccBal.getText().trim().isEmpty()
-            || cbGender.getSelectedItem() == null
-            || cbGender.getSelectedItem().toString().equals("Select Gender")
-            || cbIdType.getSelectedItem() == null
-            || cbIdType.getSelectedItem().toString().equals("Select ID Type")
-            || cbAccType.getSelectedItem() == null
-            || cbAccType.getSelectedItem().toString().equals("Select Account Type")) 
-        {
-            JOptionPane.showMessageDialog(this, "Please fill in all fields.");
+        if (!validateForm()) {
+            JOptionPane.showMessageDialog(this, "Please fix highlighted fields.");
             return;
         }
         
-        JOptionPane.showMessageDialog(this, "Account form submitted.\n");
+        Account acc = new Account();
+
+        acc.setAccNo(txtAccNum.getText());
+        acc.setName(txtName.getText());
+        acc.setFatherName(txtFN.getText());
+        
+        //Email format validation
+        String email = txtEmail.getText().trim();
+        if (!email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$")) {
+            JOptionPane.showMessageDialog(this, "Invalid email format.");
+            return;
+        }
+        acc.setEmail(email);
+        acc.setIdType(cbIdType.getSelectedItem().toString());
+        acc.setIdNumber(txtIdNum.getText());
+        acc.setAccType(cbAccType.getSelectedItem().toString());
+        acc.setAccTitle(txtAccTitle.getText());
+        
+        //Balance Validation
+        double balance; 
+        try {
+            balance = Double.parseDouble(txtAccBal.getText().trim());
+
+            if (balance < 0) {
+                JOptionPane.showMessageDialog(this, "Balance cannot be negative.");
+                return;
+            }
+
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Balance must be a valid number (e.g. 1000.50).");
+            return;
+        }
+
+        acc.setAccBal(balance);
+        acc.setDate(java.time.LocalDate.now().toString());
+        acc.setAccStatus("Active");
+        acc.setDob(txtDOB.getText());
+        acc.setGender(cbGender.getSelectedItem().toString());
+        
+        //Mobile # format validation
+        String mobile = txtMobNum.getText().trim();
+        if (!mobile.matches("^09\\d{9}$")) {
+            JOptionPane.showMessageDialog(this, "Invalid mobile number. Use 09XXXXXXXXX format.");
+            return;
+        }
+        acc.setMobileNumber(mobile);
+
+        acc.setPostalCode(txtPC.getText());
+        acc.setHomeAddress(txtHA.getText());
+        acc.setCity(txtCity.getText());
+        
+        //Profile Picture logic
+        String savedImagePath = "profile_images/default.png";
+
+        if (selectedImagePath != null) {
+
+            try {
+
+                File source = new File(selectedImagePath);
+
+                File folder = new File("profile_images");
+
+                if (!folder.exists()) {
+                    folder.mkdirs();
+                }
+
+                String extension = "";
+
+                int dot = source.getName().lastIndexOf('.');
+
+                if (dot > 0) {
+                    extension = source.getName().substring(dot);
+                }
+
+                File destination = new File(
+                        folder,
+                        txtAccNum.getText() + extension
+                );
+
+                Files.copy(
+                        source.toPath(),
+                        destination.toPath(),
+                        StandardCopyOption.REPLACE_EXISTING
+                );
+
+                savedImagePath = destination.getPath();
+
+            } catch (IOException ex) {
+
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Failed to save profile image."
+                );
+            }
+        }
+        
+        acc.setProfileImage(savedImagePath);
+        
+        AccountDatabase.accounts.add(acc);
+
+        JOptionPane.showMessageDialog(this, "Account Registered Successfully!");
+
         clearFields();
         
     }
     
-    private void chooseImage() {
-        
-        JOptionPane.showMessageDialog(this,
-                "This feature is not yet available :( \n");
+   private void chooseImage() {
+
+        JFileChooser chooser = new JFileChooser();
+
+        int result = chooser.showOpenDialog(this);
+
+        if (result == JFileChooser.APPROVE_OPTION) {
+
+            File file = chooser.getSelectedFile();
+
+            selectedImagePath = file.getAbsolutePath();
+
+            lblImagePath.setText(file.getName());
+
+            ImageIcon icon = new ImageIcon(selectedImagePath);
+
+            Image img = icon.getImage().getScaledInstance(
+                    120, 120,
+                    Image.SCALE_SMOOTH
+            );
+
+            lblImage.setIcon(new ImageIcon(img));
+        }
     }
 
     private void clearFields() {
-        txtAccNum.setText("");
+        txtAccNum.setText(generateAccountID());
         txtName.setText("");
         txtDOB.setText("");
         txtMobNum.setText("");
@@ -354,5 +458,103 @@ public class NewAccountBoard extends JPanel {
         cbIdType.setSelectedIndex(0);
         cbAccType.setSelectedIndex(0);
     }
- 
+    private String generateAccountID() {
+
+           long highest = 1000000000L;
+
+           for (Account acc : AccountDatabase.accounts) {
+
+               if (acc.getAccNo()!= null &&
+                   acc.getAccNo().startsWith("SPB")) {
+
+                   try {
+
+                       long num = Long.parseLong(
+                               acc.getAccNo().substring(3));
+
+                       if (num > highest) {
+                           highest = num;
+                       }
+
+                   } catch (NumberFormatException ex) {
+                       // Ignore invalid IDs
+                   }
+               }
+           }
+
+           return "SPB" + (highest + 1);
+    }
+    
+    private boolean validateField(JTextField field, String placeholder) {
+        String value = field.getText().trim();
+
+        if (value.isEmpty() || value.equalsIgnoreCase(placeholder)) {
+            markInvalid(field);
+            return false;
+        } else {
+            markValid(field);
+            return true;
+        }
+    }
+    private void markValid(JTextField field) {
+        field.setBorder(normalBorder);
+    }
+
+    private void markInvalid(JTextField field) {
+        field.setBorder(errorBorder);
+    }
+    
+    //Form Validation
+    private boolean validateForm() {
+
+        boolean valid = true;
+
+        valid &= validateField(txtName, "Enter full name");
+        valid &= validateField(txtDOB, "MM/DD/YYYY");
+        valid &= validateField(txtMobNum, "Enter mobile number");
+        valid &= validateField(txtIdNum, "Enter ID number");
+        valid &= validateField(txtEmail, "Enter email account");
+        valid &= validateField(txtFN, "Enter father name");
+        valid &= validateField(txtPC, "Enter postal code");
+        valid &= validateField(txtHA, "Enter home address");
+        valid &= validateField(txtCity, "Enter city name");
+        valid &= validateField(txtAccTitle, "Enter account title");
+        valid &= validateField(txtAccBal, "Enter account balance");
+
+        // Combo boxes
+        if (cbGender.getSelectedIndex() == 0) {
+            cbGender.setBorder(errorBorder);
+            valid = false;
+        } else {
+            cbGender.setBorder(normalBorder);
+        }
+
+        if (cbIdType.getSelectedIndex() == 0) {
+            cbIdType.setBorder(errorBorder);
+            valid = false;
+        } else {
+            cbIdType.setBorder(normalBorder);
+        }
+
+        if (cbAccType.getSelectedIndex() == 0) {
+            cbAccType.setBorder(errorBorder);
+            valid = false;
+        } else {
+            cbAccType.setBorder(normalBorder);
+        }
+
+        // Balance numeric check
+        try {
+            double bal = Double.parseDouble(txtAccBal.getText().trim());
+            if (bal < 0) {
+                markInvalid(txtAccBal);
+                valid = false;
+            }
+        } catch (Exception e) {
+            markInvalid(txtAccBal);
+            valid = false;
+        }
+
+        return valid;
+    }
 }
