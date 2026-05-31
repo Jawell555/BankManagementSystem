@@ -28,8 +28,6 @@ public class TransactionDatabase {
 //                LocalDateTime.of(2023, 1, 19, 5, 47, 58), "Deposit", 0.00);
 //        addTransaction("Maria Santos", "SPB1000000002", "SPB1000000001", "Juan Dela Cruz",
 //                LocalDateTime.of(2023, 1, 19, 5, 47, 58), "Received", 0.00);
-
-    
     }
     
     static{
