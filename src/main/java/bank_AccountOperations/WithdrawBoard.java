@@ -3,6 +3,7 @@ package bank_AccountOperations;
 import Colors.ColorPalette;
 import Database.AccountDatabase;
 import Database.TransactionDatabase;
+import Database.TransactionSQL;
 import Models.Account;
 import bank_Dashboard.adminDashboard;
 import javax.swing.*;
@@ -16,6 +17,8 @@ import java.time.LocalDateTime;
 import java.util.Date;
 
 public class WithdrawBoard extends JPanel implements ActionListener {
+    
+    private TransactionSQL transactionSql = new TransactionSQL();
     
     //Main Panel Title
     private JLabel lblTitle;
@@ -590,6 +593,7 @@ public class WithdrawBoard extends JPanel implements ActionListener {
             }
                 //Store transaction
                 TransactionDatabase.addTransaction(
+                        transactionSql.generateRefNumber(),
                         acc.getName(),
                         acc.getAccNo(),
                         method,

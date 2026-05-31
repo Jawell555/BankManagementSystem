@@ -3,6 +3,7 @@ package bank_AccountOperations;
 import Colors.ColorPalette; 
 import Database.AccountDatabase;
 import Database.TransactionDatabase;
+import Database.TransactionSQL;
 import Models.Account;
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -17,7 +18,7 @@ import java.util.Date;
 public class TransferBoard extends JPanel implements ActionListener {
     
     private TransactionDatabase transactionDB = new TransactionDatabase();
-    
+    private TransactionSQL transactionSql = new TransactionSQL();
     //Main Panel Title
     private JLabel lblTitle;
 
@@ -608,6 +609,7 @@ public class TransferBoard extends JPanel implements ActionListener {
                 
                 // Sender record (DEBIT)
                 transactionDB.addTransaction(
+                    transactionSql.generateRefNumber(),
                     senderAcc.getName(),
                     senderAcc.getAccNo(),
                     receiverAcc.getAccNo(),
@@ -619,6 +621,7 @@ public class TransferBoard extends JPanel implements ActionListener {
 
                 // Receiver record (CREDIT)
                 transactionDB.addTransaction(
+                    transactionSql.generateRefNumber(),
                     receiverAcc.getName(),
                     receiverAcc.getAccNo(),
                     senderAcc.getAccNo(),

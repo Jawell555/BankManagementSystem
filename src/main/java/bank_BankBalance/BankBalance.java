@@ -10,6 +10,7 @@ import java.awt.*;
 import javax.swing.*;
 import javax.swing.table.JTableHeader;
 import Database.TransactionDatabase;
+import Database.TransactionSQL;
 import Models.Transaction;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,6 +19,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -26,6 +28,7 @@ import java.util.List;
 public class BankBalance extends JPanel implements ActionListener {
 
     TransactionDatabase BankLogic = new TransactionDatabase();
+    TransactionSQL transacSql = new TransactionSQL();
     AccountDatabase db = new AccountDatabase();
 
     JLabel lblTitle, lblFrom, lblTo;
@@ -160,7 +163,7 @@ public class BankBalance extends JPanel implements ActionListener {
             pnlTblContainer.setFont(fntText);
             add(pnlTblContainer);
 
-            tblBalHistory = BankLogic.createStyledTable(BankLogic.TransactionList, historyColumns);
+            tblBalHistory = transacSql.createStyledTable(transacSql.getAllTransactionData());
             scpnBalHistory = new JScrollPane(tblBalHistory);
             scpnBalHistory.setBounds(20, 25, 1530, 700);
             pnlTblContainer.add(scpnBalHistory);
@@ -175,8 +178,8 @@ public class BankBalance extends JPanel implements ActionListener {
             LocalDateTime startDate = convertDate(cmbStartMonth.getSelectedIndex(), cmbStartDay.getSelectedIndex(), txtStartYear.getText());
             LocalDateTime endDate = convertDate(cmbEndMonth.getSelectedIndex(), cmbEndDay.getSelectedIndex(), txtEndYear.getText());
             pnlTblContainer.remove(scpnBalHistory);
-            ArrayList<Transaction> filtered = BankLogic.getList(txtSearch.getText(), (String) cmbHistoryType.getSelectedItem(), startDate, endDate);
-            tblBalHistory = BankLogic.createStyledTable(filtered, historyColumns);
+            DefaultTableModel filtered = transacSql.getFilteredList(txtSearch.getText(), (String) cmbHistoryType.getSelectedItem(), startDate, endDate);
+            tblBalHistory = transacSql.createStyledTable(filtered);
             scpnBalHistory = new JScrollPane(tblBalHistory);
             scpnBalHistory.setBounds(20, 25, 1530, 700);
             pnlTblContainer.add(scpnBalHistory);

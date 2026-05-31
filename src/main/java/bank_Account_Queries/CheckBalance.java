@@ -11,13 +11,16 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
 import Database.TransactionDatabase;
+import Database.TransactionSQL;
 import Models.Transaction;
 import java.time.LocalDateTime;
+import javax.swing.table.DefaultTableModel;
 
 public class CheckBalance extends JPanel implements ActionListener {
 
     TransactionDatabase BankLogic = new TransactionDatabase();
-
+    TransactionSQL transacSql = new TransactionSQL();
+    
     JLabel lblTitle, lblFrom, lblTo, lblHeaderTitle, lblAccNum, lblAccNo, lblAccType, lblHolderName, lblAccBal;
     JPanel pnlTblContainer, pnlSearch, infoBoard, searchBoard;
     JTextField txtAccNum, txtAccNo, txtAccType, txtStartYear, txtEndYear, txtHolderName, txtAccBal;
@@ -292,8 +295,8 @@ public class CheckBalance extends JPanel implements ActionListener {
         LocalDateTime endDate = convertDate(cmbEndMonth.getSelectedIndex(), cmbEndDay.getSelectedIndex(), txtEndYear.getText());
 
         pnlTblContainer.remove(scpnBalHistory);
-        ArrayList<Transaction> filtered = BankLogic.getList(txtAccNum.getText(), (String) cmbHistoryType.getSelectedItem(), startDate, endDate);
-        tblBalHistory = BankLogic.createStyledTable(filtered, historyColumns);
+        DefaultTableModel filtered = transacSql.getFilteredList(txtAccNum.getText(), (String) cmbHistoryType.getSelectedItem(), startDate, endDate);
+        tblBalHistory = transacSql.createStyledTable(filtered);
         scpnBalHistory = new JScrollPane(tblBalHistory);
         scpnBalHistory.setBounds(20, 25, 1480, 255);
         pnlTblContainer.add(scpnBalHistory);
@@ -301,8 +304,8 @@ public class CheckBalance extends JPanel implements ActionListener {
 
     public void searchByNumber() {
         pnlTblContainer.remove(scpnBalHistory);
-        ArrayList<Transaction> filtered = BankLogic.getListByNumber(txtAccNum.getText());
-        tblBalHistory = BankLogic.createStyledTable(filtered, historyColumns);
+        DefaultTableModel filtered = transacSql.getListByAccNum(txtAccNum.getText());
+        tblBalHistory = transacSql.createStyledTable(filtered);
         scpnBalHistory = new JScrollPane(tblBalHistory);
         scpnBalHistory.setBounds(20, 25, 1480, 255);
         pnlTblContainer.add(scpnBalHistory);
