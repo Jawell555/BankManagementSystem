@@ -316,6 +316,4 @@ public class EmployeeDatabase {
     }
 
     public static Employee currentEmployee;
-    
-    
 }

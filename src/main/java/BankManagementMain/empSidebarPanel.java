@@ -174,7 +174,7 @@ public class empSidebarPanel extends JPanel {
             closeOtherMenus("");
             resetMainButtonColors();
             btnChangePass.setForeground(ColorPalette.redPastel);
-            navPage.turnPage(new ChangePasswordPanel()); //Paltan niyo nalang yung 'new adminDashboard()'
+            navPage.turnPage(new ChangePasswordPanel(emp)); //Paltan niyo nalang yung 'new adminDashboard()'
             updateMenuPositions();
         });
 

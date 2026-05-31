@@ -24,7 +24,7 @@ public class AddEmployeesBoard extends JPanel {
             lblSubt2, lblImage, lblImagePath, // Row 4
             lblSubt3, lblPC, lblHA, lblCity, // Row 5
             lblSubt4, lblEducLvl, lblCurrJob, lblYrExp, // Row 6
-            lblSubt5, lblUsername, lblUserType; // Row 7
+            lblSubt5, lblUsername, lblUserType, lblPassword; // Row 7
     
     private JTextField txtAccNum, 
             txtName, txtDOB, txtGender, // Row 1
@@ -32,7 +32,7 @@ public class AddEmployeesBoard extends JPanel {
             txtEmail, txtFN, // Row 3
             txtPC, txtHA, txtCity, // Row 5
             txtEducLvl, txtCurrJob,txtYrExp, // Row 6
-            txtUsername, txtUserType; // Row 7
+            txtUsername, txtUserType, txtPassword; // Row 7
     
     private ImageIcon icon;
     private JButton btnRegister, btnImage; 
@@ -320,6 +320,17 @@ public class AddEmployeesBoard extends JPanel {
         txtUserType.setEditable(false);
         txtUserType.setBounds(550, 960, 450, 35);
         contentPanel.add(txtUserType);
+        
+        lblPassword = new JLabel("Password");
+        lblPassword.setBounds(1050, 935, 130, 22);
+        lblPassword.setFont(labelFont);
+        contentPanel.add(lblPassword);
+        
+        txtPassword = new JTextField(generateEmployeeID());
+        txtPassword.setFont(fieldFont);
+        txtPassword.setEditable(false);
+        txtPassword.setBounds(1050, 960, 450, 35);
+        contentPanel.add(txtPassword);
         
 //        //Blue Separator
         botSep2 = new JSeparator();

@@ -6,6 +6,7 @@ import Colors.ColorPalette;
 import bank_BankBalance.BankBalance;
 import ChangePassword.ChangePasswordPanel;
 import Colors.ImagePanel;
+import Database.EmployeeDatabase;
 import bank_AccountOperations.DepositBoard;
 import bank_AccountOperations.TransferBoard;
 import bank_AccountOperations.WithdrawBoard;
@@ -190,7 +191,7 @@ public class adminSidebarPanel extends JPanel {
             closeOtherMenus("");
             resetMainButtonColors();
             btnChangePass.setForeground(ColorPalette.redPastel);
-            navPage.turnPage(new ChangePasswordPanel()); //Paltan niyo nalang yung 'new Dashboard()'
+            navPage.turnPage(new ChangePasswordPanel(EmployeeDatabase.currentEmployee)); //Paltan niyo nalang yung 'new Dashboard()'
             updateMenuPositions();
         });
 
