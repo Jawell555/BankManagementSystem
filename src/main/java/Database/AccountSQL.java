@@ -238,4 +238,19 @@ public class AccountSQL {
 
         return false;
     }
+    public static void updateBalance(String accNo, double newBalance) {
+    String sql = "UPDATE accounts SET acc_bal = ? WHERE acc_no = ?";
+
+        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setDouble(1, newBalance);
+            ps.setString(2, accNo);
+
+            ps.executeUpdate();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

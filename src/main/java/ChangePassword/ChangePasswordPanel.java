@@ -127,6 +127,8 @@ public class ChangePasswordPanel extends JPanel {
     
     private void changePassword() {
 
+        emp = EmployeeSQL.currentEmployee;
+        
         String oldPass = new String(oldPasswordField.getPassword());
         String newPass = new String(newPasswordField.getPassword());
         String confirmPass = new String(confirmPasswordField.getPassword());

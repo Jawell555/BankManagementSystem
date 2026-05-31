@@ -2,6 +2,7 @@ package bank_AccountOperations;
 
 import Colors.ColorPalette;
 import Database.AccountDatabase;
+import Database.AccountSQL;
 import Database.TransactionDatabase;
 import Database.TransactionSQL;
 import Models.Account;
@@ -358,7 +359,7 @@ public class WithdrawBoard extends JPanel implements ActionListener {
             return;
         }
 
-        Account foundAcc = AccountDatabase.getAccountByNumber(searchedAcc);
+        Account foundAcc = AccountSQL.getAccountByNumber(searchedAcc);
 
         if (foundAcc != null) {
             txtAccTitle.setText(foundAcc.getAccTitle());
@@ -469,7 +470,7 @@ public class WithdrawBoard extends JPanel implements ActionListener {
         dialog.add(sep1);
 
         //Money computations
-        Account acc = AccountDatabase.getAccountByNumber(accNum);
+        Account acc = AccountSQL.getAccountByNumber(accNum);
         double fee = cmbMethod.getSelectedIndex() == 0 ? 0.00 : 15.00; //OTC is free, teh rest has fee
         double totalDeduction = amountToWithdraw + fee;
         
@@ -580,6 +581,8 @@ public class WithdrawBoard extends JPanel implements ActionListener {
 
                 //Deduct BOTH withdrawal + fee
                 acc.setAccBal(newBalance);
+                AccountSQL.updateBalance(acc.getAccNo(), newBalance);
+
 
                 //Refresh balance display
                 txtBalance.setText(
@@ -592,7 +595,7 @@ public class WithdrawBoard extends JPanel implements ActionListener {
                        method = "Check Withdrawal";
             }
                 //Store transaction
-                TransactionDatabase.addTransaction(
+                transactionSql.addTransaction(
                         transactionSql.generateRefNumber(),
                         acc.getName(),
                         acc.getAccNo(),

@@ -2,6 +2,7 @@ package bank_AccountOperations;
 
 import Colors.ColorPalette; 
 import Database.AccountDatabase;
+import Database.AccountSQL;
 import Database.TransactionDatabase;
 import Database.TransactionSQL;
 import Models.Account;
@@ -419,8 +420,8 @@ public class TransferBoard extends JPanel implements ActionListener {
             return;
         }
 
-        Account sender = AccountDatabase.getAccountByNumber(senderAccNum);
-        Account receiver = AccountDatabase.getAccountByNumber(receiverAccNum);
+        Account sender = AccountSQL.getAccountByNumber(senderAccNum);
+        Account receiver = AccountSQL.getAccountByNumber(receiverAccNum);
 
         boolean hasError = false;
 
@@ -481,7 +482,7 @@ public class TransferBoard extends JPanel implements ActionListener {
             double fee = (cmbTransType.getSelectedIndex() == 0) ? 0.00 : 15.00;
             double totalDeduction = amountToTransfer + fee;
             
-            Account senderAcc = AccountDatabase.getAccountByNumber(senderNum);
+            Account senderAcc = AccountSQL.getAccountByNumber(senderNum);
             if (senderAcc != null && totalDeduction > senderAcc.getAccBal()) {
                 JOptionPane.showMessageDialog(this, "Sender has insufficient balance for this transaction + fees.", "Transaction Failed", JOptionPane.ERROR_MESSAGE);
                 return;
@@ -591,8 +592,8 @@ public class TransferBoard extends JPanel implements ActionListener {
   
         btnConfirm.addActionListener(e -> {
 
-            Account senderAcc = AccountDatabase.getAccountByNumber(senderNum);
-            Account receiverAcc = AccountDatabase.getAccountByNumber(receiverNum);
+            Account senderAcc = AccountSQL.getAccountByNumber(senderNum);
+            Account receiverAcc = AccountSQL.getAccountByNumber(receiverNum);
 
             if (senderAcc != null && receiverAcc != null) {
 
@@ -608,7 +609,7 @@ public class TransferBoard extends JPanel implements ActionListener {
                 );
                 
                 // Sender record (DEBIT)
-                transactionDB.addTransaction(
+                transactionSql.addTransaction(
                     transactionSql.generateRefNumber(),
                     senderAcc.getName(),
                     senderAcc.getAccNo(),
@@ -620,7 +621,7 @@ public class TransferBoard extends JPanel implements ActionListener {
                 );
 
                 // Receiver record (CREDIT)
-                transactionDB.addTransaction(
+                transactionSql.addTransaction(
                     transactionSql.generateRefNumber(),
                     receiverAcc.getName(),
                     receiverAcc.getAccNo(),

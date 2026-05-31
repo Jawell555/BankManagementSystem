@@ -2,6 +2,7 @@ package bank_Account_Queries;
 
 import Colors.ColorPalette;
 import Database.AccountDatabase;
+import Database.AccountSQL;
 import Models.Account;
 
 import java.awt.*;
@@ -315,7 +316,7 @@ public class CheckBalance extends JPanel implements ActionListener {
                 String searchAccNo = txtAccNum.getText().trim();
 
                 Account acc =
-                        AccountDatabase.getAccountByNumber(searchAccNo);
+                        AccountSQL.getAccountByNumber(searchAccNo);
 
                 if (acc != null) {
                     txtHolderName.setText(acc.getName());

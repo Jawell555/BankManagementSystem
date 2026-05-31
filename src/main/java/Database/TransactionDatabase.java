@@ -31,26 +31,18 @@ public class TransactionDatabase {
     
     public static ArrayList<Transaction> TransactionList = new ArrayList<>();
 
-    public TransactionDatabase() {
-//        addTransaction("Juan Dela Cruz", "SPB1000000001", "SPB1000000002", "Maria Santos",
-//                LocalDateTime.of(2023, 1, 19, 5, 47, 58), "Deposit", 0.00);
-//        addTransaction("Maria Santos", "SPB1000000002", "SPB1000000001", "Juan Dela Cruz",
-//                LocalDateTime.of(2023, 1, 19, 5, 47, 58), "Received", 0.00);
-    }
-
     static {
-        addTransaction(
+        addT(
                 "REF0000000001",
                 "Juan Dela Cruz",
                 "SPB1000000001",
                 "Initial Deposit",
                 "BANK SYSTEM",
-                LocalDateTime.of(2023, 1, 15, 10, 0, 1),
+               LocalDateTime.of(2023, 1, 15, 10, 0, 1),
                 "Deposit",
-                25000.00
+               25000.00
         );
-
-        addTransaction(
+        addT(
                 "REF0000000002",
                 "Maria Santos",
                 "SPB1000000002",
@@ -61,7 +53,7 @@ public class TransactionDatabase {
                 150000.00
         );
 
-        addTransaction(
+        addT(
                 "REF0000000003",
                 "Carlos Reyes",
                 "SPB1000000003",
@@ -72,7 +64,7 @@ public class TransactionDatabase {
                 8900.50
         );
 
-        addTransaction(
+        addT(
                 "REF0000000004",
                 "Ana Lopez",
                 "SPB1000000004",
@@ -83,18 +75,7 @@ public class TransactionDatabase {
                 45600.00
         );
 
-        addTransaction(
-                "REF0000000005",
-                "Mark Bautista",
-                "SPB1000000005",
-                "Initial Deposit",
-                "BANK SYSTEM",
-                LocalDateTime.of(2020, 9, 5, 16, 20, 5),
-                "Deposit",
-                98000.00
-        );
-
-        addTransaction(
+       addT(
                 "REF0000000006",
                 "Liza Gomez",
                 "SPB1000000006",
@@ -105,18 +86,18 @@ public class TransactionDatabase {
                 12340.75
         );
 
-        addTransaction(
+        addT(
                 "REF0000000007",
                 "Paul Navarro",
                 "SPB1000000007",
                 "Initial Deposit",
-                "BANK SYSTEM",
+                  "BANK SYSTEM",
                 LocalDateTime.of(2021, 12, 1, 13, 0, 8),
                 "Deposit",
                 78500.00
         );
 
-        addTransaction(
+        addT(
                 "REF0000000008",
                 "Karla Mendoza",
                 "SPB1000000008",
@@ -128,14 +109,15 @@ public class TransactionDatabase {
         );
     }
 
-    public static void addTransaction(String refNumber, String accName,
+    public static void addT(String refNumber, String accName,
             String accNumber, String transacInfo,
             String altAccName, LocalDateTime transacDate,
             String historyType, double transacAmount) {
         Transaction transact = new Transaction(refNumber, accName, accNumber, transacInfo,
              altAccName, transacDate, historyType, transacAmount);
         TransactionList.add(transact);
-    }
+    }          
+
 
     public ArrayList<Transaction> getAllTransList() {
         return TransactionList;

@@ -6,6 +6,7 @@ package bank_BankBalance;
 
 import Colors.ColorPalette;
 import Database.AccountDatabase;
+import Database.AccountSQL;
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.table.JTableHeader;
@@ -27,10 +28,8 @@ import javax.swing.table.DefaultTableModel;
  */
 public class BankBalance extends JPanel implements ActionListener {
 
-    TransactionDatabase BankLogic = new TransactionDatabase();
     TransactionSQL transacSql = new TransactionSQL();
-    AccountDatabase db = new AccountDatabase();
-
+    
     JLabel lblTitle, lblFrom, lblTo;
     JPanel pnlTblContainer, pnlSearch;
     JTextField txtTotalBal, txtSearch, txtStartYear, txtEndYear;
@@ -44,7 +43,7 @@ public class BankBalance extends JPanel implements ActionListener {
     private final String[] days = new String[32];
     private String[] historyColumns = {"Name", "Account Number", "Transaction Information", "Sender/Receiver Name", "Date & Time", "History Type", "Amount"};
 
-    double TotalBal = db.getTotalBalance();
+    double TotalBal = AccountSQL.getTotalBalance();
     String formattedTotal = String.format("Php %,.2f", TotalBal);
 
     Font fntTitle = new Font("Segoe UI", Font.BOLD, 25);
@@ -168,7 +167,8 @@ public class BankBalance extends JPanel implements ActionListener {
             scpnBalHistory.setBounds(20, 25, 1530, 700);
             pnlTblContainer.add(scpnBalHistory);
         }
-
+        
+        txtTotalBal.setText(String.format("Php %,.2f", TotalBal));
         btnFilter.addActionListener(this);
     }
 
@@ -177,7 +177,9 @@ public class BankBalance extends JPanel implements ActionListener {
         if (e.getSource() == btnFilter) {
             LocalDateTime startDate = convertDate(cmbStartMonth.getSelectedIndex(), cmbStartDay.getSelectedIndex(), txtStartYear.getText());
             LocalDateTime endDate = convertDate(cmbEndMonth.getSelectedIndex(), cmbEndDay.getSelectedIndex(), txtEndYear.getText());
-            pnlTblContainer.remove(scpnBalHistory);
+            pnlTblContainer.removeAll();
+            pnlTblContainer.revalidate();
+            pnlTblContainer.repaint();
             DefaultTableModel filtered = transacSql.getFilteredList(txtSearch.getText(), (String) cmbHistoryType.getSelectedItem(), startDate, endDate);
             tblBalHistory = transacSql.createStyledTable(filtered);
             scpnBalHistory = new JScrollPane(tblBalHistory);

@@ -41,6 +41,53 @@ public class TransactionSQL extends TransactionDatabase {
     public TransactionSQL() {
 
     }
+    
+    public boolean addTransaction(
+            String refID,
+            String accName,
+            String accNumber,
+            String transacInfo,
+            String altAccName,
+            LocalDateTime transacDate,
+            String historyType,
+            double amount
+    ) {
+
+        String sql = """
+            INSERT INTO transactions (
+                refID,
+                accName,
+                accNumber,
+                transacInfo,
+                altAccName,
+                transacDate,
+                historyType,
+                transacAmount
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+        """;
+
+        try (
+            Connection conn = DriverManager.getConnection(url, user, pass);
+            PreparedStatement ps = conn.prepareStatement(sql)
+        ) {
+
+            ps.setString(1, refID);
+            ps.setString(2, accName);
+            ps.setString(3, accNumber);
+            ps.setString(4, transacInfo);
+            ps.setString(5, altAccName);
+            ps.setObject(6, transacDate);
+            ps.setString(7, historyType);
+            ps.setDouble(8, amount);
+
+            return ps.executeUpdate() > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
 
     public DefaultTableModel getListByAccNum(String accSearch) {
         DefaultTableModel model = new DefaultTableModel();
@@ -166,20 +213,35 @@ public class TransactionSQL extends TransactionDatabase {
         return null;
     }
 
-    public String generateRefNumber() {
+public String generateRefNumber() {
 
-        String lastID = getLastRefNumber();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
-        String date = (LocalDate.now().format(formatter));
+    String lastID = getLastRefNumber();
+    String today = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
 
-        if (lastID == null || lastID.isEmpty()) {
-            return "REF" + date + "000001";
+    // default first reference of the day
+    if (lastID == null || lastID.isEmpty()) {
+        return "REF" + today + "000001";
+    }
+
+    try {
+        // check if same day as last transaction
+        String lastDate = lastID.substring(3, 11); // REF + YYYYMMDD
+        String lastSeqStr = lastID.substring(11);   // remaining digits
+
+        int nextSeq;
+
+        if (lastDate.equals(today)) {
+            nextSeq = Integer.parseInt(lastSeqStr) + 1;
+        } else {
+            nextSeq = 1; // reset daily
         }
 
-        int numPart = Integer.parseInt(lastID.substring(11));
-        int next = numPart + 1;
-        return "REF" + date + String.format("%06d", next);
+        return "REF" + today + String.format("%06d", nextSeq);
+
+    } catch (Exception e) {
+        return "REF" + today + "000001";
     }
+}
 
     public JTable createStyledTable(DefaultTableModel model) {
 

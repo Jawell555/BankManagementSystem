@@ -3,6 +3,7 @@ package bank_AccountOperations;
 import Colors.ColorPalette;
 import Models.Account;
 import Database.AccountDatabase;
+import Database.AccountSQL;
 import Database.TransactionDatabase;
 import Database.TransactionSQL;
 import bank_Dashboard.adminDashboard;
@@ -16,7 +17,6 @@ import java.util.Date;
 
 public class DepositBoard extends JPanel implements ActionListener {
     
-    private TransactionDatabase transactionDB = new TransactionDatabase();
     private TransactionSQL transactionSql = new TransactionSQL();
     //Main title
     private JLabel lblTitle;
@@ -287,7 +287,7 @@ public class DepositBoard extends JPanel implements ActionListener {
             return;
         }
 
-        Account foundAcc = AccountDatabase.getAccountByNumber(searchedAcc);
+        Account foundAcc = AccountSQL.getAccountByNumber(searchedAcc);
 
         if (foundAcc != null) {
             txtAccTitle.setText(foundAcc.getAccTitle());
@@ -412,13 +412,14 @@ public class DepositBoard extends JPanel implements ActionListener {
         btnConfirm.addActionListener(e -> {
 
         //Get the account
-        Account foundAcc = AccountDatabase.getAccountByNumber(accNum);
+        Account foundAcc = AccountSQL.getAccountByNumber(accNum);
 
         if(foundAcc != null){
 
             //Update balance
             double newBalance = foundAcc.getAccBal() + amountToDeposit;
             foundAcc.setAccBal(newBalance);
+            AccountSQL.updateBalance(foundAcc.getAccNo(), newBalance);
 
             //Refresh displayed balance
             txtBalance.setText(String.format("PHP %,.2f", newBalance));
@@ -433,17 +434,16 @@ public class DepositBoard extends JPanel implements ActionListener {
             }
             
             //Save transaction
-            transactionDB.addTransaction(
-                    transactionSql.generateRefNumber(),//Reference No
-                    foundAcc.getName(),                //Account Name
-                    foundAcc.getAccNo(),               //Account Number
-                    method,                    //Transaction Information
-                    txtDepositor.getText(),            //Depositor
-                    LocalDateTime.now(),               //Transaction Date
-                    "Deposit",                         //History Type
-                    amountToDeposit                    //Amount
+            transactionSql.addTransaction(
+                transactionSql.generateRefNumber(),
+                foundAcc.getName(),
+                foundAcc.getAccNo(),
+                method,
+                txtDepositor.getText(),
+                LocalDateTime.now(),
+                "Deposit",
+                amountToDeposit
             );
-
             dialog.dispose();
 
             JOptionPane.showMessageDialog(
