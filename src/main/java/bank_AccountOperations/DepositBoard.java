@@ -196,7 +196,7 @@ public class DepositBoard extends JPanel implements ActionListener {
         lblRefNum.setBounds(50, 40, 200, 20);
         actionBoard.add(lblRefNum);
 
-        txtRefNum = new JTextField("REF12345678"); 
+        txtRefNum = new JTextField(transactionSql.generateRefNumber()); 
         txtRefNum.setEditable(false); 
         txtRefNum.setBackground(new Color(225, 225, 225)); 
         txtRefNum.setBorder(BorderFactory.createLineBorder(ColorPalette.Blue5, 1));

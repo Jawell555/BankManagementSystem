@@ -4,12 +4,14 @@ import Colors.ColorPalette;
 import Database.AccountSQL;
 import Database.EmployeeSQL;
 import Database.TransactionDatabase;
+import Database.TransactionSQL;
 import Models.Account;
 import Models.Employee;
 import Models.Transaction;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 
 public class adminDashboard extends JPanel {
@@ -23,6 +25,8 @@ public class adminDashboard extends JPanel {
     private JTableHeader header;
 
     public adminDashboard() {
+        TransactionSQL transactionSQL = new TransactionSQL();
+        DefaultTableModel model = transactionSQL.getAllTransactionData();
         
         setLayout(null);
         setBounds(0, 0, 1670, 1080);
@@ -258,8 +262,9 @@ public class adminDashboard extends JPanel {
         scrollPaneAccounts.setBorder(BorderFactory.createEmptyBorder());
         scrollPaneAccounts.setVisible(false);
         tableContainer.add(scrollPaneAccounts);
-
-        ArrayList<Transaction> list = TransactionDatabase.TransactionList;
+        
+        TransactionSQL transactionSQL = new TransactionSQL();
+        ArrayList<Transaction> list = transactionSQL.getAllTransactions();
 
         String[] transCols = {"Account Name", "Account No", "Type", "Amount", "Date"};
 
@@ -351,8 +356,8 @@ public class adminDashboard extends JPanel {
 
         double totalDeposit = 0;
         double totalWithdraw = 0;
-
-        for (Transaction t : TransactionDatabase.TransactionList) {
+        TransactionSQL transactionSQL = new TransactionSQL();
+        for (Transaction t : transactionSQL.getAllTransactions()) {
 
             if (t.getHistoryType().equalsIgnoreCase("Deposit")
                 || t.getHistoryType().toLowerCase().contains("received")) {

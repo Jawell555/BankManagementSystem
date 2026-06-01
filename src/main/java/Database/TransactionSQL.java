@@ -5,6 +5,7 @@
 package Database;
 
 import Colors.ColorPalette;
+import Models.Transaction;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -213,35 +214,35 @@ public class TransactionSQL extends TransactionDatabase {
         return null;
     }
 
-public String generateRefNumber() {
+    public String generateRefNumber() {
 
-    String lastID = getLastRefNumber();
-    String today = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
+        String lastID = getLastRefNumber();
+        String today = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
 
-    // default first reference of the day
-    if (lastID == null || lastID.isEmpty()) {
-        return "REF" + today + "000001";
-    }
-
-    try {
-        // check if same day as last transaction
-        String lastDate = lastID.substring(3, 11); // REF + YYYYMMDD
-        String lastSeqStr = lastID.substring(11);   // remaining digits
-
-        int nextSeq;
-
-        if (lastDate.equals(today)) {
-            nextSeq = Integer.parseInt(lastSeqStr) + 1;
-        } else {
-            nextSeq = 1; // reset daily
+        // default first reference of the day
+        if (lastID == null || lastID.isEmpty()) {
+            return "REF" + today + "000001";
         }
 
-        return "REF" + today + String.format("%06d", nextSeq);
+        try {
+            // check if same day as last transaction
+            String lastDate = lastID.substring(3, 11); // REF + YYYYMMDD
+            String lastSeqStr = lastID.substring(11);   // remaining digits
 
-    } catch (Exception e) {
-        return "REF" + today + "000001";
+            int nextSeq;
+
+            if (lastDate.equals(today)) {
+                nextSeq = Integer.parseInt(lastSeqStr) + 1;
+            } else {
+                nextSeq = 1; // reset daily
+            }
+
+            return "REF" + today + String.format("%06d", nextSeq);
+
+        } catch (Exception e) {
+            return "REF" + today + "000001";
+        }
     }
-}
 
     public JTable createStyledTable(DefaultTableModel model) {
 
@@ -296,5 +297,38 @@ public String generateRefNumber() {
 
         }
         return model;
+    }
+    
+       public ArrayList<Transaction> getAllTransactions() {
+
+        ArrayList<Transaction> list = new ArrayList<>();
+
+        try (
+            Connection conn = DriverManager.getConnection(url, user, pass);
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM transactions")
+        ) {
+
+            while (rs.next()) {
+
+                Transaction t = new Transaction(
+                    rs.getString("refID"),
+                    rs.getString("accName"),
+                    rs.getString("accNumber"),
+                    rs.getString("transacInfo"),
+                    rs.getString("altAccName"),
+                    rs.getObject("transacDate", LocalDateTime.class),
+                    rs.getString("historyType"),
+                    rs.getDouble("transacAmount")
+                );
+
+                list.add(t);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return list;
     }
 }

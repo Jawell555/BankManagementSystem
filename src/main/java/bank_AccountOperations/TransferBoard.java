@@ -270,7 +270,7 @@ public class TransferBoard extends JPanel implements ActionListener {
         lblRefNum.setBounds(50, 40, 200, 25);
         actionBoard.add(lblRefNum);
 
-        txtRefNum = new JTextField("REF987654321"); 
+        txtRefNum = new JTextField(transactionSql.generateRefNumber()); 
         txtRefNum.setEditable(false); 
         txtRefNum.setBackground(new Color(225, 225, 225)); 
         txtRefNum.setBorder(BorderFactory.createLineBorder(ColorPalette.Blue5, 1));
