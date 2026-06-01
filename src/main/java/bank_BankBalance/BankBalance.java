@@ -51,7 +51,7 @@ public class BankBalance extends JPanel implements ActionListener {
 
     public BankBalance() {
         this.months = new String[]{"Month", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
-        this.historyChoices = new String[]{"History Type", "Deposit", "Withdrawal", "Transfer", "Received"};
+        this.historyChoices = new String[]{"History Type", "Deposit", "- Cash Check", "- Post Dated Check" ,"Withdrawal", "- Check Withdrawal","- Cash Withdrawal" ,"Transfer", "Received"};
         for (int i = 0; i <= 31; i++) {
             if (i == 0) {
                 this.days[i] = "Day";
@@ -94,61 +94,61 @@ public class BankBalance extends JPanel implements ActionListener {
             pnlSearch.add(txtSearch);
 
             cmbHistoryType = new JComboBox<>(historyChoices);
-            cmbHistoryType.setBounds(615, 25, 115, 30);
+            cmbHistoryType.setBounds(615, 25, 135, 30);
             cmbHistoryType.setFont(fntText);
             cmbHistoryType.setBackground(Color.white);
             pnlSearch.add(cmbHistoryType);
 
             lblFrom = new JLabel("From:", SwingConstants.RIGHT);
-            lblFrom.setBounds(750, 25, 35, 31);
+            lblFrom.setBounds(770, 25, 35, 31);
             lblFrom.setFont(fntText);
             lblFrom.setBackground(Color.white);
             pnlSearch.add(lblFrom);
 
             cmbStartMonth = new JComboBox<>(months);
-            cmbStartMonth.setBounds(790, 25, 90, 30);
+            cmbStartMonth.setBounds(810, 25, 90, 30);
             cmbStartMonth.setFont(fntText);
             cmbStartMonth.setBackground(Color.white);
             pnlSearch.add(cmbStartMonth);
 
             cmbStartDay = new JComboBox<>(days);
-            cmbStartDay.setBounds(880, 25, 70, 30);
+            cmbStartDay.setBounds(900, 25, 70, 30);
             cmbStartDay.setFont(fntText);
             cmbStartDay.setBackground(Color.white);
             pnlSearch.add(cmbStartDay);
 
             txtStartYear = new JTextField("Year");
-            txtStartYear.setBounds(950, 25, 70, 31);
+            txtStartYear.setBounds(970, 25, 70, 31);
             txtStartYear.setFont(fntText);
             txtStartYear.setBackground(Color.white);
             pnlSearch.add(txtStartYear);
 
             lblTo = new JLabel("To:", SwingConstants.RIGHT);
-            lblTo.setBounds(1040, 25, 35, 31);
+            lblTo.setBounds(1060, 25, 35, 31);
             lblTo.setFont(fntText);
             lblTo.setBackground(Color.white);
             pnlSearch.add(lblTo);
 
             cmbEndMonth = new JComboBox<>(months);
-            cmbEndMonth.setBounds(1080, 25, 90, 30);
+            cmbEndMonth.setBounds(1100, 25, 90, 30);
             cmbEndMonth.setFont(fntText);
             cmbEndMonth.setBackground(Color.white);
             pnlSearch.add(cmbEndMonth);
 
             cmbEndDay = new JComboBox<>(days);
-            cmbEndDay.setBounds(1170, 25, 70, 30);
+            cmbEndDay.setBounds(1190, 25, 70, 30);
             cmbEndDay.setFont(fntText);
             cmbEndDay.setBackground(Color.white);
             pnlSearch.add(cmbEndDay);
 
             txtEndYear = new JTextField("Year");
-            txtEndYear.setBounds(1240, 25, 70, 31);
+            txtEndYear.setBounds(1260, 25, 70, 31);
             txtEndYear.setFont(fntText);
             txtEndYear.setBackground(Color.white);
             pnlSearch.add(txtEndYear);
 
             btnFilter = new JButton("Filter");
-            btnFilter.setBounds(1390, 25, 120, 30);
+            btnFilter.setBounds(1410, 25, 120, 30);
             btnFilter.setFont(fntText);
             btnFilter.setForeground(Color.WHITE);
             btnFilter.setBackground(ColorPalette.Blue4);
