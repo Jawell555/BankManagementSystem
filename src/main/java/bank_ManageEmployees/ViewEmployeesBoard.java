@@ -325,9 +325,50 @@ public class ViewEmployeesBoard extends JPanel {
             
             styleTableButton(btnDelete); 
             panel.add(btnDelete);
-            btnDelete.addActionListener(e -> {int row = tblAccounts.getSelectedRow();
-                if (row != -1) {
-                    model.removeRow(tblAccounts.convertRowIndexToModel(row));
+            btnDelete.addActionListener(e -> {
+
+                int row = tblAccounts.getSelectedRow();
+
+                if (row == -1) {
+                    return;
+                }
+
+                int modelRow = tblAccounts.convertRowIndexToModel(row);
+
+                String empID = model.getValueAt(modelRow, 1).toString();
+
+                int choice = JOptionPane.showConfirmDialog(
+                        panel,
+                        "Are you sure you want to delete Employee " + empID + "?",
+                        "Confirm Delete",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.WARNING_MESSAGE
+                );
+
+                if (choice == JOptionPane.YES_OPTION) {
+
+                    boolean deleted = EmployeeSQL.deleteEmployee(empID);
+
+                    if (deleted) {
+
+                        loadEmployees();
+
+                        JOptionPane.showMessageDialog(
+                                panel,
+                                "Employee deleted successfully.",
+                                "Success",
+                                JOptionPane.INFORMATION_MESSAGE
+                        );
+
+                    } else {
+
+                        JOptionPane.showMessageDialog(
+                                panel,
+                                "Failed to delete employee.",
+                                "Error",
+                                JOptionPane.ERROR_MESSAGE
+                        );
+                    }
                 }
             });
         }
@@ -963,6 +1004,29 @@ public class ViewEmployeesBoard extends JPanel {
             emp.setYearsExperience(txtExperience.getText());
 
             emp.setStatus(cmbStatus.getSelectedItem().toString());
+            
+            boolean success = EmployeeSQL.updateEmployee(emp);
+
+            if(success){
+                loadEmployees();
+
+                JOptionPane.showMessageDialog(
+                    dialog,
+                    "Employee updated successfully!",
+                    "Success",
+                    JOptionPane.INFORMATION_MESSAGE
+                );
+
+                dialog.dispose();
+            }else{
+                JOptionPane.showMessageDialog(
+                    dialog,
+                    "Failed to update employee.",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE
+                );
+            }
+            
 
             if (newImagePath[0] != null) {
 
