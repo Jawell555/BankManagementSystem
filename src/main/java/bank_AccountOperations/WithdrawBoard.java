@@ -3,6 +3,7 @@ package bank_AccountOperations;
 import Colors.ColorPalette;
 import Database.AccountDatabase;
 import Database.AccountSQL;
+import Database.EmployeeSQL;
 import Database.TransactionDatabase;
 import Database.TransactionSQL;
 import Models.Account;
@@ -538,8 +539,18 @@ public class WithdrawBoard extends JPanel implements ActionListener {
         lblTellerName.setFont(new Font("Segoe UI", Font.PLAIN, 13));
         lblTellerName.setBounds(30, 365, 100, 25);
         dialog.add(lblTellerName);
+        
+        String tellerInfo = "No Employee";
 
-        JTextField txtTellerName = new JTextField("Teller 2006 - hatdog8080"); 
+        if (EmployeeSQL.currentEmployee != null) {
+
+            tellerInfo =
+                    EmployeeSQL.currentEmployee.getEmpID()
+                    + " - "
+                    + EmployeeSQL.currentEmployee.getEmpName();
+        }
+        
+        JTextField txtTellerName = new JTextField(tellerInfo); 
         txtTellerName.setEditable(false);
         txtTellerName.setBackground(new Color(235, 235, 235));
         txtTellerName.setBounds(110, 365, 260, 25);
@@ -565,9 +576,7 @@ public class WithdrawBoard extends JPanel implements ActionListener {
        btnConfirm.addActionListener(e -> {
 
         String enteredPin = new String(txtTellerPin.getPassword());
-        
-       
-
+        String empPin = EmployeeSQL.currentEmployee.getPassword();
         if (enteredPin.trim().isEmpty()) {
 
             JOptionPane.showMessageDialog(
@@ -575,9 +584,17 @@ public class WithdrawBoard extends JPanel implements ActionListener {
                     "Please enter your Teller PIN.",
                     "Authorization Error",
                     JOptionPane.WARNING_MESSAGE
-            );
+            );  
+            return;
 
-        } else {
+        } else if(!enteredPin.trim().equals(empPin)){
+                    JOptionPane.showMessageDialog(
+                    dialog,
+                    "Teller PIN is not correct.",
+                    "Authorization Error",
+                    JOptionPane.ERROR_MESSAGE
+            ); return;
+                    }else {
 
                 //Deduct BOTH withdrawal + fee
                 acc.setAccBal(newBalance);

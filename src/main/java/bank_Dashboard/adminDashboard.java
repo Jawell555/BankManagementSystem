@@ -16,9 +16,9 @@ import javax.swing.table.JTableHeader;
 
 public class adminDashboard extends JPanel {
     
-    private JLabel lblTitle, lblTitleEmp, lblEmpValue, lblTitleCurrAcc, lblCurrAccValue, lblTitleSavAcc, lblSavAccValue, lblTitleBankBalance,
+    private JLabel lblTitle, lblTitleAdm, lblAdmValue, lblTitleEmp, lblEmpValue, lblTitleCurrAcc, lblCurrAccValue, lblTitleSavAcc, lblSavAccValue, lblTitleBankBalance,
             lblSavBankBalance, lblTitleWithdraw, lblWithdrawValue, lblTitleDeposit, lblDepositValue, lblTitleTrans, lblTransValue, lblInfoBoard;
-    private JPanel headerTop, statsPanel, empCard, currAccCard, savAccCard, bankBalanceCard, withdrawCard, depositCard, transCard, tableContainer;
+    private JPanel headerTop, statsPanel, admCard, empCard, currAccCard, savAccCard, bankBalanceCard, withdrawCard, depositCard, transCard, tableContainer;
     private JButton btnEmployees, btnAccounts, btnTransactions;
     private JTable employeeTable, accountsTable, transTable, table;
     private JScrollPane scrollPaneEmployee, scrollPaneAccounts, scrollPaneTrans;
@@ -43,10 +43,25 @@ public class adminDashboard extends JPanel {
         statsPanel.setOpaque(false);
         statsPanel.setBounds(50, 90, 1630, 250); 
         add(statsPanel);
+        
+         // Bank Balance card
+        admCard = createCardPanel();
+        admCard.setBounds(0, 10, 330, 90); 
+
+        lblTitleAdm = createCardTitle("ADMINS");
+        lblTitleAdm.setBounds(18, 12, 160, 20);
+        admCard.add(lblTitleAdm);
+
+        lblAdmValue = createCardValue("6");
+        lblAdmValue.setFont(new Font("Segoe UI", Font.BOLD, 20));
+        lblAdmValue.setBounds(18, 38, 260, 30);
+        admCard.add(lblAdmValue);
+        
+        statsPanel.add(admCard);
 
         // Employee card
         empCard = createCardPanel();
-        empCard.setBounds(0, 10, 330, 90); 
+        empCard.setBounds(370, 10, 330, 90); 
 
         lblTitleEmp = createCardTitle("EMPLOYEES");
         lblTitleEmp.setBounds(18, 12, 160, 20);
@@ -60,7 +75,7 @@ public class adminDashboard extends JPanel {
         
         // Current Accounts card
         currAccCard = createCardPanel();
-        currAccCard.setBounds(370, 10, 330, 90); 
+        currAccCard.setBounds(740, 10, 330, 90); 
 
         lblTitleCurrAcc = createCardTitle("CURRENT ACCOUNTS");
         lblTitleCurrAcc.setBounds(18, 12, 180, 20);
@@ -74,7 +89,7 @@ public class adminDashboard extends JPanel {
         
         // Saving Accounts card
         savAccCard = createCardPanel();
-        savAccCard.setBounds(740, 10, 330, 90); 
+        savAccCard.setBounds(1110, 10, 330, 90); 
 
         lblTitleSavAcc = createCardTitle("SAVINGS ACCOUNTS");
         lblTitleSavAcc.setBounds(18, 12, 180, 20);
@@ -85,10 +100,10 @@ public class adminDashboard extends JPanel {
         savAccCard.add(lblSavAccValue);
         
         statsPanel.add(savAccCard);
-        
-        // Bank Balance card
+            
+         // Bank Balance card
         bankBalanceCard = createCardPanel();
-        bankBalanceCard.setBounds(1110, 10, 330, 90); 
+        bankBalanceCard.setBounds(0, 130, 330, 90); 
 
         lblTitleBankBalance = createCardTitle("BANK BALANCE");
         lblTitleBankBalance.setBounds(18, 12, 160, 20);
@@ -103,7 +118,7 @@ public class adminDashboard extends JPanel {
         
         // Withdrawn Money card
         withdrawCard = createCardPanel();
-        withdrawCard.setBounds(0, 130, 330, 90); 
+        withdrawCard.setBounds(1110, 130, 330, 90); 
 
         lblTitleWithdraw = createCardTitle("WITHDRAW TOTAL");
         lblTitleWithdraw.setBounds(18, 12, 160, 20);

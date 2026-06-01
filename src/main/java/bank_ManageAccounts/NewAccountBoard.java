@@ -7,6 +7,7 @@ package bank_ManageAccounts;
 import Colors.ColorPalette;
 import Database.AccountDatabase;
 import Database.AccountSQL;
+import Database.TransactionSQL;
 import Models.Account;
 import java.awt.Color;
 import java.awt.Cursor;
@@ -445,12 +446,25 @@ public class NewAccountBoard extends JPanel {
         acc.setProfileImage(savedImagePath);
         
       boolean success = AccountSQL.addAccount(acc);
+      
+        if (success && balance > 0) {
+
+            TransactionSQL transactionSql = new TransactionSQL();
+
+            transactionSql.addTransaction(
+                    transactionSql.generateRefNumber(),
+                    acc.getName(),
+                    acc.getAccNo(),
+                    "BANK",
+                    "Opening Balance",
+                    java.time.LocalDateTime.now(),
+                    "Initial Deposit",
+                    balance
+            );
+        }
 
         if (success) {
-            JOptionPane.showMessageDialog(
-                    this,
-                    "Account Registered Successfully!"
-            );
+            JOptionPane.showMessageDialog(this,"Account Registered Successfully!");
 
             clearFields();
 
@@ -474,13 +488,9 @@ public class NewAccountBoard extends JPanel {
         if (result == JFileChooser.APPROVE_OPTION) {
 
             File file = chooser.getSelectedFile();
-
             selectedImagePath = file.getAbsolutePath();
-
             lblImagePath.setText(file.getName());
-
             ImageIcon icon = new ImageIcon(selectedImagePath);
-
             Image img = icon.getImage().getScaledInstance(
                     120, 120,
                     Image.SCALE_SMOOTH

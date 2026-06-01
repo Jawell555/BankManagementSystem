@@ -3,9 +3,12 @@ package bank_AccountOperations;
 import Colors.ColorPalette; 
 import Database.AccountDatabase;
 import Database.AccountSQL;
+import Database.EmployeeSQL;
+import Database.ExternalBankSQL;
 import Database.TransactionDatabase;
 import Database.TransactionSQL;
 import Models.Account;
+import Models.ExternalBankAccount;
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -282,8 +285,18 @@ public class TransferBoard extends JPanel implements ActionListener {
         lblProcBy.setFont(new Font("Segoe UI", Font.PLAIN, 16));
         lblProcBy.setBounds(50, 130, 200, 25);
         actionBoard.add(lblProcBy);
+        
+        String tellerInfo = "No Employee";
 
-        txtProcBy = new JTextField("Teller ID: 2006 - Juan Dela Cruz");
+        if (EmployeeSQL.currentEmployee != null) {
+
+            tellerInfo =
+                    EmployeeSQL.currentEmployee.getEmpID()
+                    + " - "
+                    + EmployeeSQL.currentEmployee.getEmpName();
+        }
+
+        txtProcBy = new JTextField(tellerInfo);
         txtProcBy.setEditable(false); 
         txtProcBy.setBackground(new Color(225, 225, 225)); 
         txtProcBy.setBorder(BorderFactory.createLineBorder(ColorPalette.Blue5, 1));
@@ -421,7 +434,15 @@ public class TransferBoard extends JPanel implements ActionListener {
         }
 
         Account sender = AccountSQL.getAccountByNumber(senderAccNum);
-        Account receiver = AccountSQL.getAccountByNumber(receiverAccNum);
+        Account receiver = null;
+        ExternalBankAccount externalReceiver = null;
+
+        if (cmbTransType.getSelectedIndex() == 0) {
+            receiver = AccountSQL.getAccountByNumber(receiverAccNum);
+
+        } else if(cmbTransType.getSelectedIndex() == 1){
+            externalReceiver = ExternalBankSQL.getExternalAccount(receiverAccNum);
+        }
 
         boolean hasError = false;
 
@@ -445,6 +466,13 @@ public class TransferBoard extends JPanel implements ActionListener {
             txtReceiverAccStatus.setText(receiver.getAccStatus());
             txtReceiverAccType.setText(receiver.getAccType());
             txtReceiverBank.setText("Summit PhilBank");
+        } else if (externalReceiver != null) {
+
+            txtReceiverTitle.setText(externalReceiver.getAccountName());
+            txtReceiverNum.setText(externalReceiver.getAccountNumber());
+            txtReceiverAccStatus.setText(externalReceiver.getStatus());
+            txtReceiverAccType.setText("External Account");
+            txtReceiverBank.setText(externalReceiver.getBankName());
         } else {
             txtReceiverTitle.setText("");
             txtReceiverNum.setText("");
@@ -593,54 +621,85 @@ public class TransferBoard extends JPanel implements ActionListener {
         btnConfirm.addActionListener(e -> {
 
             Account senderAcc = AccountSQL.getAccountByNumber(senderNum);
-            Account receiverAcc = AccountSQL.getAccountByNumber(receiverNum);
 
-            if (senderAcc != null && receiverAcc != null) {
-
-                // Deduct from sender (amount + fee)
-                senderAcc.setAccBal(senderAcc.getAccBal() - totalDeduction);
-
-                // Add ONLY transfer amount to receiver
-                receiverAcc.setAccBal(receiverAcc.getAccBal() + amountToTransfer);
-
-                // Refresh displayed balances
-                txtSenderBalance.setText(
-                    String.format("PHP %,.2f", senderAcc.getAccBal())
-                );
-                
-                // Sender record (DEBIT)
-                transactionSql.addTransaction(
-                    transactionSql.generateRefNumber(),
-                    senderAcc.getName(),
-                    senderAcc.getAccNo(),
-                    receiverAcc.getAccNo(),
-                    receiverAcc.getName(),
-                    LocalDateTime.now(),
-                    "Transfer Sent",
-                    amountToTransfer
-                );
-
-                // Receiver record (CREDIT)
-                transactionSql.addTransaction(
-                    transactionSql.generateRefNumber(),
-                    receiverAcc.getName(),
-                    receiverAcc.getAccNo(),
-                    senderAcc.getAccNo(),
-                    senderAcc.getName(),
-                    LocalDateTime.now(),
-                    "Transfer Received",
-                    amountToTransfer
-                );
-
-                dialog.dispose();
-
-                JOptionPane.showMessageDialog(
-                    parentWindow,
-                    "Transferred successfully!",
-                    "Transaction Complete",
-                    JOptionPane.INFORMATION_MESSAGE
-                );
+            if (senderAcc == null) {
+                return;
             }
+
+            // Deduct sender balance
+            double newSenderBalance = senderAcc.getAccBal() - totalDeduction;
+
+            senderAcc.setAccBal(newSenderBalance);
+
+            // Save to database
+            AccountSQL.updateBalance(senderAcc.getAccNo(),newSenderBalance);
+
+            boolean isInternal = cmbTransType.getSelectedIndex() == 0;
+
+            if (isInternal) {
+
+                Account receiverAcc = AccountSQL.getAccountByNumber(receiverNum);
+
+                if (receiverAcc == null) {
+                    JOptionPane.showMessageDialog(parentWindow,"Receiver account not found.");
+                    return;
+                }
+
+               // Credit receiver
+                double newReceiverBalance = receiverAcc.getAccBal() + amountToTransfer;
+
+                receiverAcc.setAccBal(newReceiverBalance);
+
+                // Save to database
+                AccountSQL.updateBalance(receiverAcc.getAccNo(),newReceiverBalance);
+
+                // Sender transaction
+                transactionSql.addTransaction(
+                        transactionSql.generateRefNumber(),
+                        senderAcc.getName(),
+                        senderAcc.getAccNo(),
+                        receiverAcc.getAccNo(),
+                        receiverAcc.getName(),
+                        LocalDateTime.now(),
+                        "Transfer Sent",
+                        amountToTransfer
+                );
+
+                // Receiver transaction
+                transactionSql.addTransaction(
+                        transactionSql.generateRefNumber(),
+                        receiverAcc.getName(),
+                        receiverAcc.getAccNo(),
+                        senderAcc.getAccNo(),
+                        senderAcc.getName(),
+                        LocalDateTime.now(),
+                        "Transfer Received",
+                        amountToTransfer
+                );
+
+            } else {
+
+                // External bank transfer
+                transactionSql.addTransaction(
+                        transactionSql.generateRefNumber(),
+                        senderAcc.getName(),
+                        senderAcc.getAccNo(),
+                        receiverNum,
+                        receiverName,
+                        LocalDateTime.now(),
+                        "External Bank Transfer",
+                        amountToTransfer
+                );
+
+            }
+
+            txtSenderBalance.setText(String.format("PHP %,.2f",senderAcc.getAccBal()));
+
+            dialog.dispose();
+
+            JOptionPane.showMessageDialog(parentWindow,"Transfer completed successfully!", "Transaction Complete", JOptionPane.INFORMATION_MESSAGE
+            );
+
         });
 
         JButton btnCancel = new JButton("Cancel");
