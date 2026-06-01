@@ -158,7 +158,7 @@ public class TransactionSQL extends TransactionDatabase {
                 params.add(accSearch.trim());
             }
             if (history) {
-                query.append(" AND historyType LIKE ?");
+                query.append(" AND historyType = ?");
                 params.add(historyType);
             }
             if (startDate) {

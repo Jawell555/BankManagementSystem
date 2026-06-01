@@ -46,7 +46,7 @@ public class CheckBalance extends JPanel implements ActionListener {
 
     public CheckBalance() {
         this.months = new String[]{"Month", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
-        this.historyChoices = new String[]{"History Type", "Deposit", "- Cash Check", "- Post Dated Check" ,"Withdrawal", "- Check Withdrawal","- Cash Withdrawal" ,"Transfer", "Received"};
+        this.historyChoices = new String[]{"History Type", "Deposit","Withdrawal","Transfer", "Received"};
         for (int i = 0; i <= 31; i++) {
             if (i == 0) {
                 this.days[i] = "Day";
