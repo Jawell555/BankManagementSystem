@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package bank_ManageEmployees;
 
 import Colors.ColorPalette;
@@ -298,9 +294,8 @@ public class ViewEmployeesBoard extends JPanel {
                 int modelRow = tblAccounts.convertRowIndexToModel(row);
 
                 String empID = model.getValueAt(modelRow, 1).toString();
-
                 Employee emp = EmployeeSQL.getEmployeeByID(empID);
-
+                
                 showViewDialog(emp);
             });
             
@@ -317,7 +312,6 @@ public class ViewEmployeesBoard extends JPanel {
                 int modelRow = tblAccounts.convertRowIndexToModel(row);
 
                 String empID = model.getValueAt(modelRow, 1).toString();
-
                 Employee emp = EmployeeSQL.getEmployeeByID(empID);
 
                 showEditDialog(emp);
@@ -334,16 +328,9 @@ public class ViewEmployeesBoard extends JPanel {
                 }
 
                 int modelRow = tblAccounts.convertRowIndexToModel(row);
-
                 String empID = model.getValueAt(modelRow, 1).toString();
 
-                int choice = JOptionPane.showConfirmDialog(
-                        panel,
-                        "Are you sure you want to delete Employee " + empID + "?",
-                        "Confirm Delete",
-                        JOptionPane.YES_NO_OPTION,
-                        JOptionPane.WARNING_MESSAGE
-                );
+                int choice = JOptionPane.showConfirmDialog(panel,"Are you sure you want to delete Employee " + empID + "?", "Confirm Delete",JOptionPane.YES_NO_OPTION,JOptionPane.WARNING_MESSAGE);
 
                 if (choice == JOptionPane.YES_OPTION) {
 
@@ -353,21 +340,10 @@ public class ViewEmployeesBoard extends JPanel {
 
                         loadEmployees();
 
-                        JOptionPane.showMessageDialog(
-                                panel,
-                                "Employee deleted successfully.",
-                                "Success",
-                                JOptionPane.INFORMATION_MESSAGE
-                        );
+                        JOptionPane.showMessageDialog(panel,"Employee deleted successfully.", "Success",JOptionPane.INFORMATION_MESSAGE);
 
                     } else {
-
-                        JOptionPane.showMessageDialog(
-                                panel,
-                                "Failed to delete employee.",
-                                "Error",
-                                JOptionPane.ERROR_MESSAGE
-                        );
+                        JOptionPane.showMessageDialog(panel, "Failed to delete employee.", "Error", JOptionPane.ERROR_MESSAGE);
                     }
                 }
             });
@@ -729,8 +705,7 @@ public class ViewEmployeesBoard extends JPanel {
 
                 File file = chooser.getSelectedFile();
 
-                newImagePath[0] =
-                        file.getAbsolutePath();
+                newImagePath[0] = file.getAbsolutePath();
 
                 ImageIcon icon = new ImageIcon(newImagePath[0]);
 
@@ -977,32 +952,19 @@ public class ViewEmployeesBoard extends JPanel {
             emp.setEmpName(txtName.getText());
             emp.setEmail(txtEmail.getText());
             emp.setIdNumber(txtIDNo.getText());
-
             emp.setEmpType(cmbType.getSelectedItem().toString());
-            
             emp.setUsername(txtUsername.getText());
             emp.setPassword(new String(txtPassword.getPassword()));
-
             emp.setDob(txtDOB.getText());
-
             emp.setGender(cmbGender.getSelectedItem().toString());
-
             emp.setMaritalStatus(cmbMarital.getSelectedItem().toString());
-
             emp.setMobileNumber(txtMobile.getText());
-
             emp.setPostalCode(txtPostal.getText());
-
             emp.setHomeAddress(txtAddress.getText() );
-
             emp.setCity(txtCity.getText());
-
             emp.setEducationLevel(txtEducation.getText());
-
             emp.setCurrentJob(txtCurrentJob.getText());
-
             emp.setYearsExperience(txtExperience.getText());
-
             emp.setStatus(cmbStatus.getSelectedItem().toString());
             
             boolean success = EmployeeSQL.updateEmployee(emp);
@@ -1010,24 +972,12 @@ public class ViewEmployeesBoard extends JPanel {
             if(success){
                 loadEmployees();
 
-                JOptionPane.showMessageDialog(
-                    dialog,
-                    "Employee updated successfully!",
-                    "Success",
-                    JOptionPane.INFORMATION_MESSAGE
-                );
-
+                JOptionPane.showMessageDialog(dialog, "Employee updated successfully!","Success", JOptionPane.INFORMATION_MESSAGE);
                 dialog.dispose();
             }else{
-                JOptionPane.showMessageDialog(
-                    dialog,
-                    "Failed to update employee.",
-                    "Error",
-                    JOptionPane.ERROR_MESSAGE
-                );
+                JOptionPane.showMessageDialog(dialog, "Failed to update employee.", "Error", JOptionPane.ERROR_MESSAGE);
             }
             
-
             if (newImagePath[0] != null) {
 
                 try {
@@ -1048,39 +998,20 @@ public class ViewEmployeesBoard extends JPanel {
                         extension = source.getName().substring(dot);
                     }
 
-                    File destination =
-                            new File(
-                                    folder,
-                                    emp.getEmpID()+ extension
-                            );
+                    File destination = new File(folder, emp.getEmpID()+ extension);
 
-                    Files.copy(
-                            source.toPath(),
-                            destination.toPath(),
-                            StandardCopyOption.REPLACE_EXISTING
-                    );
+                    Files.copy(source.toPath(), destination.toPath(), StandardCopyOption.REPLACE_EXISTING);
 
-                    emp.setProfileImage(
-                            destination.getPath()
-                    );
+                    emp.setProfileImage(destination.getPath());
 
                 } catch (IOException ex) {
-
-                    JOptionPane.showMessageDialog(
-                            dialog,
-                            "Failed to save profile image."
-                    );
+                    JOptionPane.showMessageDialog(dialog, "Failed to save profile image.");
                 }
             }
             
             loadEmployees();
 
-            JOptionPane.showMessageDialog(
-                    dialog,
-                    "Employee updated successfully!",
-                    "Success",
-                    JOptionPane.INFORMATION_MESSAGE
-            );
+            JOptionPane.showMessageDialog(dialog,"Employee updated successfully!","Success",JOptionPane.INFORMATION_MESSAGE);
 
             dialog.dispose();
         });

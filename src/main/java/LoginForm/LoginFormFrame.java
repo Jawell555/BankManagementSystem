@@ -59,10 +59,7 @@ public class LoginFormFrame extends JFrame implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             fullscreen = !fullscreen;
 
-            GraphicsDevice device = GraphicsEnvironment
-                    .getLocalGraphicsEnvironment()
-                    .getDefaultScreenDevice();
-
+            GraphicsDevice device = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
             dispose();
             setUndecorated(fullscreen);
 
@@ -73,18 +70,15 @@ public class LoginFormFrame extends JFrame implements ActionListener {
                     setExtendedState(JFrame.MAXIMIZED_BOTH);
                     setLocationRelativeTo(null);
                 }
-
                 setVisible(true);
                 getRootPane().setDefaultButton(btnLogin);
             }
         };
 
         // Bind F11 key
-        getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
-                .put(KeyStroke.getKeyStroke("F11"), "toggleFullscreen");
+        getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("F11"), "toggleFullscreen");
 
-        getRootPane().getActionMap()
-                .put("toggleFullscreen", toggleFullscreen);
+        getRootPane().getActionMap().put("toggleFullscreen", toggleFullscreen);
         
         //Set Icon Image
         ImageIcon icon = new ImageIcon(getClass().getResource("/bank_logo.png"));
@@ -197,31 +191,22 @@ public class LoginFormFrame extends JFrame implements ActionListener {
                     if (role.equalsIgnoreCase("admin")) {
 
                         adminSidebarPanelFrame sf = new adminSidebarPanelFrame();
-
                         sf.setVisible(true);
                         dispose();
 
                     } else if (role.equalsIgnoreCase("employee")) {
 
                         empSidebarPanelFrame sf = new empSidebarPanelFrame();
-
                         sf.setVisible(true);
                         dispose();
                     }
 
                 } else {
-
                     passPass.setText("");
-
                     txtUser.setBorder(errorBorder);
                     passPass.setBorder(errorBorder);
 
-                    JOptionPane.showMessageDialog(
-                            null,
-                            "Incorrect Credentials. Try Again.",
-                            "Login Failed",
-                            JOptionPane.ERROR_MESSAGE
-                    );
+                    JOptionPane.showMessageDialog(null,"Incorrect Credentials. Try Again.","Login Failed", JOptionPane.ERROR_MESSAGE);
                 }
 
                 rs.close();
@@ -232,14 +217,10 @@ public class LoginFormFrame extends JFrame implements ActionListener {
 
                 ex.printStackTrace();
 
-                JOptionPane.showMessageDialog(
-                        null,
-                        "Database Connection Failed!"
-                );
+                JOptionPane.showMessageDialog(null,"Database Connection Failed!");
             }
 
         } else if (e.getSource() == btnExit) {
-
             System.exit(0);
         }
     }

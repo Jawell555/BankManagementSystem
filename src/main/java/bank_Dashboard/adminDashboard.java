@@ -357,9 +357,7 @@ public class adminDashboard extends JPanel {
         lblCurrAccValue.setText(String.valueOf(current));
         lblSavAccValue.setText(String.valueOf(savings));
 
-        lblSavBankBalance.setText(
-                "PHP " + String.format("%,.2f", totalBankBalance)
-        );
+        lblSavBankBalance.setText("PHP " + String.format("%,.2f", totalBankBalance));
 
         for(Employee emp : EmployeeSQL.getAllEmployees()){
             if(emp.getEmpType().equalsIgnoreCase("Employee")){
@@ -389,7 +387,6 @@ public class adminDashboard extends JPanel {
 
         lblDepositValue.setText("PHP " + String.format("%,.2f", totalDeposit));
         lblWithdrawValue.setText("PHP " + String.format("%,.2f", totalWithdraw));
-
         lblTransValue.setText("PHP " + String.format("%,.2f", totalDeposit + totalWithdraw));
     }
     

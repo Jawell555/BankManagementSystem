@@ -23,10 +23,6 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 
-/**
- *
- * @author Ruell
- */
 public class TransactionSQL extends TransactionDatabase {
 
     private static final String url = "jdbc:mysql://localhost:3306/BankManagementSystem";

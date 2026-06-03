@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package bank_ManageAccounts;
 
 import Colors.ColorPalette;
@@ -421,25 +417,12 @@ public class NewAccountBoard extends JPanel {
                     extension = source.getName().substring(dot);
                 }
 
-                File destination = new File(
-                        folder,
-                        txtAccNum.getText() + extension
-                );
-
-                Files.copy(
-                        source.toPath(),
-                        destination.toPath(),
-                        StandardCopyOption.REPLACE_EXISTING
-                );
-
+                File destination = new File(folder,txtAccNum.getText() + extension);
+                Files.copy(source.toPath(),destination.toPath(),StandardCopyOption.REPLACE_EXISTING);
                 savedImagePath = destination.getPath();
 
             } catch (IOException ex) {
-
-                JOptionPane.showMessageDialog(
-                        this,
-                        "Failed to save profile image."
-                );
+                JOptionPane.showMessageDialog(this,"Failed to save profile image.");
             }
         }
         
@@ -491,11 +474,7 @@ public class NewAccountBoard extends JPanel {
             selectedImagePath = file.getAbsolutePath();
             lblImagePath.setText(file.getName());
             ImageIcon icon = new ImageIcon(selectedImagePath);
-            Image img = icon.getImage().getScaledInstance(
-                    120, 120,
-                    Image.SCALE_SMOOTH
-            );
-
+            Image img = icon.getImage().getScaledInstance(120, 120,Image.SCALE_SMOOTH);
             lblImage.setIcon(new ImageIcon(img));
         }
     }
@@ -520,15 +499,9 @@ public class NewAccountBoard extends JPanel {
         selectedImagePath = null;
         lblImagePath.setText("No file chosen");
 
-        ImageIcon icon =
-                new ImageIcon(
-                        getClass().getResource("/profile.png"));
+        ImageIcon icon = new ImageIcon(getClass().getResource("/profile.png"));
 
-        Image img =
-                icon.getImage().getScaledInstance(
-                        120,
-                        120,
-                        Image.SCALE_SMOOTH);
+        Image img = icon.getImage().getScaledInstance(120, 120, Image.SCALE_SMOOTH);
 
         lblImage.setIcon(new ImageIcon(img));
     }
@@ -543,8 +516,7 @@ public class NewAccountBoard extends JPanel {
 
                    try {
 
-                       long num = Long.parseLong(
-                               acc.getAccNo().substring(3));
+                       long num = Long.parseLong(acc.getAccNo().substring(3));
 
                        if (num > highest) {
                            highest = num;

@@ -14,7 +14,7 @@ public class admnAccountProfile extends JPanel {
             nameLabel, dobLabel, idLabel, mobileLabel,
             emailLabel, genderLabel, addressLabel, postalLabel, homeLabel, cityLabel;
 
-    private JTextField txtTotalBal, nameField, dobField, idField,
+    private JTextField txtEmpID, nameField, dobField, idField,
             mobileField, emailField, genderField, postalField, homeField, cityField;
 
     private JSeparator topSep, midSep, bottomSep;
@@ -36,32 +36,36 @@ public class admnAccountProfile extends JPanel {
         Color darkBlue = new Color(3, 27, 66);
         Color borderColor = new Color(190, 198, 210);
 
+        //Title
         lblTitle = new JLabel("Account Profile");
         lblTitle.setBounds(50, 35, 700, 55);
         lblTitle.setFont(titleFont);
         lblTitle.setForeground(darkBlue);
         add(lblTitle);
-
-        txtTotalBal = new JTextField();
-        txtTotalBal.setHorizontalAlignment(JTextField.RIGHT);
-        txtTotalBal.setEditable(false);
-        txtTotalBal.setBackground(ColorPalette.Gray);
-        txtTotalBal.setBounds(1120, 40, 500, 45);
-        txtTotalBal.setFont(idFont);
-        txtTotalBal.setBorder(BorderFactory.createCompoundBorder(new LineBorder(borderColor, 1, true),BorderFactory.createEmptyBorder(5, 12, 5, 12)));
-        add(txtTotalBal);
+        
+        //Employee ID
+        txtEmpID = new JTextField();
+        txtEmpID.setHorizontalAlignment(JTextField.RIGHT);
+        txtEmpID.setEditable(false);
+        txtEmpID.setBackground(ColorPalette.Gray);
+        txtEmpID.setBounds(1120, 40, 500, 45);
+        txtEmpID.setFont(idFont);
+        txtEmpID.setBorder(BorderFactory.createCompoundBorder(new LineBorder(borderColor, 1, true),BorderFactory.createEmptyBorder(5, 12, 5, 12)));
+        add(txtEmpID);
 
         topSep = new JSeparator();
         topSep.setBounds(50, 105, 1585, 2);
         topSep.setBackground(ColorPalette.Blue5);
         add(topSep);
-
+        
+        //Profile Label
         profileLabel = new JLabel("Profile Image");
         profileLabel.setFont(sectionFont);
         profileLabel.setForeground(darkBlue);
         profileLabel.setBounds(50, 130, 250, 35);
         add(profileLabel);
-
+        
+        //Profile Picture
         imageLabel = new JLabel();
         imageLabel.setBounds(755, 165, 160, 160);
         imageLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -78,13 +82,15 @@ public class admnAccountProfile extends JPanel {
         midSep.setBounds(50, 355, 1585, 2);
         midSep.setBackground(ColorPalette.Blue5);
         add(midSep);
-
+        
+        //Personal Info
         personalInfoLabel = new JLabel("Personal Information");
         personalInfoLabel.setFont(sectionFont);
         personalInfoLabel.setForeground(darkBlue);
         personalInfoLabel.setBounds(50, 385, 300, 35);
         add(personalInfoLabel);
-
+        
+        //Name of Employee
         nameLabel = new JLabel("Name");
         nameLabel.setFont(labelFont);
         nameLabel.setForeground(darkBlue);
@@ -98,7 +104,8 @@ public class admnAccountProfile extends JPanel {
         nameField.setFont(fieldFont);
         nameField.setBorder(BorderFactory.createCompoundBorder(new LineBorder(borderColor, 1, true),BorderFactory.createEmptyBorder(5, 12, 5, 12)));
         add(nameField);
-
+        
+        //Date of Birth of Employee
         dobLabel = new JLabel("Date Of Birth");
         dobLabel.setFont(labelFont);
         dobLabel.setForeground(darkBlue);
@@ -112,7 +119,8 @@ public class admnAccountProfile extends JPanel {
         dobField.setFont(fieldFont);
         dobField.setBorder(BorderFactory.createCompoundBorder(new LineBorder(borderColor, 1, true),BorderFactory.createEmptyBorder(5, 12, 5, 12)));
         add(dobField);
-
+        
+        //ID Number of Employee
         idLabel = new JLabel("ID Number");
         idLabel.setFont(labelFont);
         idLabel.setForeground(darkBlue);
@@ -126,7 +134,8 @@ public class admnAccountProfile extends JPanel {
         idField.setFont(fieldFont);
         idField.setBorder(BorderFactory.createCompoundBorder(new LineBorder(borderColor, 1, true),BorderFactory.createEmptyBorder(5, 12, 5, 12)));
         add(idField);
-
+        
+        //Contact Number of Employee
         mobileLabel = new JLabel("Mobile Number");
         mobileLabel.setFont(labelFont);
         mobileLabel.setForeground(darkBlue);
@@ -140,7 +149,8 @@ public class admnAccountProfile extends JPanel {
         mobileField.setFont(fieldFont);
         mobileField.setBorder(BorderFactory.createCompoundBorder(new LineBorder(borderColor, 1, true),BorderFactory.createEmptyBorder(5, 12, 5, 12)));
         add(mobileField);
-
+        
+        //Email Address of Employee
         emailLabel = new JLabel("Email Account");
         emailLabel.setFont(labelFont);
         emailLabel.setForeground(darkBlue);
@@ -154,7 +164,8 @@ public class admnAccountProfile extends JPanel {
         emailField.setFont(fieldFont);
         emailField.setBorder(BorderFactory.createCompoundBorder(new LineBorder(borderColor, 1, true),BorderFactory.createEmptyBorder(5, 12, 5, 12)));
         add(emailField);
-
+        
+        //Gender of Employee
         genderLabel = new JLabel("Gender");
         genderLabel.setFont(labelFont);
         genderLabel.setForeground(darkBlue);
@@ -173,13 +184,15 @@ public class admnAccountProfile extends JPanel {
         bottomSep.setBounds(50, 700, 1585, 2);
         bottomSep.setBackground(ColorPalette.Blue5);
         add(bottomSep);
-
+        
+        //Address of Employee
         addressLabel = new JLabel("Address");
         addressLabel.setFont(sectionFont);
         addressLabel.setForeground(darkBlue);
         addressLabel.setBounds(50, 730, 250, 35);
         add(addressLabel);
-
+        
+        //Postal Code of Employee
         postalLabel = new JLabel("Postal Code");
         postalLabel.setFont(labelFont);
         postalLabel.setForeground(darkBlue);
@@ -194,6 +207,7 @@ public class admnAccountProfile extends JPanel {
         postalField.setBorder(BorderFactory.createCompoundBorder(new LineBorder(borderColor, 1, true),BorderFactory.createEmptyBorder(5, 12, 5, 12)));
         add(postalField);
 
+        //Home Address of Employee
         homeLabel = new JLabel("Home Address");
         homeLabel.setFont(labelFont);
         homeLabel.setForeground(darkBlue);
@@ -207,7 +221,8 @@ public class admnAccountProfile extends JPanel {
         homeField.setFont(fieldFont);
         homeField.setBorder(BorderFactory.createCompoundBorder(new LineBorder(borderColor, 1, true),BorderFactory.createEmptyBorder(5, 12, 5, 12)));
         add(homeField);
-
+        
+        //City of Employee
         cityLabel = new JLabel("City");
         cityLabel.setFont(labelFont);
         cityLabel.setForeground(darkBlue);
@@ -227,8 +242,7 @@ public class admnAccountProfile extends JPanel {
     
     private void loadEmployeeData() {
 
-        txtTotalBal.setText(employee.getEmpID());
-
+        txtEmpID.setText(employee.getEmpID());
         nameField.setText(employee.getEmpName());
         dobField.setText(employee.getDob());
         idField.setText(employee.getIdNumber());
@@ -242,32 +256,16 @@ public class admnAccountProfile extends JPanel {
         if (employee.getProfileImage() != null
                 && !employee.getProfileImage().isEmpty()) {
 
-            ImageIcon icon =
-                    new ImageIcon(employee.getProfileImage());
+            ImageIcon icon = new ImageIcon(employee.getProfileImage());
 
-            Image img =
-                    icon.getImage().getScaledInstance(
-                            150,
-                            150,
-                            Image.SCALE_SMOOTH
-                    );
-
+            Image img = icon.getImage().getScaledInstance(150,150, Image.SCALE_SMOOTH);
             imageLabel.setIcon(new ImageIcon(img));
 
         } else {
 
-            ImageIcon icon =
-                    new ImageIcon(
-                            getClass().getResource("/profile.png")
-                    );
+            ImageIcon icon = new ImageIcon(getClass().getResource("/profile.png"));
 
-            Image img =
-                    icon.getImage().getScaledInstance(
-                            150,
-                            150,
-                            Image.SCALE_SMOOTH
-                    );
-
+            Image img = icon.getImage().getScaledInstance(150,150,Image.SCALE_SMOOTH);
             imageLabel.setIcon(new ImageIcon(img));
         }
     }

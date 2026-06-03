@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package bank_ManageEmployees;
 
 import Colors.ColorPalette;
@@ -13,6 +9,10 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 
@@ -259,7 +259,7 @@ public class AddEmployeesBoard extends JPanel {
         lblSubt4.setFont(subtFont);
         contentPanel.add(lblSubt4);
         
-        lblEducLvl= new JLabel("Education Level");
+        lblEducLvl= new JLabel("Bachelor's Degree");
         lblEducLvl.setBounds(60, 790, 130, 22);
         lblEducLvl.setFont(labelFont);
         contentPanel.add(lblEducLvl);
@@ -333,7 +333,7 @@ public class AddEmployeesBoard extends JPanel {
         txtPassword.setBounds(1050, 960, 450, 35);
         contentPanel.add(txtPassword);
         
-//        //Blue Separator
+        //Blue Separator
         botSep2 = new JSeparator();
         botSep2.setBounds(50, 1015, 1585, 2);
         botSep2.setBackground(ColorPalette.Blue5);
@@ -367,8 +367,7 @@ public class AddEmployeesBoard extends JPanel {
 
     private void saveAccount() {
         if (!validateForm()) {
-            JOptionPane.showMessageDialog(this,
-                    "Please fill in all required fields.");
+            JOptionPane.showMessageDialog(this, "Please fill in all required fields.");
             return;
         }
         
@@ -380,8 +379,7 @@ public class AddEmployeesBoard extends JPanel {
         //Email format validation
         if (!txtEmail.getText().matches("^[A-Za-z0-9+_.-]+@(.+)$")) {
             txtEmail.setBorder(RED_BORDER);
-            JOptionPane.showMessageDialog(this,
-                    "Invalid email address.");
+            JOptionPane.showMessageDialog(this, "Invalid email address.");
             return;
         }
         
@@ -389,14 +387,43 @@ public class AddEmployeesBoard extends JPanel {
         emp.setIdNumber(txtIdNum.getText());
 
         emp.setDob(txtDOB.getText());
+        String dobInput = txtDOB.getText().trim();
+
+        try {
+            DateTimeFormatter inputFormat = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+          
+            LocalDate dob = LocalDate.parse(dobInput, inputFormat);
+            emp.setDob(dob.toString()); // yyyy-MM-dd
+            
+            LocalDate birthDate = LocalDate.parse(dobInput, inputFormat);
+            
+            //Future Date Validation
+            if (birthDate.isAfter(LocalDate.now())) {
+                JOptionPane.showMessageDialog(this,"Birth date cannot be in the future.");
+                txtDOB.setBorder(RED_BORDER);
+            }
+            
+            // Age validation
+            int age = Period.between(birthDate,LocalDate.now()).getYears();
+
+            if (age < 18) {
+                JOptionPane.showMessageDialog(this,"Customer must be at least 18 years old.");
+                txtDOB.setBorder(RED_BORDER);
+            }
+
+      
+
+        } catch (DateTimeParseException ex) {
+            JOptionPane.showMessageDialog(this,"Invalid Date of Birth format.\nUse MM/DD/YYYY");
+            return;
+        }
         emp.setGender(cbGender.getSelectedItem().toString());
         emp.setMaritalStatus(cbMarital.getSelectedItem().toString());
         
         //Mobile # format validation
         if (!txtMobNum.getText().matches("^09\\d{9}$")) {
             txtMobNum.setBorder(RED_BORDER);
-            JOptionPane.showMessageDialog(this,
-                    "Mobile number must be 11 digits and start with 09.");
+            JOptionPane.showMessageDialog(this, "Mobile number must be 11 digits and start with 09.");
             return;
         }
         emp.setMobileNumber(txtMobNum.getText());
@@ -417,12 +444,8 @@ public class AddEmployeesBoard extends JPanel {
             }
 
         } catch (NumberFormatException ex) {
-
             txtYrExp.setBorder(RED_BORDER);
-
-            JOptionPane.showMessageDialog(this,
-                    "Years of experience must be a valid number.");
-
+            JOptionPane.showMessageDialog(this, "Years of experience must be a valid number.");
             return;
         }
         
@@ -433,7 +456,6 @@ public class AddEmployeesBoard extends JPanel {
            if (emplo.getUsername().equalsIgnoreCase(txtUsername.getText().trim())) {
 
                txtUsername.setBorder(RED_BORDER);
-
                JOptionPane.showMessageDialog(this,"Username already exists.");
 
                return;
@@ -470,25 +492,14 @@ public class AddEmployeesBoard extends JPanel {
                     extension = source.getName().substring(dot);
                 }
 
-                File destination = new File(
-                        folder,
-                        txtAccNum.getText() + extension
-                );
+                File destination = new File(folder,txtAccNum.getText() + extension);
 
-                Files.copy(
-                        source.toPath(),
-                        destination.toPath(),
-                        StandardCopyOption.REPLACE_EXISTING
-                );
+                Files.copy(source.toPath(), destination.toPath(), StandardCopyOption.REPLACE_EXISTING);
 
                 savedImagePath = destination.getAbsolutePath();
 
             } catch (IOException ex) {
-
-                JOptionPane.showMessageDialog(
-                        this,
-                        "Failed to save profile image."
-                );
+                JOptionPane.showMessageDialog(this, "Failed to save profile image.");
             }
         }
         
@@ -496,8 +507,7 @@ public class AddEmployeesBoard extends JPanel {
        
         EmployeeSQL.addEmployee(emp);
 
-        JOptionPane.showMessageDialog(this,
-                "Employee Registered Successfully!");
+        JOptionPane.showMessageDialog(this, "Employee Registered Successfully!");
         clearFields();
     }
     
@@ -546,8 +556,7 @@ public class AddEmployeesBoard extends JPanel {
 
                 try {
 
-                    int num = Integer.parseInt(
-                            emp.getEmpID().substring(3));
+                    int num = Integer.parseInt(emp.getEmpID().substring(3));
 
                     if (num > highest) {
                         highest = num;

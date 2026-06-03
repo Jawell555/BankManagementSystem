@@ -267,11 +267,9 @@ public class ViewAccountBoard extends JPanel {
                     + "-"
                     + String.format("%02d", cmbEndDay.getSelectedItem());
 
-            java.time.LocalDate from =
-                    java.time.LocalDate.parse(startDate);
+            java.time.LocalDate from = java.time.LocalDate.parse(startDate);
 
-            java.time.LocalDate to =
-                    java.time.LocalDate.parse(endDate);
+            java.time.LocalDate to = java.time.LocalDate.parse(endDate);
 
             filters.add(new RowFilter<Object, Object>() {
 
@@ -282,14 +280,9 @@ public class ViewAccountBoard extends JPanel {
 
                     try {
 
-                        String dateValue =
-                                entry.getStringValue(7); // Date column
-
-                        java.time.LocalDate rowDate =
-                                java.time.LocalDate.parse(dateValue);
-
-                        return !rowDate.isBefore(from)
-                                && !rowDate.isAfter(to);
+                        String dateValue = entry.getStringValue(7); // Date column
+                        java.time.LocalDate rowDate = java.time.LocalDate.parse(dateValue);
+                        return !rowDate.isBefore(from) && !rowDate.isAfter(to);
 
                     } catch (Exception ex) {
                         return false;
@@ -365,14 +358,9 @@ public class ViewAccountBoard extends JPanel {
 
                 if (row != -1) {
 
-                    int modelRow =
-                            tblAccounts.convertRowIndexToModel(row);
-
-                    String accNo =
-                            model.getValueAt(modelRow, 5).toString();
-
-                    Account acc =
-                            AccountSQL.getAccountByNumber(accNo);
+                    int modelRow = tblAccounts.convertRowIndexToModel(row);
+                    String accNo = model.getValueAt(modelRow, 5).toString();
+                    Account acc = AccountSQL.getAccountByNumber(accNo);
 
                     if (acc != null) {
                         showViewDialog(acc);
@@ -384,24 +372,19 @@ public class ViewAccountBoard extends JPanel {
             panel.add(btnEdit);
             btnEdit.addActionListener(e -> {
 
-                            int row = tblAccounts.getSelectedRow();
+                int row = tblAccounts.getSelectedRow();
 
-                            if (row != -1) {
+                if (row != -1) {
 
-                                int modelRow =
-                                        tblAccounts.convertRowIndexToModel(row);
+                    int modelRow = tblAccounts.convertRowIndexToModel(row);
+                    String accNo = model.getValueAt(modelRow, 5).toString();
+                    Account acc = AccountSQL.getAccountByNumber(accNo);
 
-                                String accNo =
-                                        model.getValueAt(modelRow, 5).toString();
-
-                                Account acc =
-                                        AccountSQL.getAccountByNumber(accNo);
-
-                                if (acc != null) {
-                                    showEditDialog(acc);
-                                }
-                            }
-                        });
+                    if (acc != null) {
+                        showEditDialog(acc);
+                    }
+                }
+            });
 
             styleTableButton(btnDelete); 
             panel.add(btnDelete);
@@ -443,28 +426,15 @@ public class ViewAccountBoard extends JPanel {
             if (acc.getProfileImage()!= null &&
                 !acc.getProfileImage().isEmpty()) {
 
-                ImageIcon icon =
-                        new ImageIcon(acc.getProfileImage());
-
-                Image img = icon.getImage()
-                        .getScaledInstance(
-                                40,
-                                40,
-                                Image.SCALE_SMOOTH);
-
+                ImageIcon icon = new ImageIcon(acc.getProfileImage());
+                Image img = icon.getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
                 tableIcon = new ImageIcon(img);
 
             } else {
 
-                ImageIcon icon =
-                        new ImageIcon(
-                                getClass().getResource("/profile.png"));
+                ImageIcon icon = new ImageIcon(getClass().getResource("/profile.png"));
 
-                Image img = icon.getImage()
-                        .getScaledInstance(
-                                40,
-                                40,
-                                Image.SCALE_SMOOTH);
+                Image img = icon.getImage().getScaledInstance(40, 40,Image.SCALE_SMOOTH);
 
                 tableIcon = new ImageIcon(img);
             }
@@ -487,11 +457,7 @@ public class ViewAccountBoard extends JPanel {
 
         Window parentWindow = SwingUtilities.getWindowAncestor(this);
 
-        JDialog dialog = new JDialog(
-                (JFrame) parentWindow,
-                "Account Information",
-                true
-        );
+        JDialog dialog = new JDialog((JFrame) parentWindow, "Account Information", true);
 
         dialog.setSize(700, 850);
         dialog.setLayout(null);
@@ -504,10 +470,7 @@ public class ViewAccountBoard extends JPanel {
         header.setBounds(0, 0, 700, 50);
         header.setLayout(null);
 
-        JLabel lblTitle = new JLabel(
-                "Account Information",
-                SwingConstants.CENTER
-        );
+        JLabel lblTitle = new JLabel("Account Information", SwingConstants.CENTER);
 
         lblTitle.setForeground(Color.WHITE);
         lblTitle.setFont(new Font("Segoe UI", Font.BOLD, 18));
@@ -637,9 +600,7 @@ public class ViewAccountBoard extends JPanel {
         lblBalance.setBounds(30, y, 150, 25);
         dialog.add(lblBalance);
 
-        JLabel valBalance = new JLabel(
-                String.format("PHP %,.2f", acc.getAccBal())
-        );
+        JLabel valBalance = new JLabel(String.format("PHP %,.2f", acc.getAccBal()));
        
         valBalance.setBounds(200, y, 450, 25);
         valBalance.setForeground(new Color(0, 153, 51));
@@ -667,9 +628,7 @@ public class ViewAccountBoard extends JPanel {
         lblDOB.setBounds(30, y, 150, 25);
         dialog.add(lblDOB);
 
-        JLabel valDOB = new JLabel(
-                acc.getDob() == null ? "" : acc.getDob()
-        );
+        JLabel valDOB = new JLabel(acc.getDob() == null ? "" : acc.getDob());
 
         valDOB.setBounds(200, y, 450, 25);
         dialog.add(valDOB);
@@ -681,9 +640,7 @@ public class ViewAccountBoard extends JPanel {
         lblGender.setBounds(30, y, 150, 25);
         dialog.add(lblGender);
 
-        JLabel valGender = new JLabel(
-                acc.getGender() == null ? "" : acc.getGender()
-        );
+        JLabel valGender = new JLabel(acc.getGender() == null ? "" : acc.getGender());
 
         valGender.setBounds(200, y, 450, 25);
         dialog.add(valGender);
@@ -695,9 +652,7 @@ public class ViewAccountBoard extends JPanel {
         lblMobile.setBounds(30, y, 150, 25);
         dialog.add(lblMobile);
 
-        JLabel valMobile = new JLabel(
-                acc.getMobileNumber() == null ? "" : acc.getMobileNumber()
-        );
+        JLabel valMobile = new JLabel(acc.getMobileNumber() == null ? "" : acc.getMobileNumber());
 
         valMobile.setBounds(200, y, 450, 25);
         dialog.add(valMobile);
@@ -709,9 +664,7 @@ public class ViewAccountBoard extends JPanel {
         lblPostal.setBounds(30, y, 150, 25);
         dialog.add(lblPostal);
 
-        JLabel valPostal = new JLabel(
-                acc.getPostalCode() == null ? "" : acc.getPostalCode()
-        );
+        JLabel valPostal = new JLabel(acc.getPostalCode() == null ? "" : acc.getPostalCode());
 
         valPostal.setBounds(200, y, 450, 25);
         dialog.add(valPostal);
@@ -723,9 +676,7 @@ public class ViewAccountBoard extends JPanel {
         lblAddress.setBounds(30, y, 150, 25);
         dialog.add(lblAddress);
 
-        JLabel valAddress = new JLabel(
-                acc.getHomeAddress() == null ? "" : acc.getHomeAddress()
-        );
+        JLabel valAddress = new JLabel(acc.getHomeAddress() == null ? "" : acc.getHomeAddress());
 
         valAddress.setBounds(200, y, 450, 25);
         dialog.add(valAddress);
@@ -737,9 +688,7 @@ public class ViewAccountBoard extends JPanel {
         lblCity.setBounds(30, y, 150, 25);
         dialog.add(lblCity);
 
-        JLabel valCity = new JLabel(
-                acc.getCity() == null ? "" : acc.getCity()
-        );
+        JLabel valCity = new JLabel(acc.getCity() == null ? "" : acc.getCity());
 
         valCity.setBounds(200, y, 450, 25);
         dialog.add(valCity);
@@ -763,11 +712,7 @@ public class ViewAccountBoard extends JPanel {
 
         Window parentWindow = SwingUtilities.getWindowAncestor(this);
 
-        JDialog dialog = new JDialog(
-                (JFrame) parentWindow,
-                "Edit Account",
-                true
-        );
+        JDialog dialog = new JDialog((JFrame) parentWindow, "Edit Account", true);
 
         dialog.setSize(900, 900);
         dialog.setLayout(null);
@@ -779,10 +724,7 @@ public class ViewAccountBoard extends JPanel {
         header.setBounds(0, 0, 900, 50);
         header.setLayout(null);
 
-        JLabel lblTitle = new JLabel(
-                "Edit Account Information",
-                SwingConstants.CENTER
-        );
+        JLabel lblTitle = new JLabel("Edit Account Information",SwingConstants.CENTER);
 
         lblTitle.setForeground(Color.WHITE);
         lblTitle.setFont(new Font("Segoe UI", Font.BOLD, 18));
@@ -886,14 +828,7 @@ public class ViewAccountBoard extends JPanel {
         lblIDType.setBounds(30, y, 150, 25);
         dialog.add(lblIDType);
 
-        JComboBox<String> cmbIDType = new JComboBox<>(new String[]{
-            "National ID",
-            "Passport",
-            "Driver's License",
-            "SSS",
-            "UMID",
-            "PhilHealth"
-        });
+        JComboBox<String> cmbIDType = new JComboBox<>(new String[]{"National ID", "Passport", "Driver's License", "SSS", "UMID", "PhilHealth"});
 
         cmbIDType.setBounds(200, y, 400, 25);
         cmbIDType.setSelectedItem(acc.getIdType());
@@ -926,10 +861,7 @@ public class ViewAccountBoard extends JPanel {
         lblAccType.setBounds(30, y, 150, 25);
         dialog.add(lblAccType);
 
-        JComboBox<String> cmbAccType = new JComboBox<>(new String[]{
-            "Savings",
-            "Current"
-        });
+        JComboBox<String> cmbAccType = new JComboBox<>(new String[]{"Savings", "Current"});
 
         cmbAccType.setBounds(200, y, 400, 25);
         cmbAccType.setSelectedItem(acc.getAccType());
@@ -951,11 +883,7 @@ public class ViewAccountBoard extends JPanel {
         lblStatus.setBounds(30, y, 150, 25);
         dialog.add(lblStatus);
 
-        JComboBox<String> cmbStatus = new JComboBox<>(new String[]{
-            "Active",
-            "Inactive",
-            "Dormant"
-        });
+        JComboBox<String> cmbStatus = new JComboBox<>(new String[]{"Active", "Inactive", "Dormant"});
 
         cmbStatus.setBounds(200, y, 400, 25);
         cmbStatus.setSelectedItem(acc.getAccStatus());
@@ -967,9 +895,7 @@ public class ViewAccountBoard extends JPanel {
         lblBalance.setBounds(30, y, 150, 25);
         dialog.add(lblBalance);
 
-        JTextField txtBalance = new JTextField(
-                String.format("%.2f", acc.getAccBal())
-        );
+        JTextField txtBalance = new JTextField(String.format("%.2f", acc.getAccBal()));
 
         txtBalance.setBounds(200, y, 400, 25);
         txtBalance.setEditable(false);
@@ -995,9 +921,7 @@ public class ViewAccountBoard extends JPanel {
         lblDOB.setBounds(30, y, 150, 25);
         dialog.add(lblDOB);
 
-        JTextField txtDOB = new JTextField(
-                acc.getDob() == null ? "" : acc.getDob()
-        );
+        JTextField txtDOB = new JTextField(acc.getDob() == null ? "" : acc.getDob());
 
         txtDOB.setBounds(200, y, 400, 25);
         dialog.add(txtDOB);
@@ -1008,16 +932,11 @@ public class ViewAccountBoard extends JPanel {
         lblGender.setBounds(30, y, 150, 25);
         dialog.add(lblGender);
 
-        JComboBox<String> cmbGender = new JComboBox<>(new String[]{
-            "Male",
-            "Female"
-        });
+        JComboBox<String> cmbGender = new JComboBox<>(new String[]{"Male", "Female"});
 
         cmbGender.setBounds(200, y, 400, 25);
 
-        if (acc.getGender() != null) {
-            cmbGender.setSelectedItem(acc.getGender());
-        }
+        if (acc.getGender() != null) {cmbGender.setSelectedItem(acc.getGender());}
 
         dialog.add(cmbGender);
 
@@ -1027,9 +946,7 @@ public class ViewAccountBoard extends JPanel {
         lblMobile.setBounds(30, y, 150, 25);
         dialog.add(lblMobile);
 
-        JTextField txtMobile = new JTextField(
-                acc.getMobileNumber() == null ? "" : acc.getMobileNumber()
-        );
+        JTextField txtMobile = new JTextField(acc.getMobileNumber() == null ? "" : acc.getMobileNumber());
 
         txtMobile.setBounds(200, y, 400, 25);
         dialog.add(txtMobile);
@@ -1040,9 +957,7 @@ public class ViewAccountBoard extends JPanel {
         lblPostal.setBounds(30, y, 150, 25);
         dialog.add(lblPostal);
 
-        JTextField txtPostal = new JTextField(
-                acc.getPostalCode() == null ? "" : acc.getPostalCode()
-        );
+        JTextField txtPostal = new JTextField(acc.getPostalCode() == null ? "" : acc.getPostalCode());
 
         txtPostal.setBounds(200, y, 400, 25);
         dialog.add(txtPostal);
@@ -1053,9 +968,7 @@ public class ViewAccountBoard extends JPanel {
         lblAddress.setBounds(30, y, 150, 25);
         dialog.add(lblAddress);
 
-        JTextField txtAddress = new JTextField(
-                acc.getHomeAddress() == null ? "" : acc.getHomeAddress()
-        );
+        JTextField txtAddress = new JTextField(acc.getHomeAddress() == null ? "" : acc.getHomeAddress());
 
         txtAddress.setBounds(200, y, 400, 25);
         dialog.add(txtAddress);
@@ -1066,9 +979,7 @@ public class ViewAccountBoard extends JPanel {
         lblCity.setBounds(30, y, 150, 25);
         dialog.add(lblCity);
 
-        JTextField txtCity = new JTextField(
-                acc.getCity() == null ? "" : acc.getCity()
-        );
+        JTextField txtCity = new JTextField(acc.getCity() == null ? "" : acc.getCity());
 
         txtCity.setBounds(200, y, 400, 25);
         dialog.add(txtCity);
@@ -1082,56 +993,22 @@ public class ViewAccountBoard extends JPanel {
             acc.setName(txtName.getText());
             acc.setFatherName(txtFather.getText());
             acc.setEmail(txtEmail.getText());
-
-            acc.setIdType(
-                    cmbIDType.getSelectedItem().toString()
-            );
-
+            acc.setIdType(cmbIDType.getSelectedItem().toString());
             acc.setIdNumber(txtIDNumber.getText());
-
-            acc.setAccType(
-                    cmbAccType.getSelectedItem().toString()
-            );
-
-            acc.setAccTitle(
-                    txtAccTitle.getText()
-            );
-
-            acc.setAccStatus(
-                    cmbStatus.getSelectedItem().toString()
-            );
-
+            acc.setAccType(cmbAccType.getSelectedItem().toString());
+            acc.setAccTitle(txtAccTitle.getText());
+            acc.setAccStatus(cmbStatus.getSelectedItem().toString());
             acc.setDob(txtDOB.getText());
-
-            acc.setGender(
-                    cmbGender.getSelectedItem().toString()
-            );
-
-            acc.setMobileNumber(
-                    txtMobile.getText()
-            );
-
-            acc.setPostalCode(
-                    txtPostal.getText()
-            );
-
-            acc.setHomeAddress(
-                    txtAddress.getText()
-            );
-
-            acc.setCity(
-                    txtCity.getText()
-            );
+            acc.setGender(cmbGender.getSelectedItem().toString());
+            acc.setMobileNumber(txtMobile.getText());
+            acc.setPostalCode(txtPostal.getText());
+            acc.setHomeAddress(txtAddress.getText());
+            acc.setCity(txtCity.getText());
             
             boolean updated = AccountSQL.updateAccount(acc);
 
             if (!updated) {
-                JOptionPane.showMessageDialog(
-                        dialog,
-                        "Failed to update account.",
-                        "Error",
-                        JOptionPane.ERROR_MESSAGE
-                );
+                JOptionPane.showMessageDialog(dialog,"Failed to update account.","Error",JOptionPane.ERROR_MESSAGE);
                 return;
             }
             
@@ -1155,39 +1032,21 @@ public class ViewAccountBoard extends JPanel {
                         extension = source.getName().substring(dot);
                     }
 
-                    File destination =
-                            new File(
-                                    folder,
-                                    acc.getAccNo() + extension
-                            );
+                    File destination = new File(folder, acc.getAccNo() + extension);
 
-                    Files.copy(
-                            source.toPath(),
-                            destination.toPath(),
-                            StandardCopyOption.REPLACE_EXISTING
-                    );
+                    Files.copy(source.toPath(), destination.toPath(), StandardCopyOption.REPLACE_EXISTING);
 
-                    acc.setProfileImage(
-                            destination.getPath()
-                    );
+                    acc.setProfileImage(destination.getPath());
 
                 } catch (IOException ex) {
 
-                    JOptionPane.showMessageDialog(
-                            dialog,
-                            "Failed to save profile image."
-                    );
+                    JOptionPane.showMessageDialog(dialog, "Failed to save profile image.");
                 }
             }
 
             loadAccounts();
 
-            JOptionPane.showMessageDialog(
-                    dialog,
-                    "Account updated successfully!",
-                    "Success",
-                    JOptionPane.INFORMATION_MESSAGE
-            );
+            JOptionPane.showMessageDialog(dialog, "Account updated successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
 
             dialog.dispose();
         });

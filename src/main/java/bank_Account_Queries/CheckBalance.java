@@ -65,12 +65,10 @@ public class CheckBalance extends JPanel implements ActionListener {
             lblTitle.setBounds(50, 40, 700, 50);
             lblTitle.setFont(fntTitle);
             add(lblTitle);
-
         }
 
         // SEARCH
         {
-
             searchBoard = new JPanel();
             searchBoard.setLayout(null);
             searchBoard.setBackground(Color.decode("#031B42"));
@@ -110,14 +108,7 @@ public class CheckBalance extends JPanel implements ActionListener {
             infoBoard = new JPanel();
             infoBoard.setLayout(null);
 
-            infoBoard.setBorder(
-                    BorderFactory.createTitledBorder(
-                            BorderFactory.createLineBorder(
-                                    Color.decode("#0E447D"), 3),
-                            "Information Board"
-                    )
-            );
-
+            infoBoard.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.decode("#0E447D"), 3), "Information Board"));
             infoBoard.setBounds(60, 275, 1520, 280);
 
             // Account Title
@@ -129,9 +120,7 @@ public class CheckBalance extends JPanel implements ActionListener {
             txtHolderName = new JTextField();
             txtHolderName.setEditable(false);
             txtHolderName.setBackground(new Color(225, 225, 225));
-            txtHolderName.setBorder(
-                    BorderFactory.createLineBorder(
-                            Color.decode("#031B42"), 1));
+            txtHolderName.setBorder(BorderFactory.createLineBorder(Color.decode("#031B42"), 1));
             txtHolderName.setFont(new Font("Segoe UI", Font.PLAIN, 15));
             txtHolderName.setBounds(50, 70, 650, 40);
             infoBoard.add(txtHolderName);
@@ -146,9 +135,7 @@ public class CheckBalance extends JPanel implements ActionListener {
             txtAccNo.setEditable(false);
             txtAccNo.setBackground(new Color(225, 225, 225));
             txtAccNo.setFont(new Font("Segoe UI", Font.BOLD, 15));
-            txtAccNo.setBorder(
-                    BorderFactory.createLineBorder(
-                            Color.decode("#031B42"), 1));
+            txtAccNo.setBorder(BorderFactory.createLineBorder(Color.decode("#031B42"), 1));
             txtAccNo.setBounds(50, 160, 650, 40);
             infoBoard.add(txtAccNo);
 
@@ -166,9 +153,7 @@ public class CheckBalance extends JPanel implements ActionListener {
             txtAccType = new JTextField();
             txtAccType.setEditable(false);
             txtAccType.setBackground(new Color(225, 225, 225));
-            txtAccType.setBorder(
-                    BorderFactory.createLineBorder(
-                            Color.decode("#031B42"), 1));
+            txtAccType.setBorder(BorderFactory.createLineBorder(Color.decode("#031B42"), 1));
             txtAccType.setFont(new Font("Segoe UI", Font.PLAIN, 15));
             txtAccType.setBounds(800, 70, 650, 40);
             infoBoard.add(txtAccType);
@@ -183,9 +168,7 @@ public class CheckBalance extends JPanel implements ActionListener {
             txtAccBal.setEditable(false);
             txtAccBal.setBackground(new Color(225, 225, 225));
             txtAccBal.setFont(new Font("Segoe UI", Font.PLAIN, 15));
-            txtAccBal.setBorder(
-                    BorderFactory.createLineBorder(
-                            Color.decode("#031B42"), 1));
+            txtAccBal.setBorder(BorderFactory.createLineBorder(Color.decode("#031B42"), 1));
             txtAccBal.setBounds(800, 160, 650, 40);
             infoBoard.add(txtAccBal);
 
@@ -313,30 +296,24 @@ public class CheckBalance extends JPanel implements ActionListener {
     }
     
     public void boardSearch() {
-                String searchAccNo = txtAccNum.getText().trim();
+        String searchAccNo = txtAccNum.getText().trim();
 
-                Account acc =
-                        AccountSQL.getAccountByNumber(searchAccNo);
+        Account acc = AccountSQL.getAccountByNumber(searchAccNo);
 
-                if (acc != null) {
-                    txtHolderName.setText(acc.getName());
-                    txtAccNo.setText(acc.getAccNo());
-                    txtAccType.setText(acc.getAccType());
+        if (acc != null) {
+            txtHolderName.setText(acc.getName());
+            txtAccNo.setText(acc.getAccNo());
+            txtAccType.setText(acc.getAccType());
 
-                    txtAccBal.setText(
-                            "PHP " + String.format("%,.2f",
-                                    acc.getAccBal()));
-                } else {
-                    JOptionPane.showMessageDialog(
-                            null,
-                            "Account not found!"
-                    );
-                    txtHolderName.setText("");
-                    txtAccNo.setText("");
-                    txtAccType.setText("");
-                    txtAccBal.setText("");
-                }
-            }
+            txtAccBal.setText("PHP " + String.format("%,.2f", acc.getAccBal()));
+        } else {
+            JOptionPane.showMessageDialog(null,"Account not found!");
+            txtHolderName.setText("");
+            txtAccNo.setText("");
+            txtAccType.setText("");
+            txtAccBal.setText("");
+        }
+    }
     
     public LocalDateTime convertDate(int month, int day, String year) {
         try {

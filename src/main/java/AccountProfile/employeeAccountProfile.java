@@ -25,8 +25,6 @@ public class employeeAccountProfile extends JPanel {
     
     private Employee employee;
     
-
-    
     public employeeAccountProfile(Employee employee) {
        this.employee = employee;
        
@@ -43,12 +41,14 @@ public class employeeAccountProfile extends JPanel {
         Color darkBlue = new Color(3, 27, 66);
         Color borderColor = new Color(190, 198, 210);
 
+        //Title
         lblTitle = new JLabel("Account Profile");
         lblTitle.setBounds(50, 25, 700, 48);
         lblTitle.setFont(titleFont);
         lblTitle.setForeground(darkBlue);
         add(lblTitle);
 
+        //Employee ID
         txtEmpID = new JTextField("EMP2001");
         txtEmpID.setHorizontalAlignment(JTextField.RIGHT);
         txtEmpID.setEditable(false);
@@ -63,6 +63,7 @@ public class employeeAccountProfile extends JPanel {
         topSep.setBackground(ColorPalette.Blue5);
         add(topSep);
 
+        //Profile Picture
         profileLabel = new JLabel("Profile Image");
         profileLabel.setFont(sectionFont);
         profileLabel.setForeground(darkBlue);
@@ -86,12 +87,14 @@ public class employeeAccountProfile extends JPanel {
         midSep1.setBackground(ColorPalette.Blue5);
         add(midSep1);
 
+        //Personal Info
         personalInfoLabel = new JLabel("Personal Information");
         personalInfoLabel.setFont(sectionFont);
         personalInfoLabel.setForeground(darkBlue);
         personalInfoLabel.setBounds(50, 295, 300, 28);
         add(personalInfoLabel);
 
+        //Name of Employee
         nameLabel = new JLabel("Name");
         nameLabel.setFont(labelFont);
         nameLabel.setForeground(darkBlue);
@@ -106,6 +109,7 @@ public class employeeAccountProfile extends JPanel {
         nameField.setBorder(BorderFactory.createCompoundBorder(new LineBorder(borderColor, 1, true),BorderFactory.createEmptyBorder(4, 12, 4, 12)));
         add(nameField);
 
+        //Gender of Employee
         genderLabel = new JLabel("Gender");
         genderLabel.setFont(labelFont);
         genderLabel.setForeground(darkBlue);
@@ -119,7 +123,8 @@ public class employeeAccountProfile extends JPanel {
         genderField.setFont(fieldFont);
         genderField.setBorder(BorderFactory.createCompoundBorder(new LineBorder(borderColor, 1, true),BorderFactory.createEmptyBorder(4, 12, 4, 12)));
         add(genderField);
-
+        
+        //Date of Birth of Employee
         dobLabel = new JLabel("Date Of Birth");
         dobLabel.setFont(labelFont);
         dobLabel.setForeground(darkBlue);
@@ -134,6 +139,7 @@ public class employeeAccountProfile extends JPanel {
         dobField.setBorder(BorderFactory.createCompoundBorder(new LineBorder(borderColor, 1, true),BorderFactory.createEmptyBorder(4, 12, 4, 12)));
         add(dobField);
 
+        //ID Number of Employee
         idLabel = new JLabel("ID Number");
         idLabel.setFont(labelFont);
         idLabel.setForeground(darkBlue);
@@ -148,6 +154,7 @@ public class employeeAccountProfile extends JPanel {
         idField.setBorder(BorderFactory.createCompoundBorder(new LineBorder(borderColor, 1, true),BorderFactory.createEmptyBorder(4, 12, 4, 12)));
         add(idField);
 
+        //Contact Number of Employee*
         mobileLabel = new JLabel("Mobile Number");
         mobileLabel.setFont(labelFont);
         mobileLabel.setForeground(darkBlue);
@@ -162,6 +169,7 @@ public class employeeAccountProfile extends JPanel {
         mobileField.setBorder(BorderFactory.createCompoundBorder(new LineBorder(borderColor, 1, true),BorderFactory.createEmptyBorder(4, 12, 4, 12)));
         add(mobileField);
 
+        //Email Address of Employee
         emailLabel = new JLabel("Email Account");
         emailLabel.setFont(labelFont);
         emailLabel.setForeground(darkBlue);
@@ -181,12 +189,14 @@ public class employeeAccountProfile extends JPanel {
         midSep2.setBackground(ColorPalette.Blue5);
         add(midSep2);
 
+        //Address
         addressLabel = new JLabel("Address");
         addressLabel.setFont(sectionFont);
         addressLabel.setForeground(darkBlue);
         addressLabel.setBounds(50, 505, 250, 28);
         add(addressLabel);
-
+        
+        //Postal Code of Employee
         postalLabel = new JLabel("Postal Code");
         postalLabel.setFont(labelFont);
         postalLabel.setForeground(darkBlue);
@@ -200,7 +210,8 @@ public class employeeAccountProfile extends JPanel {
         postalField.setFont(fieldFont);
         postalField.setBorder(BorderFactory.createCompoundBorder(new LineBorder(borderColor, 1, true),BorderFactory.createEmptyBorder(4, 12, 4, 12)));
         add(postalField);
-
+        
+        //Home Address of Employee
         homeLabel = new JLabel("Home Address");
         homeLabel.setFont(labelFont);
         homeLabel.setForeground(darkBlue);
@@ -214,7 +225,8 @@ public class employeeAccountProfile extends JPanel {
         homeField.setFont(fieldFont);
         homeField.setBorder(BorderFactory.createCompoundBorder(new LineBorder(borderColor, 1, true),BorderFactory.createEmptyBorder(4, 12, 4, 12)));
         add(homeField);
-
+        
+        //City of Employee
         cityLabel = new JLabel("City");
         cityLabel.setFont(labelFont);
         cityLabel.setForeground(darkBlue);
@@ -234,13 +246,15 @@ public class employeeAccountProfile extends JPanel {
         midSep3.setBackground(ColorPalette.Blue5);
         add(midSep3);
 
+        //Education of Employee
         educationLabel = new JLabel("Education & Experience");
         educationLabel.setFont(sectionFont);
         educationLabel.setForeground(darkBlue);
         educationLabel.setBounds(50, 635, 350, 28);
         add(educationLabel);
 
-        educationlvlLabel = new JLabel("Education Level");
+        //Educational Level
+        educationlvlLabel = new JLabel("Bachelor's Degree");
         educationlvlLabel.setFont(labelFont);
         educationlvlLabel.setForeground(darkBlue);
         educationlvlLabel.setBounds(50, 670, 250, 24);
@@ -253,7 +267,8 @@ public class employeeAccountProfile extends JPanel {
         educationlvlField.setFont(fieldFont);
         educationlvlField.setBorder(BorderFactory.createCompoundBorder(new LineBorder(borderColor, 1, true),BorderFactory.createEmptyBorder(4, 12, 4, 12)));
         add(educationlvlField);
-
+        
+        //Current Job
         currjobLabel = new JLabel("Current Job");
         currjobLabel.setFont(labelFont);
         currjobLabel.setForeground(darkBlue);
@@ -268,6 +283,7 @@ public class employeeAccountProfile extends JPanel {
         currjobField.setBorder(BorderFactory.createCompoundBorder(new LineBorder(borderColor, 1, true),BorderFactory.createEmptyBorder(4, 12, 4, 12)));
         add(currjobField);
 
+        //Experience 
         experienceLabel = new JLabel("Experience");
         experienceLabel.setFont(labelFont);
         experienceLabel.setForeground(darkBlue);
@@ -287,12 +303,14 @@ public class employeeAccountProfile extends JPanel {
         bottomSep.setBackground(ColorPalette.Blue5);
         add(bottomSep);
 
+        //Employee Account Details
         accDetailsLabel = new JLabel("Account Details");
         accDetailsLabel.setFont(sectionFont);
         accDetailsLabel.setForeground(darkBlue);
         accDetailsLabel.setBounds(50, 765, 250, 28);
         add(accDetailsLabel);
 
+        //Username
         usernameLabel = new JLabel("Username");
         usernameLabel.setFont(labelFont);
         usernameLabel.setForeground(darkBlue);
@@ -306,7 +324,8 @@ public class employeeAccountProfile extends JPanel {
         usernameField.setFont(fieldFont);
         usernameField.setBorder(BorderFactory.createCompoundBorder(new LineBorder(borderColor, 1, true),BorderFactory.createEmptyBorder(4, 12, 4, 12)));
         add(usernameField);
-
+        
+        //UserType
         typeLabel = new JLabel("User Type");
         typeLabel.setFont(labelFont);
         typeLabel.setForeground(darkBlue);
@@ -321,6 +340,7 @@ public class employeeAccountProfile extends JPanel {
         typeField.setBorder(BorderFactory.createCompoundBorder(new LineBorder(borderColor, 1, true),BorderFactory.createEmptyBorder(4, 12, 4, 12)));
         add(typeField);
 
+        //Register Date
         registerLabel = new JLabel("Registered Date");
         registerLabel.setFont(labelFont);
         registerLabel.setForeground(darkBlue);

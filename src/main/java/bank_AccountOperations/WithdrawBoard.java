@@ -544,10 +544,7 @@ public class WithdrawBoard extends JPanel implements ActionListener {
 
         if (EmployeeSQL.currentEmployee != null) {
 
-            tellerInfo =
-                    EmployeeSQL.currentEmployee.getEmpID()
-                    + " - "
-                    + EmployeeSQL.currentEmployee.getEmpName();
+            tellerInfo = EmployeeSQL.currentEmployee.getEmpID() + " - " + EmployeeSQL.currentEmployee.getEmpName();
         }
         
         JTextField txtTellerName = new JTextField(tellerInfo); 
@@ -573,64 +570,46 @@ public class WithdrawBoard extends JPanel implements ActionListener {
         
         
         
-       btnConfirm.addActionListener(e -> {
+        btnConfirm.addActionListener(e -> {
 
-        String enteredPin = new String(txtTellerPin.getPassword());
-        String empPin = EmployeeSQL.currentEmployee.getPassword();
-        if (enteredPin.trim().isEmpty()) {
+            String enteredPin = new String(txtTellerPin.getPassword());
+            String empPin = EmployeeSQL.currentEmployee.getPassword();
+            if (enteredPin.trim().isEmpty()) {
 
-            JOptionPane.showMessageDialog(
-                    dialog,
-                    "Please enter your Teller PIN.",
-                    "Authorization Error",
-                    JOptionPane.WARNING_MESSAGE
-            );  
-            return;
+                JOptionPane.showMessageDialog(dialog, "Please enter your Teller PIN.", "Authorization Error", JOptionPane.WARNING_MESSAGE);  
+                return;
 
-        } else if(!enteredPin.trim().equals(empPin)){
-                    JOptionPane.showMessageDialog(
-                    dialog,
-                    "Teller PIN is not correct.",
-                    "Authorization Error",
-                    JOptionPane.ERROR_MESSAGE
-            ); return;
-                    }else {
-
+            } else if(!enteredPin.trim().equals(empPin)){
+                JOptionPane.showMessageDialog(dialog, "Teller PIN is not correct.","Authorization Error",JOptionPane.ERROR_MESSAGE); return;
+            } else {
                 //Deduct BOTH withdrawal + fee
                 acc.setAccBal(newBalance);
                 AccountSQL.updateBalance(acc.getAccNo(), newBalance);
 
-
                 //Refresh balance display
-                txtBalance.setText(
-                        String.format("PHP %,.2f", acc.getAccBal())
-                );
-            String method = "";
-            if(cmbMethod.getSelectedIndex() == 0){
-                       method = "Over-the-counter";
-            } else if(cmbMethod.getSelectedIndex() == 1){
-                       method = "Check Withdrawal";
-            }
-                //Store transaction
-                transactionSql.addTransaction(
-                        transactionSql.generateRefNumber(),
-                        acc.getName(),
-                        acc.getAccNo(),
-                        method,
-                        withdrawerName,
-                        LocalDateTime.now(),
-                        "Withdrawal",
-                        amountToWithdraw
-                );
-                
-                dialog.dispose();
+                txtBalance.setText(String.format("PHP %,.2f", acc.getAccBal()));
 
-                JOptionPane.showMessageDialog(
-                        parentWindow,
-                        "Withdrawal successful!",
-                        "Transaction Complete",
-                        JOptionPane.INFORMATION_MESSAGE
-                );
+                String method = "";
+                if(cmbMethod.getSelectedIndex() == 0){
+                           method = "Over-the-counter";
+                } else if(cmbMethod.getSelectedIndex() == 1){
+                           method = "Check Withdrawal";
+                }
+                    //Store transaction
+                    transactionSql.addTransaction(
+                            transactionSql.generateRefNumber(),
+                            acc.getName(),
+                            acc.getAccNo(),
+                            method,
+                            withdrawerName,
+                            LocalDateTime.now(),
+                            "Withdrawal",
+                            amountToWithdraw
+                    );
+
+                    dialog.dispose();
+
+                    JOptionPane.showMessageDialog(parentWindow, "Withdrawal successful!", "Transaction Complete", JOptionPane.INFORMATION_MESSAGE);
             }
         });
 

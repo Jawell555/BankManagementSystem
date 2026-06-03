@@ -289,11 +289,7 @@ public class TransferBoard extends JPanel implements ActionListener {
         String tellerInfo = "No Employee";
 
         if (EmployeeSQL.currentEmployee != null) {
-
-            tellerInfo =
-                    EmployeeSQL.currentEmployee.getEmpID()
-                    + " - "
-                    + EmployeeSQL.currentEmployee.getEmpName();
+            tellerInfo = EmployeeSQL.currentEmployee.getEmpID() + " - " + EmployeeSQL.currentEmployee.getEmpName();
         }
 
         txtProcBy = new JTextField(tellerInfo);
@@ -498,7 +494,6 @@ public class TransferBoard extends JPanel implements ActionListener {
             return;
         }
 
-        
         try {
             amountToTransfer = Double.parseDouble(amountInput);
             if (amountToTransfer <= 0) {
@@ -621,7 +616,6 @@ public class TransferBoard extends JPanel implements ActionListener {
         btnConfirm.addActionListener(e -> {
 
             Account senderAcc = AccountSQL.getAccountByNumber(senderNum);
-
             if (senderAcc == null) {
                 return;
             }

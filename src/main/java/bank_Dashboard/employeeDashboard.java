@@ -296,10 +296,7 @@ public class employeeDashboard extends JPanel {
         // CARD VALUES
         lblCurrAccValue.setText(String.valueOf(current));
         lblSavAccValue.setText(String.valueOf(savings));
-
-        lblSavBankBalance.setText(
-                "PHP " + String.format("%,.2f", totalBankBalance)
-        );
+        lblSavBankBalance.setText("PHP " + String.format("%,.2f", totalBankBalance));
 
         double totalDeposit = 0;
         double totalWithdraw = 0;
@@ -321,7 +318,6 @@ public class employeeDashboard extends JPanel {
 
         lblDepositValue.setText("PHP " + String.format("%,.2f", totalDeposit));
         lblWithdrawValue.setText("PHP " + String.format("%,.2f", totalWithdraw));
-
         lblTransValue.setText("PHP " + String.format("%,.2f", totalDeposit + totalWithdraw));
     }
 }

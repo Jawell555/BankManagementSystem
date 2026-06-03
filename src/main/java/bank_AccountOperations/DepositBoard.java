@@ -319,7 +319,6 @@ public class DepositBoard extends JPanel implements ActionListener {
             return;
         }
 
-        
         try {
             amountToDeposit = Double.parseDouble(amountInput);
             if(amountToDeposit <= 0) {
@@ -446,12 +445,7 @@ public class DepositBoard extends JPanel implements ActionListener {
             );
             dialog.dispose();
 
-            JOptionPane.showMessageDialog(
-                    parentWindow,
-                    "Deposited successfully!",
-                    "Transaction Complete",
-                    JOptionPane.INFORMATION_MESSAGE
-            );
+            JOptionPane.showMessageDialog(parentWindow, "Deposited successfully!", "Transaction Complete",JOptionPane.INFORMATION_MESSAGE);
 
             //Clear fields
             txtAmount.setText("");

@@ -61,10 +61,7 @@ public class ChangePasswordPanel extends JPanel {
         oldPasswordField.setBounds(centerX, 135, fieldWidth, 40);
         oldPasswordField.setFont(fieldFont);
         oldPasswordField.setBackground(Color.WHITE);
-        oldPasswordField.setBorder(BorderFactory.createCompoundBorder(
-                new LineBorder(borderColor, 1, true),
-                BorderFactory.createEmptyBorder(5, 12, 5, 12)
-        ));
+        oldPasswordField.setBorder(BorderFactory.createCompoundBorder(new LineBorder(borderColor, 1, true), BorderFactory.createEmptyBorder(5, 12, 5, 12)));
         add(oldPasswordField);
 
         // New Password
@@ -78,10 +75,7 @@ public class ChangePasswordPanel extends JPanel {
         newPasswordField.setBounds(centerX, 210, fieldWidth, 40);
         newPasswordField.setFont(fieldFont);
         newPasswordField.setBackground(Color.WHITE);
-        newPasswordField.setBorder(BorderFactory.createCompoundBorder(
-                new LineBorder(borderColor, 1, true),
-                BorderFactory.createEmptyBorder(5, 12, 5, 12)
-        ));
+        newPasswordField.setBorder(BorderFactory.createCompoundBorder(new LineBorder(borderColor, 1, true), BorderFactory.createEmptyBorder(5, 12, 5, 12)));
         add(newPasswordField);
 
         // Confirm Password
@@ -95,10 +89,7 @@ public class ChangePasswordPanel extends JPanel {
         confirmPasswordField.setBounds(centerX, 285, fieldWidth, 40);
         confirmPasswordField.setFont(fieldFont);
         confirmPasswordField.setBackground(Color.WHITE);
-        confirmPasswordField.setBorder(BorderFactory.createCompoundBorder(
-                new LineBorder(borderColor, 1, true),
-                BorderFactory.createEmptyBorder(5, 12, 5, 12)
-        ));
+        confirmPasswordField.setBorder(BorderFactory.createCompoundBorder(new LineBorder(borderColor, 1, true),BorderFactory.createEmptyBorder(5, 12, 5, 12)));
         add(confirmPasswordField);
 
         // Button
@@ -111,6 +102,7 @@ public class ChangePasswordPanel extends JPanel {
         changePasswordButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
         changePasswordButton.setBorder(new LineBorder(buttonColor, 1, true));
         changePasswordButton.addActionListener(e -> changePassword());
+        
         // Hover effect
         changePasswordButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
@@ -152,7 +144,8 @@ public class ChangePasswordPanel extends JPanel {
         }
         
         // Prevent same password
-        if (oldPass.equals(newPass)) {JOptionPane.showMessageDialog(this, "New password must be different from the old password.");
+        if (oldPass.equals(newPass)) {
+            JOptionPane.showMessageDialog(this, "New password must be different from the old password.");
             return;
         }
 
