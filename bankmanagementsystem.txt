@@ -1,0 +1,120 @@
+CREATE DATABASE bankmanagementsystem;
+
+USE bankmanagementsystem;
+
+CREATE TABLE accounts (
+    acc_no VARCHAR(20) NOT NULL,
+    name VARCHAR(100),
+    father_name VARCHAR(100),
+    email VARCHAR(100),
+    id_type VARCHAR(50),
+    id_number VARCHAR(50),
+    date_created DATE,
+    acc_type VARCHAR(20),
+    acc_title VARCHAR(100),
+    acc_status VARCHAR(20),
+    acc_bal DOUBLE,
+    dob DATE,
+    gender VARCHAR(10),
+    mobile_number VARCHAR(20),
+    postal_code VARCHAR(10),
+    home_address VARCHAR(255),
+    city VARCHAR(100),
+    profile_image VARCHAR(255)
+);
+
+CREATE TABLE employees (
+    emp_id VARCHAR(20) NOT NULL,
+    emp_name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) NOT NULL,
+    id_number VARCHAR(30) NOT NULL,
+    date_hired DATE NOT NULL,
+    emp_type VARCHAR(30) NOT NULL,
+    username VARCHAR(50) NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    dob DATE NOT NULL,
+    gender VARCHAR(20),
+    marital_status VARCHAR(20),
+    mobile_number VARCHAR(20),
+    postal_code VARCHAR(20),
+    home_address VARCHAR(255),
+    city VARCHAR(100),
+    education_level VARCHAR(100),
+    current_job VARCHAR(100),
+    years_experience VARCHAR(50),
+    status VARCHAR(20),
+    profile_image VARCHAR(255)
+);
+
+INSERT INTO employees (
+    emp_id,
+    emp_name,
+    email,
+    id_number,
+    date_hired,
+    emp_type,
+    username,
+    password,
+    dob,
+    gender,
+    marital_status,
+    mobile_number,
+    postal_code,
+    home_address,
+    city,
+    education_level,
+    current_job,
+    years_experience,
+    status,
+    profile_image
+) VALUES
+(
+    'ADM001',
+    'Lorenzo Raphael Gercayo',
+    'lorenzo.gercayo@summitphilbank.com',
+    '2024-000097-BN-0',
+    '2026-02-21',
+    'Admin',
+    'admin',
+    'admin123!',
+    '2005-11-06',
+    'Male',
+    'Single',
+    '09938237160',
+    '4024',
+    'Blk 28 Lot 25, Golden City Canlalay',
+    'Binan City',
+    'BS Information Technology',
+    'Admin',
+    '1 Year',
+    'Active',
+    'profile_images/ADM001.png'
+);
+
+CREATE TABLE external_bank_accounts (
+    account_number VARCHAR(30) NOT NULL,
+    account_name VARCHAR(100),
+    bank_name VARCHAR(100),
+    status VARCHAR(20)
+);
+
+INSERT INTO external_bank_accounts (
+    account_number,
+    account_name,
+    bank_name,
+    status
+) VALUES
+('BDO10001', 'Juan Dela Cruz', 'BDO', 'Active'),
+('BPI10002', 'Maria Santos', 'BPI', 'Active'),
+('MBTC10003', 'Pedro Reyes', 'Metrobank', 'Active');
+
+CREATE TABLE transactions (
+    refID VARCHAR(20) NOT NULL,
+    accName VARCHAR(100),
+    accNumber VARCHAR(20),
+    transacInfo VARCHAR(50),
+    altAccName VARCHAR(100),
+    transacDate DATETIME,
+    historyType VARCHAR(50),
+    transacAmount DOUBLE(30,2)
+);
