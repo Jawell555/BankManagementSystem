@@ -10,8 +10,5 @@ public class BankManagementSystemMain {
         
         //Admin Login Credentials:
         //Username: admin | Password: admin123!
-        
-        //Employee Login Credentials Sample:
-        //Username: juandelacruz01 | Password: juan123
     }
 }

@@ -19,9 +19,9 @@ import java.time.LocalDateTime;
 import java.util.Date;
 
 public class WithdrawBoard extends JPanel implements ActionListener {
-    
+
     private TransactionSQL transactionSql = new TransactionSQL();
-    
+
     //Main Panel Title
     private JLabel lblTitle;
 
@@ -39,37 +39,37 @@ public class WithdrawBoard extends JPanel implements ActionListener {
 
     //Components declaration of action board
     private JPanel actionBoard;
-    private JLabel lblRefNum, lblDate, lblIdType, lblWithdrawer, lblMethod, lblAmount, lblFeeTitle, lblFeeVal, lblTotalTitle, lblTotalVal;
-    private JTextField txtRefNum, txtDate, txtWithdrawer, txtAmount;
+    private JLabel lblRefNum, lblDate, lblIdType, lblWithdrawer, lblMethod, lblAmount, lblFeeTitle, lblFeeVal, lblTotalTitle, lblTotalVal, lblCheck;
+    private JTextField txtRefNum, txtDate, txtWithdrawer, txtAmount, txtCheck;
     private JComboBox<String> cmbIdType, cmbMethod;
     private JSeparator actSep1, actSep2;
     private JButton btnWithdraw;
     private String[] methods = {"Over-the-counter", "Check Withdrawal"};
     private String[] idTypes = {"Driver's License", "National ID / PhilSys", "Passport", "Company ID"};
     double amountToWithdraw = 0;
-    
+
     public WithdrawBoard() {
         setLayout(null);
         setBackground(new Color(235, 235, 235));
-        setBounds(0, 0, 1670, 1080); 
+        setBounds(0, 0, 1670, 1080);
 
         lblTitle = new JLabel("Withdrawal Board");
-        lblTitle.setFont(new Font("Segoe UI", Font.BOLD, 30)); 
-        lblTitle.setBounds(60, 30, 700, 40); 
+        lblTitle.setFont(new Font("Segoe UI", Font.BOLD, 30));
+        lblTitle.setBounds(60, 30, 700, 40);
         add(lblTitle);
 
         //SEARCH BOARD
         searchBoard = new JPanel();
-        searchBoard.setLayout(null); 
+        searchBoard.setLayout(null);
         searchBoard.setBackground(ColorPalette.Blue5);
-        searchBoard.setBounds(60, 100, 1520, 150); 
-        
-        lblHeaderTitle = new JLabel("   Search Board"); 
+        searchBoard.setBounds(60, 100, 1520, 150);
+
+        lblHeaderTitle = new JLabel("   Search Board");
         lblHeaderTitle.setFont(new Font("Segoe UI", Font.BOLD, 14));
-        lblHeaderTitle.setForeground(Color.WHITE); 
-        lblHeaderTitle.setBackground(ColorPalette.Blue4); 
-        lblHeaderTitle.setOpaque(true); 
-        lblHeaderTitle.setBounds(0, 0, 1520, 35); 
+        lblHeaderTitle.setForeground(Color.WHITE);
+        lblHeaderTitle.setBackground(ColorPalette.Blue4);
+        lblHeaderTitle.setOpaque(true);
+        lblHeaderTitle.setBounds(0, 0, 1520, 35);
         searchBoard.add(lblHeaderTitle);
 
         lblAccNum = new JLabel("Account Number");
@@ -79,26 +79,26 @@ public class WithdrawBoard extends JPanel implements ActionListener {
         searchBoard.add(lblAccNum);
 
         txtAccNum = new JTextField("SPB100000000");
-        txtAccNum.setForeground(Color.BLACK); 
+        txtAccNum.setForeground(Color.BLACK);
         txtAccNum.setFont(new Font("Segoe UI", Font.PLAIN, 15));
-        txtAccNum.setBounds(50, 80, 730, 40); 
+        txtAccNum.setBounds(50, 80, 730, 40);
         searchBoard.add(txtAccNum);
 
         btnSearch = new JButton("Search Account");
         btnSearch.setBackground(Color.decode("#0C3D70"));
         btnSearch.setForeground(Color.WHITE);
         btnSearch.setFont(new Font("Segoe UI", Font.BOLD, 18));
-        btnSearch.setBounds(800, 80, 190, 40); 
-        btnSearch.addActionListener(this); 
+        btnSearch.setBounds(800, 80, 190, 40);
+        btnSearch.addActionListener(this);
         searchBoard.add(btnSearch);
 
-        add(searchBoard); 
+        add(searchBoard);
 
         //INFORMATION BOARD
         infoBoard = new JPanel();
         infoBoard.setLayout(null);
         infoBoard.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(ColorPalette.Blue4, 3), "Information Board"));
-        infoBoard.setBounds(60, 275, 1520, 280); 
+        infoBoard.setBounds(60, 275, 1520, 280);
 
         lblAccTitle = new JLabel("Account Title");
         lblAccTitle.setFont(new Font("Segoe UI", Font.PLAIN, 15));
@@ -107,7 +107,7 @@ public class WithdrawBoard extends JPanel implements ActionListener {
 
         txtAccTitle = new JTextField();
         txtAccTitle.setEditable(false);
-        txtAccTitle.setBackground(new Color(225, 225, 225)); 
+        txtAccTitle.setBackground(new Color(225, 225, 225));
         txtAccTitle.setBorder(BorderFactory.createLineBorder(ColorPalette.Blue5, 1));
         txtAccTitle.setFont(new Font("Segoe UI", Font.PLAIN, 15));
         txtAccTitle.setBounds(50, 70, 400, 40);
@@ -120,7 +120,7 @@ public class WithdrawBoard extends JPanel implements ActionListener {
 
         txtAccStatus = new JTextField();
         txtAccStatus.setEditable(false);
-        txtAccStatus.setBackground(new Color(225, 225, 225));  
+        txtAccStatus.setBackground(new Color(225, 225, 225));
         txtAccStatus.setFont(new Font("Segoe UI", Font.BOLD, 15));
         txtAccStatus.setBorder(BorderFactory.createLineBorder(ColorPalette.Blue5, 1));
         txtAccStatus.setBounds(50, 160, 400, 40);
@@ -137,7 +137,7 @@ public class WithdrawBoard extends JPanel implements ActionListener {
 
         txtHolderName = new JTextField();
         txtHolderName.setEditable(false);
-        txtHolderName.setBackground(new Color(225, 225, 225)); 
+        txtHolderName.setBackground(new Color(225, 225, 225));
         txtHolderName.setBorder(BorderFactory.createLineBorder(ColorPalette.Blue5, 1));
         txtHolderName.setFont(new Font("Segoe UI", Font.PLAIN, 15));
         txtHolderName.setBounds(550, 70, 400, 40);
@@ -150,7 +150,7 @@ public class WithdrawBoard extends JPanel implements ActionListener {
 
         txtAccType = new JTextField();
         txtAccType.setEditable(false);
-        txtAccType.setBackground(new Color(225, 225, 225)); 
+        txtAccType.setBackground(new Color(225, 225, 225));
         txtAccType.setFont(new Font("Segoe UI", Font.PLAIN, 15));
         txtAccType.setBorder(BorderFactory.createLineBorder(ColorPalette.Blue5, 1));
         txtAccType.setBounds(550, 160, 400, 40);
@@ -167,7 +167,7 @@ public class WithdrawBoard extends JPanel implements ActionListener {
 
         txtDisplayAccNum = new JTextField();
         txtDisplayAccNum.setEditable(false);
-        txtDisplayAccNum.setBackground(new Color(225, 225, 225)); 
+        txtDisplayAccNum.setBackground(new Color(225, 225, 225));
         txtDisplayAccNum.setBorder(BorderFactory.createLineBorder(ColorPalette.Blue5, 1));
         txtDisplayAccNum.setFont(new Font("Segoe UI", Font.PLAIN, 15));
         txtDisplayAccNum.setBounds(1050, 70, 400, 40);
@@ -180,21 +180,21 @@ public class WithdrawBoard extends JPanel implements ActionListener {
 
         txtBalance = new JTextField("PHP 0.00");
         txtBalance.setEditable(false);
-        txtBalance.setBackground(new Color(225, 225, 225)); 
+        txtBalance.setBackground(new Color(225, 225, 225));
         txtBalance.setFont(new Font("Segoe UI", Font.BOLD, 16));
         txtBalance.setBorder(BorderFactory.createLineBorder(ColorPalette.Blue5, 1));
         txtBalance.setBounds(1050, 160, 400, 40);
         infoBoard.add(txtBalance);
 
-        add(infoBoard); 
+        add(infoBoard);
 
         //ACTION BOARD
         actionBoard = new JPanel();
-        actionBoard.setLayout(null);      
+        actionBoard.setLayout(null);
         actionBoard.setBackground(new Color(235, 235, 235));
         actionBoard.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(ColorPalette.Blue4, 3), "Action Board"));
-        actionBoard.setBounds(60, 580, 1520, 320); 
-        add(actionBoard); 
+        actionBoard.setBounds(60, 580, 1520, 320);
+        add(actionBoard);
 
         lblRefNum = new JLabel("Withdrawal Reference No.");
         lblRefNum.setFont(new Font("Segoe UI", Font.PLAIN, 15));
@@ -202,11 +202,11 @@ public class WithdrawBoard extends JPanel implements ActionListener {
         actionBoard.add(lblRefNum);
 
         txtRefNum = new JTextField(transactionSql.generateRefNumber());
-        txtRefNum.setEditable(false); 
-        txtRefNum.setBackground(new Color(225, 225, 225)); 
+        txtRefNum.setEditable(false);
+        txtRefNum.setBackground(new Color(225, 225, 225));
         txtRefNum.setBorder(BorderFactory.createLineBorder(ColorPalette.Blue5, 1));
         txtRefNum.setFont(new Font("Segoe UI", Font.PLAIN, 15));
-        txtRefNum.setBounds(50, 70, 400, 40); 
+        txtRefNum.setBounds(50, 70, 400, 40);
         actionBoard.add(txtRefNum);
 
         lblDate = new JLabel("Transaction Date & Time");
@@ -216,11 +216,11 @@ public class WithdrawBoard extends JPanel implements ActionListener {
 
         String currentDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
         txtDate = new JTextField(currentDate);
-        txtDate.setEditable(false); 
-        txtDate.setBackground(new Color(225, 225, 225)); 
+        txtDate.setEditable(false);
+        txtDate.setBackground(new Color(225, 225, 225));
         txtDate.setFont(new Font("Segoe UI", Font.PLAIN, 15));
         txtDate.setBorder(BorderFactory.createLineBorder(ColorPalette.Blue5, 1));
-        txtDate.setBounds(50, 160, 400, 40); 
+        txtDate.setBounds(50, 160, 400, 40);
         actionBoard.add(txtDate);
 
         lblIdType = new JLabel("Valid ID Presented");
@@ -230,7 +230,7 @@ public class WithdrawBoard extends JPanel implements ActionListener {
 
         cmbIdType = new JComboBox<>(idTypes);
         cmbIdType.setFont(new Font("Segoe UI", Font.PLAIN, 15));
-        cmbIdType.setBounds(50, 250, 400, 40); 
+        cmbIdType.setBounds(50, 250, 400, 40);
         actionBoard.add(cmbIdType);
 
         actSep1 = new JSeparator(SwingConstants.VERTICAL);
@@ -239,28 +239,52 @@ public class WithdrawBoard extends JPanel implements ActionListener {
 
         lblWithdrawer = new JLabel("Withdrawer's Full Name");
         lblWithdrawer.setFont(new Font("Segoe UI", Font.PLAIN, 15));
-        lblWithdrawer.setBounds(550, 40, 200, 20);
+        lblWithdrawer.setBounds(550, 130, 200, 20);
         actionBoard.add(lblWithdrawer);
 
         txtWithdrawer = new JTextField();
         txtWithdrawer.setForeground(Color.BLACK);
         txtWithdrawer.setFont(new Font("Segoe UI", Font.PLAIN, 15));
         txtWithdrawer.setBorder(BorderFactory.createLineBorder(ColorPalette.Blue5, 1));
-        txtWithdrawer.setBounds(550, 70, 400, 40); 
+        txtWithdrawer.setBounds(550, 160, 400, 40);
         actionBoard.add(txtWithdrawer);
+
+        lblCheck = new JLabel("Check Number");
+        lblCheck.setFont(new Font("Segoe UI", Font.PLAIN, 15));
+        lblCheck.setBounds(550, 220, 200, 20);
+        actionBoard.add(lblCheck);
+        lblCheck.setVisible(false);
+
+        txtCheck = new JTextField();
+        txtCheck.setForeground(Color.BLACK);
+        txtCheck.setFont(new Font("Segoe UI", Font.PLAIN, 15));
+        txtCheck.setBorder(BorderFactory.createLineBorder(ColorPalette.Blue5, 1));
+        txtCheck.setBounds(550, 250, 400, 40);
+        actionBoard.add(txtCheck);
+        txtCheck.setVisible(false);
 
         lblMethod = new JLabel("Withdrawal Method");
         lblMethod.setFont(new Font("Segoe UI", Font.PLAIN, 15));
-        lblMethod.setBounds(550, 130, 200, 20);
+        lblMethod.setBounds(550, 40, 200, 20);
         actionBoard.add(lblMethod);
 
-        
         cmbMethod = new JComboBox<>(methods);
         cmbMethod.setFont(new Font("Segoe UI", Font.PLAIN, 15));
-        cmbMethod.setBounds(550, 160, 400, 40); 
-        
+        cmbMethod.setBounds(550, 70, 400, 40);
         //Listener to update fee automatically when changing withdrawal method
-        cmbMethod.addActionListener(e -> updateCalculations());
+        cmbMethod.addActionListener(e -> {
+            int selected = cmbMethod.getSelectedIndex();
+            if (selected == 0) {
+                txtCheck.setText("");
+                txtCheck.setVisible(false);
+                lblCheck.setVisible(false);
+            } else if (selected == 1) {
+                txtCheck.setText("SPBCHK");
+                txtCheck.setVisible(true);
+                lblCheck.setVisible(true);
+            }
+            updateCalculations();
+        });
         actionBoard.add(cmbMethod);
 
         actSep2 = new JSeparator(SwingConstants.VERTICAL);
@@ -273,17 +297,25 @@ public class WithdrawBoard extends JPanel implements ActionListener {
         actionBoard.add(lblAmount);
 
         txtAmount = new JTextField();
-        txtAmount.setFont(new Font("Segoe UI", Font.BOLD, 20)); 
-        txtAmount.setBorder(BorderFactory.createLineBorder(ColorPalette.Blue5, 2)); 
-        txtAmount.setBounds(1050, 70, 400, 45); 
+        txtAmount.setFont(new Font("Segoe UI", Font.BOLD, 20));
+        txtAmount.setBorder(BorderFactory.createLineBorder(ColorPalette.Blue5, 2));
+        txtAmount.setBounds(1050, 70, 400, 45);
         //Listener to capture text input in real-time
         txtAmount.getDocument().addDocumentListener(new DocumentListener() {
             @Override
-            public void insertUpdate(DocumentEvent e) { updateCalculations(); }
+            public void insertUpdate(DocumentEvent e) {
+                updateCalculations();
+            }
+
             @Override
-            public void removeUpdate(DocumentEvent e) { updateCalculations(); }
+            public void removeUpdate(DocumentEvent e) {
+                updateCalculations();
+            }
+
             @Override
-            public void changedUpdate(DocumentEvent e) { updateCalculations(); }
+            public void changedUpdate(DocumentEvent e) {
+                updateCalculations();
+            }
         });
         actionBoard.add(txtAmount);
 
@@ -294,8 +326,8 @@ public class WithdrawBoard extends JPanel implements ActionListener {
 
         lblFeeVal = new JLabel("PHP 0.00");
         lblFeeVal.setFont(new Font("Segoe UI", Font.BOLD, 18));
-        lblFeeVal.setForeground(Color.RED); 
-        lblFeeVal.setBounds(1250, 140, 150, 30);
+        lblFeeVal.setForeground(Color.RED);
+        lblFeeVal.setBounds(1200, 140, 150, 30);
         actionBoard.add(lblFeeVal);
 
         lblTotalTitle = new JLabel("Total Deduction:");
@@ -305,15 +337,15 @@ public class WithdrawBoard extends JPanel implements ActionListener {
 
         lblTotalVal = new JLabel("PHP 0.00");
         lblTotalVal.setFont(new Font("Segoe UI", Font.BOLD, 24));
-        lblTotalVal.setBounds(1250, 180, 200, 30);
+        lblTotalVal.setBounds(1200, 180, 200, 30);
         actionBoard.add(lblTotalVal);
 
         btnWithdraw = new JButton("WITHDRAW");
-        btnWithdraw.setBackground(Color.decode("#0C3D70")); 
+        btnWithdraw.setBackground(Color.decode("#0C3D70"));
         btnWithdraw.setForeground(Color.WHITE);
-        btnWithdraw.setFont(new Font("Segoe UI", Font.BOLD, 24)); 
-        btnWithdraw.setBounds(1050, 230, 400, 60); 
-        btnWithdraw.addActionListener(this); 
+        btnWithdraw.setFont(new Font("Segoe UI", Font.BOLD, 24));
+        btnWithdraw.setBounds(1050, 230, 400, 60);
+        btnWithdraw.addActionListener(this);
         actionBoard.add(btnWithdraw);
     }
 
@@ -337,12 +369,12 @@ public class WithdrawBoard extends JPanel implements ActionListener {
                 amount = Double.parseDouble(textInput);
             }
         } catch (NumberFormatException e) {
-            amount = 0; 
+            amount = 0;
         }
 
         double fee = 0;
-        if (amount > 0) { 
-            fee = (cmbMethod.getSelectedIndex() == 0) ? 0.00 : 15.00; 
+        if (amount > 0) {
+            fee = (cmbMethod.getSelectedIndex() == 0) ? 0.00 : 15.00;
         }
 
         double total = amount + fee;
@@ -354,7 +386,7 @@ public class WithdrawBoard extends JPanel implements ActionListener {
     //Handles account searching
     private void performSearch() {
         String searchedAcc = txtAccNum.getText().trim();
-        
+
         if (searchedAcc.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please enter an account number.", "Empty Field", JOptionPane.WARNING_MESSAGE);
             return;
@@ -368,7 +400,7 @@ public class WithdrawBoard extends JPanel implements ActionListener {
             txtAccStatus.setText(foundAcc.getAccStatus());
             txtAccType.setText(foundAcc.getAccType());
             txtDisplayAccNum.setText(foundAcc.getAccNo());
-            txtBalance.setText(String.format("PHP %,.2f", foundAcc.getAccBal())); 
+            txtBalance.setText(String.format("PHP %,.2f", foundAcc.getAccBal()));
         } else {
             JOptionPane.showMessageDialog(this, "Account not found in the system.", "Error", JOptionPane.ERROR_MESSAGE);
             txtAccTitle.setText("");
@@ -386,6 +418,7 @@ public class WithdrawBoard extends JPanel implements ActionListener {
         String accNum = txtDisplayAccNum.getText();
         String withdrawerName = txtWithdrawer.getText().trim();
         String amountInput = txtAmount.getText().trim();
+        String checkNum = txtCheck.getText().trim();
 
         //Validation: Account searched?
         if (accName.isEmpty() || accNum.isEmpty()) {
@@ -399,10 +432,9 @@ public class WithdrawBoard extends JPanel implements ActionListener {
             return;
         }
 
-        
         try {
             amountToWithdraw = Double.parseDouble(amountInput);
-            if(amountToWithdraw <= 0) {
+            if (amountToWithdraw <= 0) {
                 JOptionPane.showMessageDialog(this, "Amount must be greater than zero.", "Invalid Amount", JOptionPane.ERROR_MESSAGE);
                 return;
             }
@@ -413,17 +445,17 @@ public class WithdrawBoard extends JPanel implements ActionListener {
 
         //Setup parent window and dialog
         Window parentWindow = SwingUtilities.getWindowAncestor(this);
-        JDialog dialog = new JDialog((JFrame)parentWindow, "Withdrawal Confirmation", true);
-        dialog.setSize(420, 540); 
+        JDialog dialog = new JDialog((JFrame) parentWindow, "Withdrawal Confirmation", true);
+        dialog.setSize(420, 540);
         dialog.setLayout(null);
         dialog.getContentPane().setBackground(Color.WHITE);
-        dialog.setLocationRelativeTo(parentWindow); 
+        dialog.setLocationRelativeTo(parentWindow);
 
         JPanel header = new JPanel();
         header.setBackground(ColorPalette.Blue4);
         header.setBounds(0, 0, 420, 40);
         header.setLayout(null);
-        
+
         JLabel lblDialogTitle = new JLabel("Verify Withdrawal Details", SwingConstants.CENTER);
         lblDialogTitle.setForeground(Color.WHITE);
         lblDialogTitle.setFont(new Font("Segoe UI", Font.BOLD, 16));
@@ -474,7 +506,7 @@ public class WithdrawBoard extends JPanel implements ActionListener {
         Account acc = AccountSQL.getAccountByNumber(accNum);
         double fee = cmbMethod.getSelectedIndex() == 0 ? 0.00 : 15.00; //OTC is free, teh rest has fee
         double totalDeduction = amountToWithdraw + fee;
-        
+
         if (totalDeduction > acc.getAccBal()) {
             JOptionPane.showMessageDialog(this, "Insufficient balance for this transaction + fees.", "Transaction Failed", JOptionPane.ERROR_MESSAGE);
             return;
@@ -519,7 +551,7 @@ public class WithdrawBoard extends JPanel implements ActionListener {
         dialog.add(lblRemTitle);
 
         JLabel lblRemVal = new JLabel(String.format("PHP %,.2f", newBalance));
-        lblRemVal.setForeground(new Color(0, 153, 51));        
+        lblRemVal.setForeground(new Color(0, 153, 51));
         lblRemVal.setFont(new Font("Segoe UI", Font.BOLD, 13));
         lblRemVal.setBounds(175, 290, 150, 20);
         dialog.add(lblRemVal);
@@ -539,15 +571,15 @@ public class WithdrawBoard extends JPanel implements ActionListener {
         lblTellerName.setFont(new Font("Segoe UI", Font.PLAIN, 13));
         lblTellerName.setBounds(30, 365, 100, 25);
         dialog.add(lblTellerName);
-        
+
         String tellerInfo = "No Employee";
 
         if (EmployeeSQL.currentEmployee != null) {
 
             tellerInfo = EmployeeSQL.currentEmployee.getEmpID() + " - " + EmployeeSQL.currentEmployee.getEmpName();
         }
-        
-        JTextField txtTellerName = new JTextField(tellerInfo); 
+
+        JTextField txtTellerName = new JTextField(tellerInfo);
         txtTellerName.setEditable(false);
         txtTellerName.setBackground(new Color(235, 235, 235));
         txtTellerName.setBounds(110, 365, 260, 25);
@@ -558,7 +590,7 @@ public class WithdrawBoard extends JPanel implements ActionListener {
         lblTellerPin.setBounds(30, 400, 100, 25);
         dialog.add(lblTellerPin);
 
-        JPasswordField txtTellerPin = new JPasswordField(); 
+        JPasswordField txtTellerPin = new JPasswordField();
         txtTellerPin.setBounds(110, 400, 260, 25);
         dialog.add(txtTellerPin);
 
@@ -567,20 +599,19 @@ public class WithdrawBoard extends JPanel implements ActionListener {
         btnConfirm.setForeground(Color.WHITE);
         btnConfirm.setFont(new Font("Segoe UI", Font.BOLD, 14));
         btnConfirm.setBounds(40, 445, 150, 40);
-        
-        
-        
+
         btnConfirm.addActionListener(e -> {
 
             String enteredPin = new String(txtTellerPin.getPassword());
             String empPin = EmployeeSQL.currentEmployee.getPassword();
             if (enteredPin.trim().isEmpty()) {
 
-                JOptionPane.showMessageDialog(dialog, "Please enter your Teller PIN.", "Authorization Error", JOptionPane.WARNING_MESSAGE);  
+                JOptionPane.showMessageDialog(dialog, "Please enter your Teller PIN.", "Authorization Error", JOptionPane.WARNING_MESSAGE);
                 return;
 
-            } else if(!enteredPin.trim().equals(empPin)){
-                JOptionPane.showMessageDialog(dialog, "Teller PIN is not correct.","Authorization Error",JOptionPane.ERROR_MESSAGE); return;
+            } else if (!enteredPin.trim().equals(empPin)) {
+                JOptionPane.showMessageDialog(dialog, "Teller PIN is not correct.", "Authorization Error", JOptionPane.ERROR_MESSAGE);
+                return;
             } else {
                 //Deduct BOTH withdrawal + fee
                 acc.setAccBal(newBalance);
@@ -589,13 +620,9 @@ public class WithdrawBoard extends JPanel implements ActionListener {
                 //Refresh balance display
                 txtBalance.setText(String.format("PHP %,.2f", acc.getAccBal()));
 
-                String method = "";
-                if(cmbMethod.getSelectedIndex() == 0){
-                           method = "Over-the-counter";
-                } else if(cmbMethod.getSelectedIndex() == 1){
-                           method = "Check Withdrawal";
-                }
-                    //Store transaction
+                String method = cmbMethod.getSelectedItem().toString();
+                if (cmbMethod.getSelectedIndex() == 0) {
+
                     transactionSql.addTransaction(
                             transactionSql.generateRefNumber(),
                             acc.getName(),
@@ -603,14 +630,34 @@ public class WithdrawBoard extends JPanel implements ActionListener {
                             method,
                             withdrawerName,
                             LocalDateTime.now(),
-                            "Withdrawal",
+                            "Withdrawal - " + method,
+                            EmployeeSQL.currentEmployee.getEmpName(),
                             amountToWithdraw
                     );
+                } else if (cmbMethod.getSelectedIndex() == 1) {
 
-                    dialog.dispose();
+                    transactionSql.addTransaction(
+                            transactionSql.generateRefNumber(),
+                            acc.getName(),
+                            acc.getAccNo(),
+                            method,
+                            withdrawerName + " - " + checkNum,
+                            LocalDateTime.now(),
+                            "Withdrawal - " + method,
+                            EmployeeSQL.currentEmployee.getEmpName(),
+                            amountToWithdraw
+                    );
+                }
+                //Store transaction
 
-                    JOptionPane.showMessageDialog(parentWindow, "Withdrawal successful!", "Transaction Complete", JOptionPane.INFORMATION_MESSAGE);
+                dialog.dispose();
+
+                JOptionPane.showMessageDialog(parentWindow, "Withdrawal successful!", "Transaction Complete", JOptionPane.INFORMATION_MESSAGE);
+                txtWithdrawer.setText("");
+                txtAmount.setText("");
+                txtCheck.setText("SPBCHK");
             }
+
         });
 
         JButton btnCancel = new JButton("Cancel");
@@ -618,12 +665,12 @@ public class WithdrawBoard extends JPanel implements ActionListener {
         btnCancel.setFont(new Font("Segoe UI", Font.BOLD, 14));
         btnCancel.setBounds(210, 445, 150, 40);
         btnCancel.addActionListener(e -> {
-            dialog.dispose(); 
+            dialog.dispose();
             JOptionPane.showMessageDialog(parentWindow, "Transaction Cancelled.", "Transaction Cancelled", JOptionPane.ERROR_MESSAGE);
-        }); 
+        });
 
         dialog.add(btnConfirm);
         dialog.add(btnCancel);
-        dialog.setVisible(true); 
+        dialog.setVisible(true);
     }
 }

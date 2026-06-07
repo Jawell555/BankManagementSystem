@@ -3,6 +3,7 @@ package bank_ManageAccounts;
 import Colors.ColorPalette;
 import Database.AccountDatabase;
 import Database.AccountSQL;
+import Database.EmployeeSQL;
 import Database.TransactionSQL;
 import Models.Account;
 import java.awt.Color;
@@ -442,6 +443,7 @@ public class NewAccountBoard extends JPanel {
                     "Opening Balance",
                     java.time.LocalDateTime.now(),
                     "Initial Deposit",
+                    EmployeeSQL.currentEmployee.getEmpName(),
                     balance
             );
         }

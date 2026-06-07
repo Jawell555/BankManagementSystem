@@ -43,6 +43,7 @@ public class TransactionSQL extends TransactionDatabase {
             String altAccName,
             LocalDateTime transacDate,
             String historyType,
+            String processedBy,
             double amount
     ) {
 
@@ -55,8 +56,9 @@ public class TransactionSQL extends TransactionDatabase {
                 altAccName,
                 transacDate,
                 historyType,
+                processedBy,
                 transacAmount
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?,?)
         """;
 
         try (
@@ -71,7 +73,8 @@ public class TransactionSQL extends TransactionDatabase {
             ps.setString(5, altAccName);
             ps.setObject(6, transacDate);
             ps.setString(7, historyType);
-            ps.setDouble(8, amount);
+            ps.setString(8, processedBy);
+            ps.setDouble(9, amount);
 
             return ps.executeUpdate() > 0;
 
@@ -134,6 +137,7 @@ public class TransactionSQL extends TransactionDatabase {
             model.addColumn("Sender/Receiver Name");
             model.addColumn("Date & Time");
             model.addColumn("History Type");
+            model.addColumn("Processed By");
             model.addColumn("Amount");
 
             StringBuilder query = new StringBuilder("SELECT * FROM transactions WHERE 1=1");
@@ -150,8 +154,8 @@ public class TransactionSQL extends TransactionDatabase {
                 params.add(accSearch.trim());
             }
             if (history) {
-                query.append(" AND historyType = ?");
-                params.add(historyType);
+                query.append(" AND historyType LIKE ?");
+                params.add("%"+historyType+"%");
             }
             if (startDate) {
                 query.append(" AND transacDate >= ?");
@@ -178,6 +182,7 @@ public class TransactionSQL extends TransactionDatabase {
                         rs.getString("altAccName"),
                         rs.getObject("transacDate", LocalDateTime.class).format(dateTimeFormatter),
                         rs.getString("historyType"),
+                        rs.getString("processedBy"),
                         "PHP " + decimalFormat.format(rs.getDouble("transacAmount"))
                     };
                     model.addRow(row);
@@ -269,6 +274,7 @@ public class TransactionSQL extends TransactionDatabase {
                 model.addColumn("Sender/Receiver Name");
                 model.addColumn("Date & Time");
                 model.addColumn("History Type");
+                model.addColumn("Processed By");
                 model.addColumn("Amount");
 
                 while (rs.next()) {
@@ -280,6 +286,7 @@ public class TransactionSQL extends TransactionDatabase {
                         rs.getString("altAccName"),
                         rs.getObject("transacDate", LocalDateTime.class).format(dateTimeFormatter),
                         rs.getString("historyType"),
+                        rs.getString("processedBy"),
                         "PHP " + decimalFormat.format(rs.getDouble("transacAmount"))
                     };
                     model.addRow(row);
@@ -311,6 +318,7 @@ public class TransactionSQL extends TransactionDatabase {
                     rs.getString("altAccName"),
                     rs.getObject("transacDate", LocalDateTime.class),
                     rs.getString("historyType"),
+                    rs.getString("processedBy"),
                     rs.getDouble("transacAmount")
                 );
 

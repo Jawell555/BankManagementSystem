@@ -4,6 +4,7 @@ import Colors.ColorPalette;
 import Models.Account;
 import Database.AccountDatabase;
 import Database.AccountSQL;
+import Database.EmployeeSQL;
 import Database.TransactionDatabase;
 import Database.TransactionSQL;
 import bank_Dashboard.adminDashboard;
@@ -35,12 +36,12 @@ public class DepositBoard extends JPanel implements ActionListener {
 
     //Action board components
     private JPanel actionBoard;
-    private JLabel lblRefNum, lblDate, lblDepositor, lblDepMethod, lblAmount;
-    private JTextField txtRefNum, txtDate, txtDepositor, txtAmount;
+    private JLabel lblRefNum, lblDate, lblDepositor, lblDepMethod, lblAmount, lblCheck;
+    private JTextField txtRefNum, txtDate, txtDepositor, txtAmount, txtCheck;
     private JSeparator actSep1, actSep2;
     private JComboBox<String> cmbDepMethod;
     private JButton btnDeposit;
-    private String[] methods = {"Cash Deposit", "Check Deposit", "Fund Transfer"};
+    private String[] methods = {"Cash Deposit", "Check Deposit"};
     
     double amountToDeposit = 0;
 
@@ -224,24 +225,50 @@ public class DepositBoard extends JPanel implements ActionListener {
 
         lblDepositor = new JLabel("Depositor's Full Name");
         lblDepositor.setFont(new Font("Segoe UI", Font.PLAIN, 15));
-        lblDepositor.setBounds(550, 40, 200, 20);
+        lblDepositor.setBounds(550, 130, 200, 20);
         actionBoard.add(lblDepositor);
 
         txtDepositor = new JTextField();
         txtDepositor.setFont(new Font("Segoe UI", Font.PLAIN, 15));
         txtDepositor.setBorder(BorderFactory.createLineBorder(ColorPalette.Blue5, 1));
-        txtDepositor.setBounds(550, 70, 400, 40); 
+        txtDepositor.setBounds(550, 160, 400, 40); 
         actionBoard.add(txtDepositor);
 
         lblDepMethod = new JLabel("Deposit Method");
         lblDepMethod.setFont(new Font("Segoe UI", Font.PLAIN, 15));
-        lblDepMethod.setBounds(550, 130, 200, 20);
+        lblDepMethod.setBounds(550, 40, 200, 20);
         actionBoard.add(lblDepMethod);
 
         cmbDepMethod = new JComboBox<>(methods);
         cmbDepMethod.setFont(new Font("Segoe UI", Font.PLAIN, 15));
-        cmbDepMethod.setBounds(550, 160, 400, 40); 
+        cmbDepMethod.setBounds(550, 70, 400, 40); 
         actionBoard.add(cmbDepMethod);
+        
+        lblCheck = new JLabel("Check Number");
+        lblCheck.setFont(new Font("Segoe UI", Font.PLAIN, 15));
+        lblCheck.setBounds(550, 220, 400, 20);
+        actionBoard.add(lblCheck);
+        lblCheck.setVisible(false);
+        
+        txtCheck = new JTextField();
+        txtCheck.setFont(new Font("Segoe UI", Font.PLAIN, 15));
+        txtCheck.setBounds(550, 250, 400, 40);
+        actionBoard.add(txtCheck);
+        txtCheck.setVisible(false);
+        
+        cmbDepMethod.addActionListener(e ->{
+        int selectedIndex = cmbDepMethod.getSelectedIndex();
+        if(selectedIndex==0){
+            txtCheck.setText("");
+            txtCheck.setVisible(false);
+            lblCheck.setVisible(false);
+            
+        }else if(selectedIndex==1){
+            txtCheck.setText("SPBCHK");
+            txtCheck.setVisible(true);
+            lblCheck.setVisible(true);
+        }
+    });
 
         actSep2 = new JSeparator(SwingConstants.VERTICAL);
         actSep2.setBounds(1000, 40, 10, 230);
@@ -399,7 +426,11 @@ public class DepositBoard extends JPanel implements ActionListener {
         lblTotalVal.setFont(new Font("Segoe UI", Font.BOLD, 19));
         lblTotalVal.setBounds(210, 218, 150, 25);
         dialog.add(lblTotalVal);
-
+        
+        
+        
+        
+        
         //Confirm transaction
         JButton btnConfirm = new JButton("Confirm");
         btnConfirm.setBackground(Color.decode("#0C3D70"));
@@ -409,7 +440,7 @@ public class DepositBoard extends JPanel implements ActionListener {
    
         //If deposit confirmed
         btnConfirm.addActionListener(e -> {
-
+        
         //Get the account
         Account foundAcc = AccountSQL.getAccountByNumber(accNum);
 
@@ -423,26 +454,37 @@ public class DepositBoard extends JPanel implements ActionListener {
             //Refresh displayed balance
             txtBalance.setText(String.format("PHP %,.2f", newBalance));
             
-            String method = "";
+            String method;
             if(cmbDepMethod.getSelectedIndex() == 0){
-                method = "Cash Deposit";
-            } else if (cmbDepMethod.getSelectedIndex() == 1){
-                method = "Check Deposit";
-            } else if(cmbDepMethod.getSelectedIndex() == 2){
-                method = "Fund Transfer";
-            }
-            
-            //Save transaction
-            transactionSql.addTransaction(
+                method = cmbDepMethod.getSelectedItem().toString();
+                transactionSql.addTransaction(
                 transactionSql.generateRefNumber(),
                 foundAcc.getName(),
                 foundAcc.getAccNo(),
                 method,
                 txtDepositor.getText(),
                 LocalDateTime.now(),
-                "Deposit",
+                "Deposit - "+method,
+                EmployeeSQL.currentEmployee.getEmpName(),
                 amountToDeposit
             );
+            } else if (cmbDepMethod.getSelectedIndex() == 1){
+                method = cmbDepMethod.getSelectedItem().toString();
+                transactionSql.addTransaction(
+                transactionSql.generateRefNumber(),
+                foundAcc.getName(),
+                foundAcc.getAccNo(),
+                method,
+                txtDepositor.getText()+" - "+txtCheck.getText(),
+                LocalDateTime.now(),
+                "Deposit - "+method,
+                EmployeeSQL.currentEmployee.getEmpName(),
+                amountToDeposit
+            );
+            } 
+            
+            //Save transaction
+            
             dialog.dispose();
 
             JOptionPane.showMessageDialog(parentWindow, "Deposited successfully!", "Transaction Complete",JOptionPane.INFORMATION_MESSAGE);
@@ -450,6 +492,7 @@ public class DepositBoard extends JPanel implements ActionListener {
             //Clear fields
             txtAmount.setText("");
             txtDepositor.setText("");
+            txtCheck.setText("SPBCHK");
             
         }
     });
