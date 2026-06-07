@@ -264,7 +264,7 @@ public class DepositBoard extends JPanel implements ActionListener {
                 lblCheck.setVisible(false);
 
             } else if (selectedIndex == 1) {
-                txtCheck.setText("SPBCHK");
+                txtCheck.setText("SPBCHK00000");
                 txtCheck.setVisible(true);
                 lblCheck.setVisible(true);
             }
@@ -473,7 +473,7 @@ public class DepositBoard extends JPanel implements ActionListener {
                                 foundAcc.getName(),
                                 foundAcc.getAccNo(),
                                 method,
-                                txtDepositor.getText() + " - " + txtCheck.getText(),
+                                txtCheck.getText(),
                                 LocalDateTime.now(),
                                 "Deposit - " + method,
                                 EmployeeSQL.currentEmployee.getEmpName(),
@@ -492,8 +492,6 @@ public class DepositBoard extends JPanel implements ActionListener {
             }
         });
         
-        
-        
         JButton btnCancel = new JButton("Cancel");
         btnCancel.setBackground(Color.LIGHT_GRAY);
         btnCancel.setFont(new Font("Segoe UI", Font.BOLD, 14));
@@ -511,13 +509,13 @@ public class DepositBoard extends JPanel implements ActionListener {
     }
 
     public void depositSuccess(JDialog dialog, Window parentWindow){
-            dialog.dispose();
+        dialog.dispose();
 
-                        JOptionPane.showMessageDialog(parentWindow, "Deposited successfully!", "Transaction Complete", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(parentWindow, "Deposited successfully!", "Transaction Complete", JOptionPane.INFORMATION_MESSAGE);
 
-                        //Clear fields
-                        txtAmount.setText("");
-                        txtDepositor.setText("");
-                        txtCheck.setText("SPBCHK");
+        //Clear fields
+        txtAmount.setText("");
+        txtDepositor.setText("");
+        txtCheck.setText("SPBCHK");
         }
 }

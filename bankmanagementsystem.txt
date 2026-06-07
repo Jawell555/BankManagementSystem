@@ -86,7 +86,7 @@ INSERT INTO employees (
     'Binan City',
     'BS Information Technology',
     'Admin',
-    '1 Year',
+    '1',
     'Active',
     'profile_images/ADM001.png'
 (
@@ -107,7 +107,7 @@ INSERT INTO employees (
     'Binan City',
     'BS Information Technology',
     'Admin',
-    '1 Year',
+    '1',
     'Active',
     'profile_images/ADM002.png'
 ),
@@ -129,7 +129,7 @@ INSERT INTO employees (
     'Binan City',
     'BS Information Technology',
     'Admin',
-    '1 Year',
+    '1',
     'Active',
     'profile_images/ADM003.png'
 ),
@@ -151,7 +151,7 @@ INSERT INTO employees (
     'Binan City',
     'BS Information Technology',
     'Admin',
-    '1 Year',
+    '1',
     'Active',
     'profile_images/ADM004.png'
 ),
@@ -173,7 +173,7 @@ INSERT INTO employees (
     'Muntinlupa City',
     'BS Information Technology',
     'Admin',
-    '1 Year',
+    '1',
     'Active',
     'profile_images/ADM005.png'
 );

@@ -463,7 +463,7 @@ public class AddEmployeesBoard extends JPanel {
        }
         
         emp.setUsername(txtUsername.getText());
-        emp.setPassword("password123");
+        emp.setPassword(emp.getEmpID());
 
         emp.setEmpType(txtUserType.getText());
         emp.setDate(java.time.LocalDate.now().toString());

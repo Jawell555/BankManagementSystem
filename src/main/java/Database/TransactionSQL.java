@@ -331,6 +331,11 @@ public class TransactionSQL extends TransactionDatabase {
         if (checkNumber == null || checkNumber.trim().isEmpty()) {
             return false;
         }
+        
+        if (!checkNumber.startsWith("SPBCHK")) {
+            return false;
+        }
+        
         String check = "%- "+checkNumber;
         String sql = "SELECT COUNT(*) FROM transactions WHERE altAccName LIKE ?";
 

@@ -11,7 +11,6 @@ import Models.Transaction;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
-import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 
 public class adminDashboard extends JPanel {
@@ -25,9 +24,6 @@ public class adminDashboard extends JPanel {
     private JTableHeader header;
 
     public adminDashboard() {
-        TransactionSQL transactionSQL = new TransactionSQL();
-        DefaultTableModel model = transactionSQL.getAllTransactionData();
-        
         setLayout(null);
         setBounds(0, 0, 1670, 1080);
         setBackground(new Color(245, 247, 250));
@@ -372,13 +368,13 @@ public class adminDashboard extends JPanel {
         TransactionSQL transactionSQL = new TransactionSQL();
         for (Transaction t : transactionSQL.getAllTransactions()) {
 
-            if (t.getHistoryType().equalsIgnoreCase("Deposit")
+            if (t.getHistoryType().equalsIgnoreCase("Deposit - Cash Deposit") || t.getHistoryType().equalsIgnoreCase("Deposit - Check Deposit")
                 || t.getHistoryType().toLowerCase().contains("received")) {
 
                 totalDeposit += t.getTransacAmount();
             }
 
-            if (t.getHistoryType().equalsIgnoreCase("Withdrawal")
+            if (t.getHistoryType().equalsIgnoreCase("Withdrawal - Cash Withdrawal") || t.getHistoryType().equalsIgnoreCase("Withdrawal - Check Withdrawal")
                 || t.getHistoryType().toLowerCase().contains("sent")) {
 
                 totalWithdraw += t.getTransacAmount();

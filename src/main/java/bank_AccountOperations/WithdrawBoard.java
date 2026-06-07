@@ -643,7 +643,7 @@ public class WithdrawBoard extends JPanel implements ActionListener {
                             acc.getName(),
                             acc.getAccNo(),
                             method,
-                            withdrawerName + " - " + checkNum,
+                            checkNum,
                             LocalDateTime.now(),
                             "Withdrawal - " + method,
                             EmployeeSQL.currentEmployee.getEmpName(),
@@ -658,9 +658,7 @@ public class WithdrawBoard extends JPanel implements ActionListener {
                     }
                     
                 }
-                
-
-                
+                             
             }
 
         });
