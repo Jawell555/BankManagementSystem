@@ -622,7 +622,7 @@ public class WithdrawBoard extends JPanel implements ActionListener {
 
                 String method = cmbMethod.getSelectedItem().toString();
                 if (cmbMethod.getSelectedIndex() == 0) {
-
+                    //Store transaction
                     transactionSql.addTransaction(
                             transactionSql.generateRefNumber(),
                             acc.getName(),
@@ -634,8 +634,10 @@ public class WithdrawBoard extends JPanel implements ActionListener {
                             EmployeeSQL.currentEmployee.getEmpName(),
                             amountToWithdraw
                     );
+                    withdrawalSuccess(dialog, parentWindow);
                 } else if (cmbMethod.getSelectedIndex() == 1) {
-
+                    if(transactionSql.isCheckValid(checkNum)){
+                        //Store transaction
                     transactionSql.addTransaction(
                             transactionSql.generateRefNumber(),
                             acc.getName(),
@@ -647,15 +649,18 @@ public class WithdrawBoard extends JPanel implements ActionListener {
                             EmployeeSQL.currentEmployee.getEmpName(),
                             amountToWithdraw
                     );
+                    withdrawalSuccess(dialog, parentWindow);
+                    }else{
+                        JOptionPane.showMessageDialog(this,
+                                "This check has already been used!",
+                                "Duplicate Check",
+                                JOptionPane.WARNING_MESSAGE);
+                    }
+                    
                 }
-                //Store transaction
+                
 
-                dialog.dispose();
-
-                JOptionPane.showMessageDialog(parentWindow, "Withdrawal successful!", "Transaction Complete", JOptionPane.INFORMATION_MESSAGE);
-                txtWithdrawer.setText("");
-                txtAmount.setText("");
-                txtCheck.setText("SPBCHK");
+                
             }
 
         });
@@ -672,5 +677,14 @@ public class WithdrawBoard extends JPanel implements ActionListener {
         dialog.add(btnConfirm);
         dialog.add(btnCancel);
         dialog.setVisible(true);
+    }
+    
+    public void withdrawalSuccess(JDialog dialog, Window parentWindow){
+        dialog.dispose();
+
+                JOptionPane.showMessageDialog(parentWindow, "Withdrawal successful!", "Transaction Complete", JOptionPane.INFORMATION_MESSAGE);
+                txtWithdrawer.setText("");
+                txtAmount.setText("");
+                txtCheck.setText("SPBCHK");
     }
 }

@@ -34,7 +34,7 @@ public class TransactionSQL extends TransactionDatabase {
     public TransactionSQL() {
 
     }
-    
+
     public boolean addTransaction(
             String refID,
             String accName,
@@ -62,9 +62,7 @@ public class TransactionSQL extends TransactionDatabase {
         """;
 
         try (
-            Connection conn = DriverManager.getConnection(url, user, pass);
-            PreparedStatement ps = conn.prepareStatement(sql)
-        ) {
+                Connection conn = DriverManager.getConnection(url, user, pass); PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setString(1, refID);
             ps.setString(2, accName);
@@ -155,7 +153,7 @@ public class TransactionSQL extends TransactionDatabase {
             }
             if (history) {
                 query.append(" AND historyType LIKE ?");
-                params.add("%"+historyType+"%");
+                params.add("%" + historyType + "%");
             }
             if (startDate) {
                 query.append(" AND transacDate >= ?");
@@ -297,29 +295,26 @@ public class TransactionSQL extends TransactionDatabase {
         }
         return model;
     }
-    
-       public ArrayList<Transaction> getAllTransactions() {
+
+    public ArrayList<Transaction> getAllTransactions() {
 
         ArrayList<Transaction> list = new ArrayList<>();
 
         try (
-            Connection conn = DriverManager.getConnection(url, user, pass);
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM transactions")
-        ) {
+                Connection conn = DriverManager.getConnection(url, user, pass); Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery("SELECT * FROM transactions")) {
 
             while (rs.next()) {
 
                 Transaction t = new Transaction(
-                    rs.getString("refID"),
-                    rs.getString("accName"),
-                    rs.getString("accNumber"),
-                    rs.getString("transacInfo"),
-                    rs.getString("altAccName"),
-                    rs.getObject("transacDate", LocalDateTime.class),
-                    rs.getString("historyType"),
-                    rs.getString("processedBy"),
-                    rs.getDouble("transacAmount")
+                        rs.getString("refID"),
+                        rs.getString("accName"),
+                        rs.getString("accNumber"),
+                        rs.getString("transacInfo"),
+                        rs.getString("altAccName"),
+                        rs.getObject("transacDate", LocalDateTime.class),
+                        rs.getString("historyType"),
+                        rs.getString("processedBy"),
+                        rs.getDouble("transacAmount")
                 );
 
                 list.add(t);
@@ -330,5 +325,28 @@ public class TransactionSQL extends TransactionDatabase {
         }
 
         return list;
+    }
+
+    public boolean isCheckValid(String checkNumber) {
+        if (checkNumber == null || checkNumber.trim().isEmpty()) {
+            return false;
+        }
+        String check = "%- "+checkNumber;
+        String sql = "SELECT COUNT(*) FROM transactions WHERE altAccName LIKE ?";
+
+        try (Connection conn = DriverManager.getConnection(url, user, pass); PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, check);
+            ResultSet rs = ps.executeQuery();
+
+            // If count is 0, check is valid (not already deposited)
+            if (rs.next()) {
+                return rs.getInt(1) == 0;
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return false;
     }
 }
