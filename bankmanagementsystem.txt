@@ -116,5 +116,6 @@ CREATE TABLE transactions (
     altAccName VARCHAR(100),
     transacDate DATETIME,
     historyType VARCHAR(50),
+    processedBy VARCHAR(100),
     transacAmount DOUBLE(30,2)
 );
