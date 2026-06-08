@@ -89,6 +89,7 @@ INSERT INTO employees (
     '1',
     'Active',
     'profile_images/ADM001.png'
+),
 (
     'ADM002',
     'John Ruell San Lorenzo',
