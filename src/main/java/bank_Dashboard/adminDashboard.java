@@ -48,7 +48,7 @@ public class adminDashboard extends JPanel {
         lblTitleAdm.setBounds(18, 12, 160, 20);
         admCard.add(lblTitleAdm);
 
-        lblAdmValue = createCardValue("6");
+        lblAdmValue = createCardValue("5");
         lblAdmValue.setFont(new Font("Segoe UI", Font.BOLD, 20));
         lblAdmValue.setBounds(18, 38, 260, 30);
         admCard.add(lblAdmValue);
@@ -333,6 +333,7 @@ public class adminDashboard extends JPanel {
         int savings = 0;
         int current = 0;
         int employees = 0;
+        int admins = 0;
 
         double totalBankBalance = 0;
 
@@ -358,6 +359,9 @@ public class adminDashboard extends JPanel {
         for(Employee emp : EmployeeSQL.getAllEmployees()){
             if(emp.getEmpType().equalsIgnoreCase("Employee")){
                 employees++;
+            }
+            if(emp.getEmpType().equalsIgnoreCase("Admin")){
+                admins++;
             }
         }
         
