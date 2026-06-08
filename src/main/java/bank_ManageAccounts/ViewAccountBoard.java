@@ -3,12 +3,16 @@ package bank_ManageAccounts;
 import Colors.ColorPalette;
 import Database.AccountDatabase;
 import Database.AccountSQL;
+import Database.EmployeeSQL;
+import Database.TransactionSQL;
 import Models.Account;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.time.LocalDateTime;
+import java.util.Objects;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
@@ -35,12 +39,12 @@ public class ViewAccountBoard extends JPanel {
 
     Font fntTitle = new Font("Segoe UI", Font.BOLD, 25);
     Font fntText = new Font("Segoe UI", Font.PLAIN, 12);
-
+    TransactionSQL transactionSql = new TransactionSQL();
     public ViewAccountBoard() {
         this.months = new String[]{"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
         this.accTypes = new String[]{"All", "Current", "Savings"};
-        for(int i = 1; i<=31; i++){
-            this.days[i-1] = i;
+        for (int i = 1; i <= 31; i++) {
+            this.days[i - 1] = i;
         }
 
         setLayout(null);
@@ -57,7 +61,7 @@ public class ViewAccountBoard extends JPanel {
         pnlSearch.setBounds(50, 100, 1570, 70);
         pnlSearch.setBorder(ColorPalette.panelBorder("Search Board"));
         add(pnlSearch);
-        
+
         // Search bar
         txtSearch = new JTextField("Search account");
         txtSearch.setBounds(20, 25, 470, 30);
@@ -141,10 +145,10 @@ public class ViewAccountBoard extends JPanel {
 
         // Account data
         String[] columns = {"Image", "Name", "ID Type", "ID Number", "Account Title", "Account Number", "Account Type", "Date", "Operation"};
-       
+
         model = new DefaultTableModel(columns, 0) {
-            
-        @Override
+
+            @Override
             public Class<?> getColumnClass(int column) {
                 if (column == 0) {
                     return Icon.class;
@@ -152,7 +156,7 @@ public class ViewAccountBoard extends JPanel {
                 return String.class;
             }
 
-        @Override
+            @Override
             public boolean isCellEditable(int row, int column) {
                 return column == 8;
             }
@@ -162,7 +166,7 @@ public class ViewAccountBoard extends JPanel {
         tblAccounts.setRowHeight(50);
         tblAccounts.setFont(new Font("Segoe UI", Font.PLAIN, 13));
         tblAccounts.setGridColor(new Color(230, 230, 230));
-        
+
         header = tblAccounts.getTableHeader();
         header.setFont(new Font("Segoe UI", Font.BOLD, 15));
         header.setBackground(ColorPalette.Blue4);
@@ -170,7 +174,7 @@ public class ViewAccountBoard extends JPanel {
         header.setResizingAllowed(false);
         header.setReorderingAllowed(false);
         header.setPreferredSize(new Dimension(100, 40));
-        
+
         tblAccounts.getColumnModel().getColumn(0).setPreferredWidth(55);
         tblAccounts.getColumnModel().getColumn(1).setPreferredWidth(150);
         tblAccounts.getColumnModel().getColumn(2).setPreferredWidth(130);
@@ -224,18 +228,18 @@ public class ViewAccountBoard extends JPanel {
         // Search filter
         String search = txtSearch.getText().trim();
 
-        if (!search.isEmpty() &&
-            !search.equalsIgnoreCase("Search account")) {
+        if (!search.isEmpty()
+                && !search.equalsIgnoreCase("Search account")) {
 
             filters.add(
-                RowFilter.orFilter(java.util.Arrays.asList(
-                    RowFilter.regexFilter(
-                        "(?i)" + java.util.regex.Pattern.quote(search), 1),
-                    RowFilter.regexFilter(
-                        "(?i)" + java.util.regex.Pattern.quote(search), 4),
-                    RowFilter.regexFilter(
-                        "(?i)" + java.util.regex.Pattern.quote(search), 5)
-                ))
+                    RowFilter.orFilter(java.util.Arrays.asList(
+                            RowFilter.regexFilter(
+                                    "(?i)" + java.util.regex.Pattern.quote(search), 1),
+                            RowFilter.regexFilter(
+                                    "(?i)" + java.util.regex.Pattern.quote(search), 4),
+                            RowFilter.regexFilter(
+                                    "(?i)" + java.util.regex.Pattern.quote(search), 5)
+                    ))
             );
         }
 
@@ -245,24 +249,24 @@ public class ViewAccountBoard extends JPanel {
         if (!accountType.equals("All")) {
 
             filters.add(
-                RowFilter.regexFilter(
-                    "^" + accountType + "$",
-                    6 // Account Type column
-                )
+                    RowFilter.regexFilter(
+                            "^" + accountType + "$",
+                            6 // Account Type column
+                    )
             );
         }
 
         // Date range filter
         try {
 
-            String startDate =
-                    txtStartYear.getText().trim() + "-"
+            String startDate
+                    = txtStartYear.getText().trim() + "-"
                     + String.format("%02d", cmbStartMonth.getSelectedIndex() + 1)
                     + "-"
                     + String.format("%02d", cmbStartDay.getSelectedItem());
 
-            String endDate =
-                    txtEndYear.getText().trim() + "-"
+            String endDate
+                    = txtEndYear.getText().trim() + "-"
                     + String.format("%02d", cmbEndMonth.getSelectedIndex() + 1)
                     + "-"
                     + String.format("%02d", cmbEndDay.getSelectedItem());
@@ -275,8 +279,7 @@ public class ViewAccountBoard extends JPanel {
 
                 @Override
                 public boolean include(
-                        Entry<? extends Object,
-                        ? extends Object> entry) {
+                        Entry<? extends Object, ? extends Object> entry) {
 
                     try {
 
@@ -317,7 +320,7 @@ public class ViewAccountBoard extends JPanel {
 
         JButton btnView = new JButton("View");
         JButton btnEdit = new JButton("Edit");
-        JButton btnDelete = new JButton("Delete");
+        JButton btnDelete = new JButton("Close");
 
         public ButtonRenderer() {
             setLayout(new FlowLayout(FlowLayout.CENTER, 5, 10));
@@ -330,7 +333,7 @@ public class ViewAccountBoard extends JPanel {
             add(btnDelete);
         }
 
-    @Override
+        @Override
         public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
             return this;
         }
@@ -342,14 +345,14 @@ public class ViewAccountBoard extends JPanel {
 
         JButton btnView = new JButton("View");
         JButton btnEdit = new JButton("Edit");
-        JButton btnDelete = new JButton("Delete");
+        JButton btnDelete = new JButton("Close");
 
         public ButtonEditor(JCheckBox checkBox) {
 
             super(checkBox);
 
             panel = new JPanel(new FlowLayout(FlowLayout.CENTER, 3, 10));
-            
+
             styleTableButton(btnView);
             panel.add(btnView);
             btnView.addActionListener(e -> {
@@ -367,7 +370,7 @@ public class ViewAccountBoard extends JPanel {
                     }
                 }
             });
-            
+
             styleTableButton(btnEdit);
             panel.add(btnEdit);
             btnEdit.addActionListener(e -> {
@@ -386,7 +389,7 @@ public class ViewAccountBoard extends JPanel {
                 }
             });
 
-            styleTableButton(btnDelete); 
+            styleTableButton(btnDelete);
             panel.add(btnDelete);
             btnDelete.addActionListener(e -> {
 
@@ -395,26 +398,22 @@ public class ViewAccountBoard extends JPanel {
                 if (row != -1) {
 
                     int modelRow = tblAccounts.convertRowIndexToModel(row);
-
                     String accNo = model.getValueAt(modelRow, 5).toString();
-
-                    boolean deleted = AccountSQL.deleteAccount(accNo);
-
-                    if (deleted) {
-                        model.removeRow(modelRow);
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Delete failed!");
+                    Account acc = AccountSQL.getAccountByNumber(accNo);
+                    if (acc != null) {
+                        showCloseAccDialog(acc,modelRow);
                     }
+
                 }
             });
         }
 
-    @Override
+        @Override
         public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
             return panel;
         }
     }
-    
+
     private void loadAccounts() {
 
         model.setRowCount(0);
@@ -423,8 +422,8 @@ public class ViewAccountBoard extends JPanel {
 
         for (Account acc : AccountSQL.getAllAccounts()) {
 
-            if (acc.getProfileImage()!= null &&
-                !acc.getProfileImage().isEmpty()) {
+            if (acc.getProfileImage() != null
+                    && !acc.getProfileImage().isEmpty()) {
 
                 ImageIcon icon = new ImageIcon(acc.getProfileImage());
                 Image img = icon.getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
@@ -434,7 +433,7 @@ public class ViewAccountBoard extends JPanel {
 
                 ImageIcon icon = new ImageIcon(getClass().getResource("/profile.png"));
 
-                Image img = icon.getImage().getScaledInstance(40, 40,Image.SCALE_SMOOTH);
+                Image img = icon.getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
 
                 tableIcon = new ImageIcon(img);
             }
@@ -452,7 +451,7 @@ public class ViewAccountBoard extends JPanel {
             });
         }
     }
-    
+
     private void showViewDialog(Account acc) {
 
         Window parentWindow = SwingUtilities.getWindowAncestor(this);
@@ -480,23 +479,23 @@ public class ViewAccountBoard extends JPanel {
         dialog.add(header);
 
         int y = 70;
-        
+
         JLabel lblProfile = new JLabel();
         lblProfile.setBounds(520, y, 120, 120);
 
-        if (acc.getProfileImage()!= null && !acc.getProfileImage().isEmpty()) {
-            ImageIcon icon =new ImageIcon(acc.getProfileImage());
-            Image img = icon.getImage().getScaledInstance(120, 120,Image.SCALE_SMOOTH);
+        if (acc.getProfileImage() != null && !acc.getProfileImage().isEmpty()) {
+            ImageIcon icon = new ImageIcon(acc.getProfileImage());
+            Image img = icon.getImage().getScaledInstance(120, 120, Image.SCALE_SMOOTH);
             lblProfile.setIcon(new ImageIcon(img));
 
         } else {
             ImageIcon icon = new ImageIcon(getClass().getResource("/profile.png"));
-            Image img = icon.getImage().getScaledInstance(120,120,Image.SCALE_SMOOTH);
+            Image img = icon.getImage().getScaledInstance(120, 120, Image.SCALE_SMOOTH);
             lblProfile.setIcon(new ImageIcon(img));
         }
 
         dialog.add(lblProfile);
-       
+
         // Account Number
         JLabel lblAccNo = new JLabel("Account Number:");
         lblAccNo.setBounds(30, y, 150, 25);
@@ -593,15 +592,15 @@ public class ViewAccountBoard extends JPanel {
         JLabel valAccTitle = new JLabel(acc.getAccTitle());
         valAccTitle.setBounds(200, y, 450, 25);
         dialog.add(valAccTitle);
-        
+
         y += 35;
-        
+
         JLabel lblBalance = new JLabel("Balance:");
         lblBalance.setBounds(30, y, 150, 25);
         dialog.add(lblBalance);
 
         JLabel valBalance = new JLabel(String.format("PHP %,.2f", acc.getAccBal()));
-       
+
         valBalance.setBounds(200, y, 450, 25);
         valBalance.setForeground(new Color(0, 153, 51));
         valBalance.setFont(new Font("Segoe UI", Font.BOLD, 14));
@@ -707,7 +706,287 @@ public class ViewAccountBoard extends JPanel {
 
         dialog.setVisible(true);
     }
+
+    private void showCloseAccDialog(Account acc, int modelRow) {
+        Window parentWindow = SwingUtilities.getWindowAncestor(this);
+
+        JDialog dialog = new JDialog((JFrame) parentWindow, "Close Account", true);
+        dialog.setSize(700, 800);
+        dialog.setLayout(null);
+        dialog.setLocationRelativeTo(parentWindow);
+        dialog.getContentPane().setBackground(Color.WHITE);
+
+        JPanel header = new JPanel();
+        header.setBackground(ColorPalette.Blue4);
+        header.setBounds(0, 0, 700, 50);
+        header.setLayout(null);
+
+        JLabel lblTitle = new JLabel("Close Account", SwingConstants.CENTER);
+        lblTitle.setForeground(Color.WHITE);
+        lblTitle.setFont(new Font("Segoe UI", Font.BOLD, 18));
+        lblTitle.setBounds(0, 10, 700, 30);
+
+        header.add(lblTitle);
+        dialog.add(header);
+
+        int y = 70;
+
+        JLabel lblAccNo = new JLabel("Account Number:");
+        lblAccNo.setBounds(30, y, 150, 25);
+        dialog.add(lblAccNo);
+
+        JTextField txtAccNo = new JTextField(acc.getAccNo());
+        txtAccNo.setBounds(200, y, 400, 25);
+        txtAccNo.setEditable(false);
+        dialog.add(txtAccNo);
+
+        y += 35;
+
+        JLabel lblName = new JLabel("Account Holder:");
+        lblName.setBounds(30, y, 150, 25);
+        dialog.add(lblName);
+
+        JTextField txtName = new JTextField(acc.getName());
+        txtName.setBounds(200, y, 400, 25);
+        txtName.setEditable(false);
+        dialog.add(txtName);
+
+        y += 35;
+
+        JLabel lblEmail = new JLabel("Email:");
+        lblEmail.setBounds(30, y, 150, 25);
+        dialog.add(lblEmail);
+
+        JTextField txtEmail = new JTextField(acc.getEmail());
+        txtEmail.setBounds(200, y, 400, 25);
+        txtEmail.setEditable(false);
+        dialog.add(txtEmail);
+
+        y += 35;
+
+        JLabel lblDate = new JLabel("Date Opened:");
+        lblDate.setBounds(30, y, 150, 25);
+        dialog.add(lblDate);
+
+        JTextField txtDate = new JTextField(acc.getDate());
+        txtDate.setBounds(200, y, 400, 25);
+        txtDate.setEditable(false);
+        dialog.add(txtDate);
+
+        y += 35;
+
+        JLabel lblAccType = new JLabel("Account Type:");
+        lblAccType.setBounds(30, y, 150, 25);
+        dialog.add(lblAccType);
+
+        JComboBox<String> cmbAccType = new JComboBox<>(new String[]{"Savings", "Current"});
+
+        cmbAccType.setBounds(200, y, 400, 25);
+        cmbAccType.setSelectedItem(acc.getAccType());
+        cmbAccType.setEditable(false);
+        cmbAccType.setEnabled(false);
+        dialog.add(cmbAccType);
+
+        y += 35;
+
+        JLabel lblAccTitle = new JLabel("Account Title:");
+        lblAccTitle.setBounds(30, y, 150, 25);
+        dialog.add(lblAccTitle);
+
+        JTextField txtAccTitle = new JTextField(acc.getAccTitle());
+        txtAccTitle.setBounds(200, y, 400, 25);
+        txtAccTitle.setEditable(false);
+        dialog.add(txtAccTitle);
+
+        y += 35;
+
+        JLabel lblStatus = new JLabel("Status:");
+        lblStatus.setBounds(30, y, 150, 25);
+        dialog.add(lblStatus);
+
+        JComboBox<String> cmbStatus = new JComboBox<>(new String[]{"Active", "Inactive", "Dormant"});
+
+        cmbStatus.setBounds(200, y, 400, 25);
+        cmbStatus.setSelectedItem(acc.getAccStatus());
+        cmbStatus.setEditable(false);
+        cmbStatus.setEnabled(false);
+        cmbStatus.setForeground(Color.BLACK);
+        
+        dialog.add(cmbStatus);
+
+        y += 35;
+
+        JLabel lblBalance = new JLabel("Balance:");
+        lblBalance.setBounds(30, y, 150, 25);
+        dialog.add(lblBalance);
+
+        JTextField txtBalance = new JTextField(String.format("%.2f", acc.getAccBal()));
+
+        txtBalance.setBounds(200, y, 400, 25);
+        txtBalance.setEditable(false);
+        dialog.add(txtBalance);
+
+        y += 45;
+
+        JSeparator sep = new JSeparator();
+        sep.setBounds(30, y, 620, 2);
+        dialog.add(sep);
+
+        y += 20;
+
+        JLabel lblPersonal = new JLabel("Verify Personal Informations");
+        lblPersonal.setForeground(ColorPalette.Blue4);
+        lblPersonal.setFont(new Font("Segoe UI", Font.BOLD, 15));
+        lblPersonal.setBounds(30, y, 250, 25);
+        dialog.add(lblPersonal);
+
+        y += 40;
+
+        JLabel lblDOB = new JLabel("Date of Birth:");
+        lblDOB.setBounds(30, y, 150, 25);
+        dialog.add(lblDOB);
+
+        JTextField txtDOB = new JTextField();
+        txtDOB.setBounds(200, y, 400, 25);
+        dialog.add(txtDOB);
+
+        y += 35;
+        
+        JLabel lblIDType = new JLabel("ID Type:");
+        lblIDType.setBounds(30, y, 150, 25);
+        dialog.add(lblIDType);
+
+        JComboBox<String> cmbIDType = new JComboBox<>(new String[]{"National ID", "Passport", "Driver's License", "SSS", "UMID", "PhilHealth"});
+
+        cmbIDType.setBounds(200, y, 400, 25);
+        dialog.add(cmbIDType);
+
+        y += 35;
+
+        JLabel lblIDNumber = new JLabel("ID Number:");
+        lblIDNumber.setBounds(30, y, 150, 25);
+        dialog.add(lblIDNumber);
+
+        JTextField txtIDNumber = new JTextField();
+        txtIDNumber.setBounds(200, y, 400, 25);
+        dialog.add(txtIDNumber);
+
+        y += 35;
+
+        JLabel lblMobile = new JLabel("Mobile Number:");
+        lblMobile.setBounds(30, y, 150, 25);
+        dialog.add(lblMobile);
+        
+        JTextField txtMobile = new JTextField();
+
+        txtMobile.setBounds(200, y, 400, 25);
+        dialog.add(txtMobile);
+
+        y += 35;
+
+        JLabel lblPostal = new JLabel("Postal Code:");
+        lblPostal.setBounds(30, y, 150, 25);
+        dialog.add(lblPostal);
+
+        JTextField txtPostal = new JTextField();
+
+        txtPostal.setBounds(200, y, 400, 25);
+        dialog.add(txtPostal);
+
+        y += 35;
+
+        JLabel lblAddress = new JLabel("Home Address:");
+        lblAddress.setBounds(30, y, 150, 25);
+        dialog.add(lblAddress);
+
+        JTextField txtAddress = new JTextField();
+
+        txtAddress.setBounds(200, y, 400, 25);
+        dialog.add(txtAddress);
+
+        y += 35;
+
+        JLabel lblCity = new JLabel("City:");
+        lblCity.setBounds(30, y, 150, 25);
+        dialog.add(lblCity);
+
+        JTextField txtCity = new JTextField();
+
+        txtCity.setBounds(200, y, 400, 25);
+        dialog.add(txtCity);
+
+        JButton btnCloseAcc = new JButton("Confirm Close Account");
+        btnCloseAcc.setBounds(125, 680, 200, 40);
+        styleButton(btnCloseAcc);
+        
+        btnCloseAcc.addActionListener(e-> {
+            boolean isVerified = true;
+            if(!Objects.equals(acc.getDob(), txtDOB.getText().trim())){
+                isVerified &=false;
+            }
+            if(!Objects.equals(acc.getIdType(), cmbIDType.getSelectedItem().toString().trim())){
+                isVerified &=false;
+            }
+            if(!Objects.equals(acc.getIdNumber(), txtIDNumber.getText().trim())){
+                isVerified &=false;
+            }
+            if(!Objects.equals(acc.getMobileNumber(), txtMobile.getText().trim())){
+                isVerified &=false;
+            }
+            if(!Objects.equals(acc.getPostalCode(), txtPostal.getText().trim())){
+                isVerified &=false;
+            }
+            if(!Objects.equals(acc.getHomeAddress().toLowerCase(), txtAddress.getText().trim().toLowerCase())){
+                isVerified &=false;
+            }
+            if(!Objects.equals(acc.getCity().toLowerCase(), txtCity.getText().trim().toLowerCase())){
+                isVerified &=false;
+            }
+            
+            if(isVerified){
+                transactionSql.addTransaction(
+                        transactionSql.generateRefNumber(),
+                        acc.getName(),
+                        acc.getAccNo(),
+                        "Close Account",
+                        acc.getName(),
+                        LocalDateTime.now(),
+                        "Close Account",
+                        EmployeeSQL.currentEmployee.getEmpName(),
+                        acc.getAccBal()      
+                );
+                boolean deleted = AccountSQL.deleteAccount(acc.getAccNo());
+                    if (deleted) {
+                        model.removeRow(modelRow);
+                        JOptionPane.showMessageDialog(this, "Closing Account Successful!", "Account Closed", JOptionPane.INFORMATION_MESSAGE);
+                        dialog.dispose();
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Delete failed!");
+                    }
+            }else{
+                JOptionPane.showMessageDialog(this, "Verification Failed. Credentials do not match", "Failed", JOptionPane.WARNING_MESSAGE);
+            }
+            
+        });
+        
+        
+        // Close Button
+        JButton btnCloseDialog = new JButton("Close");
+        btnCloseDialog.setBounds(375, 680, 200, 40);
+
+        btnCloseDialog.setBackground(ColorPalette.Blue4);
+        btnCloseDialog.setForeground(Color.WHITE);
+        btnCloseDialog.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        
+        btnCloseDialog.addActionListener(e -> dialog.dispose());
+       
+        dialog.add(btnCloseDialog);
+        dialog.add(btnCloseAcc);
+        dialog.setVisible(true);
+//         
+    }
     
+
     private void showEditDialog(Account acc) {
 
         Window parentWindow = SwingUtilities.getWindowAncestor(this);
@@ -724,7 +1003,7 @@ public class ViewAccountBoard extends JPanel {
         header.setBounds(0, 0, 900, 50);
         header.setLayout(null);
 
-        JLabel lblTitle = new JLabel("Edit Account Information",SwingConstants.CENTER);
+        JLabel lblTitle = new JLabel("Edit Account Information", SwingConstants.CENTER);
 
         lblTitle.setForeground(Color.WHITE);
         lblTitle.setFont(new Font("Segoe UI", Font.BOLD, 18));
@@ -734,35 +1013,35 @@ public class ViewAccountBoard extends JPanel {
         dialog.add(header);
 
         int y = 70;
-        
+
         JLabel lblProfile = new JLabel();
         lblProfile.setBounds(680, 80, 150, 150);
         lblProfile.setBorder(new LineBorder(Color.GRAY, 1, true));
 
-        if (acc.getProfileImage()!= null && !acc.getProfileImage().isEmpty()) {
-            ImageIcon icon =new ImageIcon(acc.getProfileImage());
-            Image img = icon.getImage().getScaledInstance(150, 150,Image.SCALE_SMOOTH);
+        if (acc.getProfileImage() != null && !acc.getProfileImage().isEmpty()) {
+            ImageIcon icon = new ImageIcon(acc.getProfileImage());
+            Image img = icon.getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH);
             lblProfile.setIcon(new ImageIcon(img));
 
         } else {
             ImageIcon icon = new ImageIcon(getClass().getResource("/profile.png"));
-            Image img = icon.getImage().getScaledInstance(150,150,Image.SCALE_SMOOTH);
+            Image img = icon.getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH);
             lblProfile.setIcon(new ImageIcon(img));
         }
 
         dialog.add(lblProfile);
-        
-        JButton btnChooseImage =new JButton("Choose New Profile");
-        
+
+        JButton btnChooseImage = new JButton("Choose New Profile");
+
         btnChooseImage.setBounds(655, 250, 200, 35);
         styleButton(btnChooseImage);
 
         dialog.add(btnChooseImage);
-        
+
         final String[] newImagePath = {null};
-        
+
         btnChooseImage.addActionListener(e -> {
-            
+
             JFileChooser chooser = new JFileChooser();
 
             int result = chooser.showOpenDialog(dialog);
@@ -775,13 +1054,13 @@ public class ViewAccountBoard extends JPanel {
 
                 ImageIcon icon = new ImageIcon(newImagePath[0]);
 
-                Image img = icon.getImage().getScaledInstance(150,150,Image.SCALE_SMOOTH);
+                Image img = icon.getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH);
 
                 lblProfile.setIcon(new ImageIcon(img)
                 );
             }
         });
-        
+
         JLabel lblAccNo = new JLabel("Account Number:");
         lblAccNo.setBounds(30, y, 150, 25);
         dialog.add(lblAccNo);
@@ -935,7 +1214,9 @@ public class ViewAccountBoard extends JPanel {
 
         cmbGender.setBounds(200, y, 400, 25);
 
-        if (acc.getGender() != null) {cmbGender.setSelectedItem(acc.getGender());}
+        if (acc.getGender() != null) {
+            cmbGender.setSelectedItem(acc.getGender());
+        }
 
         dialog.add(cmbGender);
 
@@ -986,52 +1267,52 @@ public class ViewAccountBoard extends JPanel {
         JButton btnSave = new JButton("Save");
         btnSave.setBounds(170, 790, 150, 40);
         styleButton(btnSave);
-        
+
         btnSave.addActionListener(e -> {
-  // Email validation
-        if (!txtEmail.getText().matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$")) {
-            JOptionPane.showMessageDialog(
-                dialog,
-                "Invalid email format.",
-                "Validation Error",
-                JOptionPane.WARNING_MESSAGE
-            );
-            return;
-        }
+            // Email validation
+            if (!txtEmail.getText().matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$")) {
+                JOptionPane.showMessageDialog(
+                        dialog,
+                        "Invalid email format.",
+                        "Validation Error",
+                        JOptionPane.WARNING_MESSAGE
+                );
+                return;
+            }
 
-        // DOB validation (yyyy-MM-dd)
-        if (!txtDOB.getText().matches("\\d{4}-\\d{2}-\\d{2}")) {
-            JOptionPane.showMessageDialog(
-                dialog,
-                "Date of Birth must be in YYYY-MM-DD format.",
-                "Validation Error",
-                JOptionPane.WARNING_MESSAGE
-            );
-            return;
-        }
+            // DOB validation (yyyy-MM-dd)
+            if (!txtDOB.getText().matches("\\d{4}-\\d{2}-\\d{2}")) {
+                JOptionPane.showMessageDialog(
+                        dialog,
+                        "Date of Birth must be in YYYY-MM-DD format.",
+                        "Validation Error",
+                        JOptionPane.WARNING_MESSAGE
+                );
+                return;
+            }
 
-        // Mobile number validation
-        if (!txtMobile.getText().matches("\\d{11}")) {
-            JOptionPane.showMessageDialog(
-                dialog,
-                "Mobile number must contain exactly 11 digits.",
-                "Validation Error",
-                JOptionPane.WARNING_MESSAGE
-            );
-            return;
-        }
+            // Mobile number validation
+            if (!txtMobile.getText().matches("\\d{11}")) {
+                JOptionPane.showMessageDialog(
+                        dialog,
+                        "Mobile number must contain exactly 11 digits.",
+                        "Validation Error",
+                        JOptionPane.WARNING_MESSAGE
+                );
+                return;
+            }
 
-        // Postal code validation
-        if (!txtPostal.getText().matches("\\d+")) {
-            JOptionPane.showMessageDialog(
-                dialog,
-                "Postal code must contain numbers only.",
-                "Validation Error",
-                JOptionPane.WARNING_MESSAGE
-            );
-            return;
-        }
-        
+            // Postal code validation
+            if (!txtPostal.getText().matches("\\d+")) {
+                JOptionPane.showMessageDialog(
+                        dialog,
+                        "Postal code must contain numbers only.",
+                        "Validation Error",
+                        JOptionPane.WARNING_MESSAGE
+                );
+                return;
+            }
+
             acc.setName(txtName.getText());
             acc.setFatherName(txtFather.getText());
             acc.setEmail(txtEmail.getText());
@@ -1046,7 +1327,7 @@ public class ViewAccountBoard extends JPanel {
             acc.setPostalCode(txtPostal.getText());
             acc.setHomeAddress(txtAddress.getText());
             acc.setCity(txtCity.getText());
-            
+
             if (newImagePath[0] != null) {
 
                 try {
@@ -1078,15 +1359,13 @@ public class ViewAccountBoard extends JPanel {
                     JOptionPane.showMessageDialog(dialog, "Failed to save profile image.");
                 }
             }
-            
+
             boolean updated = AccountSQL.updateAccount(acc);
 
             if (!updated) {
-                JOptionPane.showMessageDialog(dialog,"Failed to update account.","Error",JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(dialog, "Failed to update account.", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
-            
-            
 
             loadAccounts();
 
