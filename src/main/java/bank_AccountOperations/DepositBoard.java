@@ -441,17 +441,15 @@ public class DepositBoard extends JPanel implements ActionListener {
             Account foundAcc = AccountSQL.getAccountByNumber(accNum);
 
             if (foundAcc != null) {
-
-                //Update balance
-                double newBalance = foundAcc.getAccBal() + amountToDeposit;
-                foundAcc.setAccBal(newBalance);
-                AccountSQL.updateBalance(foundAcc.getAccNo(), newBalance);
-
-                //Refresh displayed balance
-                txtBalance.setText(String.format("PHP %,.2f", newBalance));
-
                 String method;
                 if (cmbDepMethod.getSelectedIndex() == 0) {
+                    //Update balance
+                    double newBalance = foundAcc.getAccBal() + amountToDeposit;
+                    foundAcc.setAccBal(newBalance);
+                    AccountSQL.updateBalance(foundAcc.getAccNo(), newBalance);
+
+                    //Refresh displayed balance
+                    txtBalance.setText(String.format("PHP %,.2f", newBalance));
                     method = cmbDepMethod.getSelectedItem().toString();
                     transactionSql.addTransaction(
                             transactionSql.generateRefNumber(),
@@ -466,8 +464,16 @@ public class DepositBoard extends JPanel implements ActionListener {
                     );
                     depositSuccess(dialog, parentWindow);
                 } else if (cmbDepMethod.getSelectedIndex() == 1) {
-                    method = cmbDepMethod.getSelectedItem().toString();
+
                     if (transactionSql.isCheckValid(txtCheck.getText())) {
+                        //Update balance
+                        double newBalance = foundAcc.getAccBal() + amountToDeposit;
+                        foundAcc.setAccBal(newBalance);
+                        AccountSQL.updateBalance(foundAcc.getAccNo(), newBalance);
+
+                        //Refresh displayed balance
+                        txtBalance.setText(String.format("PHP %,.2f", newBalance));
+                        method = cmbDepMethod.getSelectedItem().toString();
                         transactionSql.addTransaction(
                                 transactionSql.generateRefNumber(),
                                 foundAcc.getName(),
@@ -482,8 +488,8 @@ public class DepositBoard extends JPanel implements ActionListener {
                         depositSuccess(dialog, parentWindow);
                     } else {
                         JOptionPane.showMessageDialog(this,
-                                "This check has already been used!",
-                                "Duplicate Check",
+                                "This check is invalid / has already been used!",
+                                "Check Failed",
                                 JOptionPane.WARNING_MESSAGE);
                     }
 
@@ -491,7 +497,7 @@ public class DepositBoard extends JPanel implements ActionListener {
 
             }
         });
-        
+
         JButton btnCancel = new JButton("Cancel");
         btnCancel.setBackground(Color.LIGHT_GRAY);
         btnCancel.setFont(new Font("Segoe UI", Font.BOLD, 14));
@@ -508,7 +514,7 @@ public class DepositBoard extends JPanel implements ActionListener {
         dialog.setVisible(true);
     }
 
-    public void depositSuccess(JDialog dialog, Window parentWindow){
+    public void depositSuccess(JDialog dialog, Window parentWindow) {
         dialog.dispose();
 
         JOptionPane.showMessageDialog(parentWindow, "Deposited successfully!", "Transaction Complete", JOptionPane.INFORMATION_MESSAGE);
@@ -517,5 +523,5 @@ public class DepositBoard extends JPanel implements ActionListener {
         txtAmount.setText("");
         txtDepositor.setText("");
         txtCheck.setText("SPBCHK");
-        }
+    }
 }
