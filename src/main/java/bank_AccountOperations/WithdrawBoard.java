@@ -39,8 +39,8 @@ public class WithdrawBoard extends JPanel implements ActionListener {
 
     //Components declaration of action board
     private JPanel actionBoard;
-    private JLabel lblRefNum, lblDate, lblIdType, lblWithdrawer, lblMethod, lblAmount, lblFeeTitle, lblFeeVal, lblTotalTitle, lblTotalVal, lblCheck;
-    private JTextField txtRefNum, txtDate, txtWithdrawer, txtAmount, txtCheck;
+    private JLabel lblRefNum, lblDate, lblIdType, lblWithdrawer, lblMethod, lblAmount, lblFeeTitle, lblFeeVal, lblTotalTitle, lblTotalVal, lblCheck, lblProcBy; // Declared lblProcBy
+    private JTextField txtRefNum, txtDate, txtWithdrawer, txtAmount, txtCheck, txtProcBy; // Declared txtProcBy
     private JComboBox<String> cmbIdType, cmbMethod;
     private JSeparator actSep1, actSep2;
     private JButton btnWithdraw;
@@ -64,7 +64,7 @@ public class WithdrawBoard extends JPanel implements ActionListener {
         searchBoard.setBackground(ColorPalette.Blue5);
         searchBoard.setBounds(60, 100, 1520, 150);
 
-        lblHeaderTitle = new JLabel("   Search Board");
+        lblHeaderTitle = new JLabel("    Search Board");
         lblHeaderTitle.setFont(new Font("Segoe UI", Font.BOLD, 14));
         lblHeaderTitle.setForeground(Color.WHITE);
         lblHeaderTitle.setBackground(ColorPalette.Blue4);
@@ -193,7 +193,7 @@ public class WithdrawBoard extends JPanel implements ActionListener {
         actionBoard.setLayout(null);
         actionBoard.setBackground(new Color(235, 235, 235));
         actionBoard.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(ColorPalette.Blue4, 3), "Action Board"));
-        actionBoard.setBounds(60, 580, 1520, 320);
+        actionBoard.setBounds(60, 580, 1520, 410);
         add(actionBoard);
 
         lblRefNum = new JLabel("Withdrawal Reference No.");
@@ -225,16 +225,34 @@ public class WithdrawBoard extends JPanel implements ActionListener {
 
         lblIdType = new JLabel("Valid ID Presented");
         lblIdType.setFont(new Font("Segoe UI", Font.PLAIN, 15));
-        lblIdType.setBounds(50, 220, 200, 20);
+        lblIdType.setBounds(50, 310, 200, 20);
         actionBoard.add(lblIdType);
 
         cmbIdType = new JComboBox<>(idTypes);
         cmbIdType.setFont(new Font("Segoe UI", Font.PLAIN, 15));
-        cmbIdType.setBounds(50, 250, 400, 40);
+        cmbIdType.setBounds(50, 340, 400, 40);
         actionBoard.add(cmbIdType);
 
+        lblProcBy = new JLabel("Processed By");
+        lblProcBy.setFont(new Font("Segoe UI", Font.PLAIN, 15));
+        lblProcBy.setBounds(50, 220, 200, 20);
+        actionBoard.add(lblProcBy);
+
+        String tellerInfo = "No Employee";
+        if (EmployeeSQL.currentEmployee != null) {
+            tellerInfo = EmployeeSQL.currentEmployee.getEmpID() + " - " + EmployeeSQL.currentEmployee.getEmpName();
+        }
+
+        txtProcBy = new JTextField(tellerInfo);
+        txtProcBy.setEditable(false);
+        txtProcBy.setBackground(new Color(225, 225, 225));
+        txtProcBy.setBorder(BorderFactory.createLineBorder(ColorPalette.Blue5, 1));
+        txtProcBy.setFont(new Font("Segoe UI", Font.PLAIN, 15));
+        txtProcBy.setBounds(50, 250, 400, 40);
+        actionBoard.add(txtProcBy);
+
         actSep1 = new JSeparator(SwingConstants.VERTICAL);
-        actSep1.setBounds(500, 40, 10, 250);
+        actSep1.setBounds(500, 40, 10, 340); // Expanded separator line height to account for the new layout row
         actionBoard.add(actSep1);
 
         lblWithdrawer = new JLabel("Withdrawer's Full Name");
@@ -288,7 +306,7 @@ public class WithdrawBoard extends JPanel implements ActionListener {
         actionBoard.add(cmbMethod);
 
         actSep2 = new JSeparator(SwingConstants.VERTICAL);
-        actSep2.setBounds(1000, 40, 10, 250);
+        actSep2.setBounds(1000, 40, 10, 340); 
         actionBoard.add(actSep2);
 
         lblAmount = new JLabel("Withdrawal Amount");
@@ -344,7 +362,7 @@ public class WithdrawBoard extends JPanel implements ActionListener {
         btnWithdraw.setBackground(Color.decode("#0C3D70"));
         btnWithdraw.setForeground(Color.WHITE);
         btnWithdraw.setFont(new Font("Segoe UI", Font.BOLD, 24));
-        btnWithdraw.setBounds(1050, 230, 400, 60);
+        btnWithdraw.setBounds(1050, 250, 400, 60); 
         btnWithdraw.addActionListener(this);
         actionBoard.add(btnWithdraw);
     }
@@ -446,7 +464,7 @@ public class WithdrawBoard extends JPanel implements ActionListener {
         //Setup parent window and dialog
         Window parentWindow = SwingUtilities.getWindowAncestor(this);
         JDialog dialog = new JDialog((JFrame) parentWindow, "Withdrawal Confirmation", true);
-        dialog.setSize(420, 540);
+        dialog.setSize(420, 520);
         dialog.setLayout(null);
         dialog.getContentPane().setBackground(Color.WHITE);
         dialog.setLocationRelativeTo(parentWindow);
@@ -504,7 +522,7 @@ public class WithdrawBoard extends JPanel implements ActionListener {
 
         //Money computations
         Account acc = AccountSQL.getAccountByNumber(accNum);
-        double fee = cmbMethod.getSelectedIndex() == 0 ? 0.00 : 15.00; //OTC is free, teh rest has fee
+        double fee = cmbMethod.getSelectedIndex() == 0 ? 0.00 : 15.00; //OTC is free, the rest has a fee
         double totalDeduction = amountToWithdraw + fee;
 
         if (totalDeduction > acc.getAccBal()) {
@@ -575,7 +593,6 @@ public class WithdrawBoard extends JPanel implements ActionListener {
         String tellerInfo = "No Employee";
 
         if (EmployeeSQL.currentEmployee != null) {
-
             tellerInfo = EmployeeSQL.currentEmployee.getEmpID() + " - " + EmployeeSQL.currentEmployee.getEmpName();
         }
 
@@ -638,7 +655,7 @@ public class WithdrawBoard extends JPanel implements ActionListener {
                 } else if (cmbMethod.getSelectedIndex() == 1) {
                     if(transactionSql.isCheckValid(checkNum)){
                         //Store transaction
-                    transactionSql.addTransaction(
+                        transactionSql.addTransaction(
                             transactionSql.generateRefNumber(),
                             acc.getName(),
                             acc.getAccNo(),
