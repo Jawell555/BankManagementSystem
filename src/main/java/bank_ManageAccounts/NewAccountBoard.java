@@ -373,6 +373,7 @@ public class NewAccountBoard extends JPanel {
             if (age < 18) {
                 JOptionPane.showMessageDialog(this,"Customer must be at least 18 years old.");
                 markInvalid(txtDOB);
+                return;
             }
 
             markValid(txtDOB);
@@ -450,17 +451,12 @@ public class NewAccountBoard extends JPanel {
 
         if (success) {
             JOptionPane.showMessageDialog(this,"Account Registered Successfully!");
-
             clearFields();
 
         } else {
-
-            JOptionPane.showMessageDialog(
-                    this,
-                    "Failed to register account."
-            );
+            JOptionPane.showMessageDialog(this, "Failed to register account.");
         }
-        clearFields();
+        
         
     }
     
