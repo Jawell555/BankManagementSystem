@@ -360,7 +360,8 @@ public class adminDashboard extends JPanel {
             if(emp.getEmpType().equalsIgnoreCase("Employee")){
                 employees++;
             }
-             if(emp.getEmpType().equalsIgnoreCase("Admin")){
+            
+            if(emp.getEmpType().equalsIgnoreCase("Admin")){
                 admins++;
             }
         }

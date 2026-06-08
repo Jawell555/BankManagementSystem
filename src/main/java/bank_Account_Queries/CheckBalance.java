@@ -21,7 +21,7 @@ public class CheckBalance extends JPanel implements ActionListener {
 
     TransactionDatabase BankLogic = new TransactionDatabase();
     TransactionSQL transacSql = new TransactionSQL();
-    
+
     JLabel lblTitle, lblFrom, lblTo, lblHeaderTitle, lblAccNum, lblAccNo, lblAccType, lblHolderName, lblAccBal;
     JPanel pnlTblContainer, pnlSearch, infoBoard, searchBoard;
     JTextField txtAccNum, txtAccNo, txtAccType, txtStartYear, txtEndYear, txtHolderName, txtAccBal;
@@ -34,19 +34,18 @@ public class CheckBalance extends JPanel implements ActionListener {
     private final String[] historyChoices;
     private final String[] months;
     private final String[] days = new String[32];
-    private String[] historyColumns = {"Name", "Account Number", "Sender/Receiver Account", "Sender/Receiver Name", "Date & Time", "History Type", "Amount"};
+    private String[] historyColumns = {"Reference No.", "Account Name", "Account No.", "Transaction Information", "Sender/Receiver Name" ,"Date & Time", "History Type", "Processed By", "Amount"};
 
     Font fntTitle = new Font("Segoe UI", Font.BOLD, 25);
     Font fntText = new Font("Segoe UI", Font.PLAIN, 12);
     Font fntHeader = new Font("Segoe UI", Font.BOLD, 18);
-
 
     // ACCOUNT LIST
     ArrayList<Account> accounts = new ArrayList<>();
 
     public CheckBalance() {
         this.months = new String[]{"Month", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
-        this.historyChoices = new String[]{"History Type", "Deposit"," - Cash Deposit"," - Check Deposit","Withdrawal", " - Over-the-counter"," - Check Withdrawal","Transfer", "Received"};
+        this.historyChoices = new String[]{"History Type", "Deposit", " - Cash Deposit", " - Check Deposit", "Withdrawal", " - Over-the-counter", " - Check Withdrawal", "Transfer", "Sent" ,"Received", "Close Account"};
         for (int i = 0; i <= 31; i++) {
             if (i == 0) {
                 this.days[i] = "Day";
@@ -58,7 +57,6 @@ public class CheckBalance extends JPanel implements ActionListener {
         setBounds(0, 0, 1670, 1080);
 
         // SAMPLE DATA
-        
         //HEAD
         {
             lblTitle = new JLabel("Balance Board");
@@ -89,11 +87,11 @@ public class CheckBalance extends JPanel implements ActionListener {
             lblAccNum.setBounds(50, 50, 200, 25);
             searchBoard.add(lblAccNum);
 
-            txtAccNum  = new JTextField("SPB100000000");
-            txtAccNum .setForeground(Color.GRAY);
-            txtAccNum .setFont(new Font("Segoe UI", Font.PLAIN, 15));
-            txtAccNum .setBounds(50, 80, 730, 40);
-            searchBoard.add(txtAccNum );
+            txtAccNum = new JTextField("SPB100000000");
+            txtAccNum.setForeground(Color.GRAY);
+            txtAccNum.setFont(new Font("Segoe UI", Font.PLAIN, 15));
+            txtAccNum.setBounds(50, 80, 730, 40);
+            searchBoard.add(txtAccNum);
 
             btnSearch = new JButton("Search Account");
             btnSearch.setBackground(Color.decode("#0C3D70"));
@@ -104,7 +102,7 @@ public class CheckBalance extends JPanel implements ActionListener {
 
             add(searchBoard);
 
-             // INFORMATION BOARD
+            // INFORMATION BOARD
             infoBoard = new JPanel();
             infoBoard.setLayout(null);
 
@@ -265,36 +263,35 @@ public class CheckBalance extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == btnSearch) {
             boardSearch();
-            searchByNumber();
             reset();
-        } else 
-            if (e.getSource() == btnHistoryFilter) {
+        } else if (e.getSource() == btnHistoryFilter) {
             generalFilter();
         }
     }
-    
 
     public void generalFilter() {
         LocalDateTime startDate = convertDate(cmbStartMonth.getSelectedIndex(), cmbStartDay.getSelectedIndex(), txtStartYear.getText());
         LocalDateTime endDate = convertDate(cmbEndMonth.getSelectedIndex(), cmbEndDay.getSelectedIndex(), txtEndYear.getText());
+        if (!txtAccNo.getText().isEmpty()) {
+            pnlTblContainer.remove(scpnBalHistory);
+            DefaultTableModel filtered = transacSql.getFilteredList(txtAccNo.getText(), (String) cmbHistoryType.getSelectedItem(), startDate, endDate);
+            tblBalHistory = transacSql.createStyledTable(filtered);
+            scpnBalHistory = new JScrollPane(tblBalHistory);
+            scpnBalHistory.setBounds(20, 25, 1480, 255);
+            pnlTblContainer.add(scpnBalHistory);
+        }
 
-        pnlTblContainer.remove(scpnBalHistory);
-        DefaultTableModel filtered = transacSql.getFilteredList(txtAccNum.getText(), (String) cmbHistoryType.getSelectedItem(), startDate, endDate);
-        tblBalHistory = transacSql.createStyledTable(filtered);
-        scpnBalHistory = new JScrollPane(tblBalHistory);
-        scpnBalHistory.setBounds(20, 25, 1480, 255);
-        pnlTblContainer.add(scpnBalHistory);
     }
 
     public void searchByNumber() {
         pnlTblContainer.remove(scpnBalHistory);
-        DefaultTableModel filtered = transacSql.getListByAccNum(txtAccNum.getText());
+        DefaultTableModel filtered = transacSql.getListByAccNum(txtAccNo.getText());
         tblBalHistory = transacSql.createStyledTable(filtered);
         scpnBalHistory = new JScrollPane(tblBalHistory);
         scpnBalHistory.setBounds(20, 25, 1480, 255);
         pnlTblContainer.add(scpnBalHistory);
     }
-    
+
     public void boardSearch() {
         String searchAccNo = txtAccNum.getText().trim();
 
@@ -304,17 +301,17 @@ public class CheckBalance extends JPanel implements ActionListener {
             txtHolderName.setText(acc.getName());
             txtAccNo.setText(acc.getAccNo());
             txtAccType.setText(acc.getAccType());
-
             txtAccBal.setText("PHP " + String.format("%,.2f", acc.getAccBal()));
+            searchByNumber();
         } else {
-            JOptionPane.showMessageDialog(null,"Account not found!");
+            JOptionPane.showMessageDialog(null, "Account not found!");
             txtHolderName.setText("");
             txtAccNo.setText("");
             txtAccType.setText("");
             txtAccBal.setText("");
         }
     }
-    
+
     public LocalDateTime convertDate(int month, int day, String year) {
         try {
             if (year.trim().isEmpty() || year.trim().equals("Year")) {
@@ -332,8 +329,8 @@ public class CheckBalance extends JPanel implements ActionListener {
             return null;
         }
     }
-   
-    public void reset(){
+
+    public void reset() {
         cmbHistoryType.setSelectedIndex(0);
         cmbStartMonth.setSelectedIndex(0);
         cmbStartDay.setSelectedIndex(0);
@@ -343,4 +340,3 @@ public class CheckBalance extends JPanel implements ActionListener {
         txtEndYear.setText("Year");
     }
 }
-

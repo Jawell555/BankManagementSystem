@@ -303,6 +303,21 @@ public class DepositBoard extends JPanel implements ActionListener {
         txtAmount.setBorder(BorderFactory.createLineBorder(ColorPalette.Blue5, 2));
         txtAmount.setBounds(1050, 70, 400, 45);
         actionBoard.add(txtAmount);
+        
+        txtAmount.addKeyListener(new java.awt.event.KeyAdapter() {
+            @Override
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                char c = evt.getKeyChar();
+                // Allow only numeric digits, a single decimal point, and backspace delete commands
+                if (!Character.isDigit(c) && c != '.' && c != java.awt.event.KeyEvent.VK_BACK_SPACE) {
+                    evt.consume(); // Reject key entries immediately
+                }
+                // block multiple decimals from getting inputted
+                if (c == '.' && txtAmount.getText().contains(".")) {
+                    evt.consume();
+                }
+            }
+        });
 
         btnDeposit = new JButton("DEPOSIT");
         btnDeposit.setBackground(Color.decode("#0C3D70"));
@@ -449,52 +464,48 @@ public class DepositBoard extends JPanel implements ActionListener {
 
         btnConfirm.addActionListener(e -> {
             Account foundAcc = AccountSQL.getAccountByNumber(accNum);
-
-            if (foundAcc != null) {
-                double newBalance = foundAcc.getAccBal() + amountToDeposit;
-                foundAcc.setAccBal(newBalance);
-                AccountSQL.updateBalance(foundAcc.getAccNo(), newBalance);
-
-                txtBalance.setText(String.format("PHP %,.2f", newBalance));
-
-                String method;
-                if (cmbDepMethod.getSelectedIndex() == 0) {
-                    method = cmbDepMethod.getSelectedItem().toString();
-                    transactionSql.addTransaction(
-                            transactionSql.generateRefNumber(),
-                            foundAcc.getName(),
-                            foundAcc.getAccNo(),
-                            method,
-                            txtDepositor.getText(),
-                            LocalDateTime.now(),
-                            "Deposit - " + method,
-                            EmployeeSQL.currentEmployee.getEmpName(),
-                            amountToDeposit
-                    );
-                    depositSuccess(dialog, parentWindow);
-                } else if (cmbDepMethod.getSelectedIndex() == 1) {
-                    method = cmbDepMethod.getSelectedItem().toString();
-                    if (transactionSql.isCheckValid(txtCheck.getText())) {
-                        transactionSql.addTransaction(
-                                transactionSql.generateRefNumber(),
-                                foundAcc.getName(),
-                                foundAcc.getAccNo(),
-                                method,
-                                txtCheck.getText(),
-                                LocalDateTime.now(),
-                                "Deposit - " + method,
-                                EmployeeSQL.currentEmployee.getEmpName(),
-                                amountToDeposit
-                        );
-                        depositSuccess(dialog, parentWindow);
-                    } else {
-                        JOptionPane.showMessageDialog(this,
-                                "This check has already been used!",
-                                "Duplicate Check",
-                                JOptionPane.WARNING_MESSAGE);
-                    }
-                }
+            if (foundAcc == null) {
+                JOptionPane.showMessageDialog(dialog, "Account error occurred.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
             }
+
+            String method = cmbDepMethod.getSelectedItem().toString();
+            int selectedIndex = cmbDepMethod.getSelectedIndex();
+            String generatedRef = transactionSql.generateRefNumber(); 
+
+            // Validation for Check Deposits BEFORE updating any balances
+            if (selectedIndex == 1 && !transactionSql.isCheckValid(txtCheck.getText().trim())) {
+                JOptionPane.showMessageDialog(dialog,
+                        "This check has already been used!",
+                        "Duplicate Check",
+                        JOptionPane.WARNING_MESSAGE);
+                return; // Halts process securely. Zero database mutations.
+            }
+
+            // Process secure balance calculations
+            double newBalance = foundAcc.getAccBal() + amountToDeposit;
+            foundAcc.setAccBal(newBalance);
+
+            // Write out balance modification
+            AccountSQL.updateBalance(foundAcc.getAccNo(), newBalance);
+            txtBalance.setText(String.format("PHP %,.2f", newBalance));
+
+            // Compile & append complete system ledger logs
+            String depositorOrCheck = (selectedIndex == 0) ? txtDepositor.getText().trim() : txtCheck.getText().trim();
+
+            transactionSql.addTransaction(
+                    generatedRef,
+                    foundAcc.getName(),
+                    foundAcc.getAccNo(),
+                    method,
+                    depositorOrCheck,
+                    LocalDateTime.now(),
+                    "Deposit - " + method,
+                    EmployeeSQL.currentEmployee.getEmpName(),
+                    amountToDeposit
+            );
+
+            depositSuccess(dialog, parentWindow);
         });
         
         JButton btnCancel = new JButton("Cancel");
@@ -519,5 +530,13 @@ public class DepositBoard extends JPanel implements ActionListener {
         txtAmount.setText("");
         txtDepositor.setText("");
         txtCheck.setText("SPBCHK");
+        cmbDepMethod.setSelectedIndex(0); 
+        txtCheck.setVisible(false);
+        lblCheck.setVisible(false);
+        txtRefNum.setText(transactionSql.generateRefNumber());
+        txtDate.setText(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
     }
 }
+
+        
+    

@@ -99,6 +99,7 @@ public class TransactionSQL extends TransactionDatabase {
                 model.addColumn("Sender/Receiver Name");
                 model.addColumn("Date & Time");
                 model.addColumn("History Type");
+                model.addColumn("Processed By");
                 model.addColumn("Amount");
 
                 while (rs.next()) {
@@ -110,6 +111,7 @@ public class TransactionSQL extends TransactionDatabase {
                         rs.getString("altAccName"),
                         rs.getObject("transacDate", LocalDateTime.class).format(dateTimeFormatter),
                         rs.getString("historyType"),
+                        rs.getString("processedBy"),
                         "PHP " + decimalFormat.format(rs.getDouble("transacAmount"))
                     };
                     model.addRow(row);
