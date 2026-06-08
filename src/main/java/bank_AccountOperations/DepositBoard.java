@@ -4,6 +4,7 @@ import Colors.ColorPalette;
 import Models.Account;
 import Database.AccountDatabase;
 import Database.AccountSQL;
+import Database.EmployeeSQL;
 import Database.TransactionDatabase;
 import Database.TransactionSQL;
 import bank_Dashboard.adminDashboard;
@@ -16,7 +17,7 @@ import java.time.LocalDateTime;
 import java.util.Date;
 
 public class DepositBoard extends JPanel implements ActionListener {
-    
+
     private TransactionSQL transactionSql = new TransactionSQL();
     //Main title
     private JLabel lblTitle;
@@ -35,39 +36,39 @@ public class DepositBoard extends JPanel implements ActionListener {
 
     //Action board components
     private JPanel actionBoard;
-    private JLabel lblRefNum, lblDate, lblDepositor, lblDepMethod, lblAmount;
-    private JTextField txtRefNum, txtDate, txtDepositor, txtAmount;
+    private JLabel lblRefNum, lblDate, lblDepositor, lblDepMethod, lblAmount, lblCheck, lblProcBy;
+    private JTextField txtRefNum, txtDate, txtDepositor, txtAmount, txtCheck, txtProcBy;
     private JSeparator actSep1, actSep2;
     private JComboBox<String> cmbDepMethod;
     private JButton btnDeposit;
-    private String[] methods = {"Cash Deposit", "Check Deposit", "Fund Transfer"};
-    
+    private String[] methods = {"Cash Deposit", "Check Deposit"};
+
     double amountToDeposit = 0;
 
     public DepositBoard() {
         setLayout(null);
         setBackground(new Color(235, 235, 235));
-        setBounds(0, 0, 1670, 1080); 
+        setBounds(0, 0, 1670, 1080);
 
         lblTitle = new JLabel("Deposit Board");
-        lblTitle.setFont(new Font("Segoe UI", Font.BOLD, 30)); 
-        lblTitle.setBounds(60, 30, 700, 40); 
+        lblTitle.setFont(new Font("Segoe UI", Font.BOLD, 30));
+        lblTitle.setBounds(60, 30, 700, 40);
         add(lblTitle);
 
         //SEARCH BOARD
         searchBoard = new JPanel();
-        searchBoard.setLayout(null); 
+        searchBoard.setLayout(null);
         searchBoard.setBackground(ColorPalette.Blue5);
-        searchBoard.setBounds(60, 100, 1520, 150); 
-        
-        lblHeaderTitle = new JLabel("  Search Board"); 
+        searchBoard.setBounds(60, 100, 1520, 150);
+
+        lblHeaderTitle = new JLabel("  Search Board");
         lblHeaderTitle.setFont(new Font("Segoe UI", Font.BOLD, 14));
-        lblHeaderTitle.setForeground(Color.WHITE); 
-        lblHeaderTitle.setBackground(ColorPalette.Blue4); 
-        lblHeaderTitle.setOpaque(true); 
-        lblHeaderTitle.setBounds(0, 0, 1520, 35); 
+        lblHeaderTitle.setForeground(Color.WHITE);
+        lblHeaderTitle.setBackground(ColorPalette.Blue4);
+        lblHeaderTitle.setOpaque(true);
+        lblHeaderTitle.setBounds(0, 0, 1520, 35);
         searchBoard.add(lblHeaderTitle);
-        
+
         lblAccNum = new JLabel("Account Number");
         lblAccNum.setForeground(Color.WHITE);
         lblAccNum.setFont(new Font("Segoe UI", Font.PLAIN, 15));
@@ -75,26 +76,26 @@ public class DepositBoard extends JPanel implements ActionListener {
         searchBoard.add(lblAccNum);
 
         txtAccNum = new JTextField("SPB100000000");
-        txtAccNum.setForeground(Color.BLACK); 
+        txtAccNum.setForeground(Color.BLACK);
         txtAccNum.setFont(new Font("Segoe UI", Font.PLAIN, 15));
-        txtAccNum.setBounds(50, 80, 730, 40); 
+        txtAccNum.setBounds(50, 80, 730, 40);
         searchBoard.add(txtAccNum);
 
         btnSearch = new JButton("Search Account");
         btnSearch.setBackground(Color.decode("#0C3D70"));
         btnSearch.setForeground(Color.WHITE);
         btnSearch.setFont(new Font("Segoe UI", Font.BOLD, 18));
-        btnSearch.setBounds(800, 80, 190, 40); 
-        btnSearch.addActionListener(this); 
+        btnSearch.setBounds(800, 80, 190, 40);
+        btnSearch.addActionListener(this);
         searchBoard.add(btnSearch);
 
-        add(searchBoard); 
-        
+        add(searchBoard);
+
         //INFORMATION BOARD
         infoBoard = new JPanel();
         infoBoard.setLayout(null);
         infoBoard.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(ColorPalette.Blue4, 3), "Information Board"));
-        infoBoard.setBounds(60, 275, 1520, 280); 
+        infoBoard.setBounds(60, 275, 1520, 280);
 
         lblAccTitle = new JLabel("Account Title");
         lblAccTitle.setFont(new Font("Segoe UI", Font.PLAIN, 15));
@@ -103,7 +104,7 @@ public class DepositBoard extends JPanel implements ActionListener {
 
         txtAccTitle = new JTextField();
         txtAccTitle.setEditable(false);
-        txtAccTitle.setBackground(new Color(225, 225, 225)); 
+        txtAccTitle.setBackground(new Color(225, 225, 225));
         txtAccTitle.setBorder(BorderFactory.createLineBorder(ColorPalette.Blue5, 1));
         txtAccTitle.setFont(new Font("Segoe UI", Font.PLAIN, 15));
         txtAccTitle.setBounds(50, 70, 400, 40);
@@ -116,7 +117,7 @@ public class DepositBoard extends JPanel implements ActionListener {
 
         txtAccStatus = new JTextField();
         txtAccStatus.setEditable(false);
-        txtAccStatus.setBackground(new Color(225, 225, 225)); 
+        txtAccStatus.setBackground(new Color(225, 225, 225));
         txtAccStatus.setFont(new Font("Segoe UI", Font.BOLD, 15));
         txtAccStatus.setBorder(BorderFactory.createLineBorder(ColorPalette.Blue5, 1));
         txtAccStatus.setBounds(50, 160, 400, 40);
@@ -133,7 +134,7 @@ public class DepositBoard extends JPanel implements ActionListener {
 
         txtHolderName = new JTextField();
         txtHolderName.setEditable(false);
-        txtHolderName.setBackground(new Color(225, 225, 225)); 
+        txtHolderName.setBackground(new Color(225, 225, 225));
         txtHolderName.setBorder(BorderFactory.createLineBorder(ColorPalette.Blue5, 1));
         txtHolderName.setFont(new Font("Segoe UI", Font.PLAIN, 15));
         txtHolderName.setBounds(550, 70, 400, 40);
@@ -146,7 +147,7 @@ public class DepositBoard extends JPanel implements ActionListener {
 
         txtAccType = new JTextField();
         txtAccType.setEditable(false);
-        txtAccType.setBackground(new Color(225, 225, 225)); 
+        txtAccType.setBackground(new Color(225, 225, 225));
         txtAccType.setFont(new Font("Segoe UI", Font.PLAIN, 15));
         txtAccType.setBorder(BorderFactory.createLineBorder(ColorPalette.Blue5, 1));
         txtAccType.setBounds(550, 160, 400, 40);
@@ -163,7 +164,7 @@ public class DepositBoard extends JPanel implements ActionListener {
 
         txtDisplayAccNum = new JTextField();
         txtDisplayAccNum.setEditable(false);
-        txtDisplayAccNum.setBackground(new Color(225, 225, 225)); 
+        txtDisplayAccNum.setBackground(new Color(225, 225, 225));
         txtDisplayAccNum.setBorder(BorderFactory.createLineBorder(ColorPalette.Blue5, 1));
         txtDisplayAccNum.setFont(new Font("Segoe UI", Font.PLAIN, 15));
         txtDisplayAccNum.setBounds(1050, 70, 400, 40);
@@ -176,94 +177,139 @@ public class DepositBoard extends JPanel implements ActionListener {
 
         txtBalance = new JTextField("PHP 0.00");
         txtBalance.setEditable(false);
-        txtBalance.setBackground(new Color(225, 225, 225)); 
+        txtBalance.setBackground(new Color(225, 225, 225));
         txtBalance.setFont(new Font("Segoe UI", Font.BOLD, 16));
         txtBalance.setBorder(BorderFactory.createLineBorder(ColorPalette.Blue5, 1));
         txtBalance.setBounds(1050, 160, 400, 40);
         infoBoard.add(txtBalance);
 
-        add(infoBoard); 
+        add(infoBoard);
 
-        //ACTION BOARD
         actionBoard = new JPanel();
-        actionBoard.setLayout(null);      
+        actionBoard.setLayout(null);
         actionBoard.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(ColorPalette.Blue4, 3), "Action Board"));
-        actionBoard.setBounds(60, 580, 1520, 320); 
-        add(actionBoard); 
+        actionBoard.setBounds(60, 580, 1520, 380);
+        add(actionBoard);
 
+        // Column 1: Transaction Metadata
         lblRefNum = new JLabel("Deposit Reference No.");
         lblRefNum.setFont(new Font("Segoe UI", Font.PLAIN, 15));
         lblRefNum.setBounds(50, 40, 200, 20);
         actionBoard.add(lblRefNum);
 
-        txtRefNum = new JTextField(transactionSql.generateRefNumber()); 
-        txtRefNum.setEditable(false); 
-        txtRefNum.setBackground(new Color(225, 225, 225)); 
+        txtRefNum = new JTextField(transactionSql.generateRefNumber());
+        txtRefNum.setEditable(false);
+        txtRefNum.setBackground(new Color(225, 225, 225));
         txtRefNum.setBorder(BorderFactory.createLineBorder(ColorPalette.Blue5, 1));
         txtRefNum.setFont(new Font("Segoe UI", Font.PLAIN, 15));
-        txtRefNum.setBounds(50, 70, 400, 40); 
+        txtRefNum.setBounds(50, 70, 400, 40);
         actionBoard.add(txtRefNum);
+
+        lblProcBy = new JLabel("Processed By");
+        lblProcBy.setFont(new Font("Segoe UI", Font.PLAIN, 15));
+        lblProcBy.setBounds(50, 130, 200, 20);
+        actionBoard.add(lblProcBy);
+
+        String tellerInfo = "No Employee";
+        if (EmployeeSQL.currentEmployee != null) {
+            tellerInfo = EmployeeSQL.currentEmployee.getEmpID() + " - " + EmployeeSQL.currentEmployee.getEmpName();
+        }
+
+        txtProcBy = new JTextField(tellerInfo);
+        txtProcBy.setEditable(false); 
+        txtProcBy.setBackground(new Color(225, 225, 225)); 
+        txtProcBy.setBorder(BorderFactory.createLineBorder(ColorPalette.Blue5, 1));
+        txtProcBy.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+        txtProcBy.setBounds(50, 160, 400, 40); 
+        actionBoard.add(txtProcBy);
 
         lblDate = new JLabel("Transaction Date & Time");
         lblDate.setFont(new Font("Segoe UI", Font.PLAIN, 15));
-        lblDate.setBounds(50, 130, 200, 20);
+        lblDate.setBounds(50, 220, 200, 20);
         actionBoard.add(lblDate);
 
         String currentDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
         txtDate = new JTextField(currentDate);
-        txtDate.setEditable(false); 
-        txtDate.setBackground(new Color(225, 225, 225)); 
+        txtDate.setEditable(false);
+        txtDate.setBackground(new Color(225, 225, 225));
         txtDate.setFont(new Font("Segoe UI", Font.PLAIN, 15));
         txtDate.setBorder(BorderFactory.createLineBorder(ColorPalette.Blue5, 1));
-        txtDate.setBounds(50, 160, 400, 40); 
+        txtDate.setBounds(50, 250, 400, 40);
         actionBoard.add(txtDate);
 
         actSep1 = new JSeparator(SwingConstants.VERTICAL);
-        actSep1.setBounds(500, 40, 10, 230);
+        actSep1.setBounds(500, 40, 10, 300); // Extended separator height
         actionBoard.add(actSep1);
+
+        // Column 2: Deposit Details
+        lblDepMethod = new JLabel("Deposit Method");
+        lblDepMethod.setFont(new Font("Segoe UI", Font.PLAIN, 15));
+        lblDepMethod.setBounds(550, 40, 200, 20);
+        actionBoard.add(lblDepMethod);
+
+        cmbDepMethod = new JComboBox<>(methods);
+        cmbDepMethod.setFont(new Font("Segoe UI", Font.PLAIN, 15));
+        cmbDepMethod.setBounds(550, 70, 400, 40);
+        actionBoard.add(cmbDepMethod);
 
         lblDepositor = new JLabel("Depositor's Full Name");
         lblDepositor.setFont(new Font("Segoe UI", Font.PLAIN, 15));
-        lblDepositor.setBounds(550, 40, 200, 20);
+        lblDepositor.setBounds(550, 130, 200, 20);
         actionBoard.add(lblDepositor);
 
         txtDepositor = new JTextField();
         txtDepositor.setFont(new Font("Segoe UI", Font.PLAIN, 15));
         txtDepositor.setBorder(BorderFactory.createLineBorder(ColorPalette.Blue5, 1));
-        txtDepositor.setBounds(550, 70, 400, 40); 
+        txtDepositor.setBounds(550, 160, 400, 40);
         actionBoard.add(txtDepositor);
 
-        lblDepMethod = new JLabel("Deposit Method");
-        lblDepMethod.setFont(new Font("Segoe UI", Font.PLAIN, 15));
-        lblDepMethod.setBounds(550, 130, 200, 20);
-        actionBoard.add(lblDepMethod);
+        lblCheck = new JLabel("Check Number");
+        lblCheck.setFont(new Font("Segoe UI", Font.PLAIN, 15));
+        lblCheck.setBounds(550, 220, 400, 20);
+        actionBoard.add(lblCheck);
+        lblCheck.setVisible(false);
 
-        cmbDepMethod = new JComboBox<>(methods);
-        cmbDepMethod.setFont(new Font("Segoe UI", Font.PLAIN, 15));
-        cmbDepMethod.setBounds(550, 160, 400, 40); 
-        actionBoard.add(cmbDepMethod);
+        txtCheck = new JTextField();
+        txtCheck.setFont(new Font("Segoe UI", Font.PLAIN, 15));
+        txtCheck.setBounds(550, 250, 400, 40);
+        actionBoard.add(txtCheck);
+        txtCheck.setVisible(false);
+
+        cmbDepMethod.addActionListener(e -> {
+            int selectedIndex = cmbDepMethod.getSelectedIndex();
+            if (selectedIndex == 0) {
+                txtCheck.setText("");
+                txtCheck.setVisible(false);
+                lblCheck.setVisible(false);
+            } else if (selectedIndex == 1) {
+                txtCheck.setText("SPBCHK00000");
+                txtCheck.setVisible(true);
+                lblCheck.setVisible(true);
+            }
+        });
 
         actSep2 = new JSeparator(SwingConstants.VERTICAL);
-        actSep2.setBounds(1000, 40, 10, 230);
+        actSep2.setBounds(1000, 40, 10, 300); // Extended separator height
         actionBoard.add(actSep2);
 
+        // Column 3: Submission Execution
         lblAmount = new JLabel("Deposit Amount");
         lblAmount.setFont(new Font("Segoe UI", Font.PLAIN, 15));
         lblAmount.setBounds(1050, 40, 250, 20);
         actionBoard.add(lblAmount);
 
-        txtAmount = new JTextField(""); 
-        txtAmount.setFont(new Font("Segoe UI", Font.BOLD, 20)); 
-        txtAmount.setBorder(BorderFactory.createLineBorder(ColorPalette.Blue5, 2)); 
-        txtAmount.setBounds(1050, 70, 400, 45); 
+        txtAmount = new JTextField("");
+        txtAmount.setFont(new Font("Segoe UI", Font.BOLD, 20));
+        txtAmount.setBorder(BorderFactory.createLineBorder(ColorPalette.Blue5, 2));
+        txtAmount.setBounds(1050, 70, 400, 45);
         actionBoard.add(txtAmount);
 
         btnDeposit = new JButton("DEPOSIT");
-        btnDeposit.setBackground(Color.decode("#0C3D70")); 
+        btnDeposit.setBackground(Color.decode("#0C3D70"));
         btnDeposit.setForeground(Color.WHITE);
-        btnDeposit.setFont(new Font("Segoe UI", Font.BOLD, 22)); 
-        btnDeposit.setBounds(1050, 180, 400, 60); 
-        btnDeposit.addActionListener(this); 
+        btnDeposit.setFont(new Font("Segoe UI", Font.BOLD, 22));
+        btnDeposit.setBounds(1050, 180, 400, 60);
+        btnDeposit.addActionListener(this);
         actionBoard.add(btnDeposit);
     }
 
@@ -278,10 +324,9 @@ public class DepositBoard extends JPanel implements ActionListener {
     }
 
     //LOGIC & FUNCTION METHODS
-    //Handles account searching
     private void performSearch() {
         String searchedAcc = txtAccNum.getText().trim();
-        
+
         if (searchedAcc.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please enter an account number.", "Empty Field", JOptionPane.WARNING_MESSAGE);
             return;
@@ -295,7 +340,7 @@ public class DepositBoard extends JPanel implements ActionListener {
             txtAccStatus.setText(foundAcc.getAccStatus());
             txtAccType.setText(foundAcc.getAccType());
             txtDisplayAccNum.setText(foundAcc.getAccNo());
-            txtBalance.setText(String.format("PHP %,.2f", foundAcc.getAccBal())); 
+            txtBalance.setText(String.format("PHP %,.2f", foundAcc.getAccBal()));
         } else {
             JOptionPane.showMessageDialog(this, "Account not found in the system.", "Error", JOptionPane.ERROR_MESSAGE);
             txtAccTitle.setText("");
@@ -307,9 +352,7 @@ public class DepositBoard extends JPanel implements ActionListener {
         }
     }
 
-    //Displays the confirmation dialog
     private void showDepositDialog() {
-        //Validation checks
         String accName = txtAccTitle.getText();
         String accNum = txtDisplayAccNum.getText();
         String amountInput = txtAmount.getText().trim();
@@ -321,7 +364,7 @@ public class DepositBoard extends JPanel implements ActionListener {
 
         try {
             amountToDeposit = Double.parseDouble(amountInput);
-            if(amountToDeposit <= 0) {
+            if (amountToDeposit <= 0) {
                 JOptionPane.showMessageDialog(this, "Amount must be greater than zero.", "Invalid Amount", JOptionPane.ERROR_MESSAGE);
                 return;
             }
@@ -330,20 +373,18 @@ public class DepositBoard extends JPanel implements ActionListener {
             return;
         }
 
-        //Setup parent window and dialog
         Window parentWindow = SwingUtilities.getWindowAncestor(this);
-        JDialog dialog = new JDialog((JFrame)parentWindow, "Deposit Confirmation", true);
+        JDialog dialog = new JDialog((JFrame) parentWindow, "Deposit Confirmation", true);
         dialog.setSize(420, 360);
         dialog.setLayout(null);
         dialog.getContentPane().setBackground(Color.WHITE);
-        dialog.setLocationRelativeTo(parentWindow); 
+        dialog.setLocationRelativeTo(parentWindow);
 
-        //Dialog header
         JPanel header = new JPanel();
         header.setBackground(Color.decode("#0E447D"));
         header.setBounds(0, 0, 420, 40);
         header.setLayout(null);
-        
+
         JLabel lblDialogTitle = new JLabel("Verify Deposit Details", SwingConstants.CENTER);
         lblDialogTitle.setForeground(Color.WHITE);
         lblDialogTitle.setFont(new Font("Segoe UI", Font.BOLD, 16));
@@ -395,80 +436,88 @@ public class DepositBoard extends JPanel implements ActionListener {
         lblTotalTitle.setBounds(30, 220, 200, 20);
         dialog.add(lblTotalTitle);
 
-        JLabel lblTotalVal = new JLabel(String.format("PHP %,.2f", amountToDeposit)); 
+        JLabel lblTotalVal = new JLabel(String.format("PHP %,.2f", amountToDeposit));
         lblTotalVal.setFont(new Font("Segoe UI", Font.BOLD, 19));
         lblTotalVal.setBounds(210, 218, 150, 25);
         dialog.add(lblTotalVal);
 
-        //Confirm transaction
         JButton btnConfirm = new JButton("Confirm");
         btnConfirm.setBackground(Color.decode("#0C3D70"));
         btnConfirm.setForeground(Color.WHITE);
         btnConfirm.setFont(new Font("Segoe UI", Font.BOLD, 14));
         btnConfirm.setBounds(40, 270, 150, 40);
-   
-        //If deposit confirmed
+
         btnConfirm.addActionListener(e -> {
+            Account foundAcc = AccountSQL.getAccountByNumber(accNum);
 
-        //Get the account
-        Account foundAcc = AccountSQL.getAccountByNumber(accNum);
+            if (foundAcc != null) {
+                double newBalance = foundAcc.getAccBal() + amountToDeposit;
+                foundAcc.setAccBal(newBalance);
+                AccountSQL.updateBalance(foundAcc.getAccNo(), newBalance);
 
-        if(foundAcc != null){
+                txtBalance.setText(String.format("PHP %,.2f", newBalance));
 
-            //Update balance
-            double newBalance = foundAcc.getAccBal() + amountToDeposit;
-            foundAcc.setAccBal(newBalance);
-            AccountSQL.updateBalance(foundAcc.getAccNo(), newBalance);
-
-            //Refresh displayed balance
-            txtBalance.setText(String.format("PHP %,.2f", newBalance));
-            
-            String method = "";
-            if(cmbDepMethod.getSelectedIndex() == 0){
-                method = "Cash Deposit";
-            } else if (cmbDepMethod.getSelectedIndex() == 1){
-                method = "Check Deposit";
-            } else if(cmbDepMethod.getSelectedIndex() == 2){
-                method = "Fund Transfer";
+                String method;
+                if (cmbDepMethod.getSelectedIndex() == 0) {
+                    method = cmbDepMethod.getSelectedItem().toString();
+                    transactionSql.addTransaction(
+                            transactionSql.generateRefNumber(),
+                            foundAcc.getName(),
+                            foundAcc.getAccNo(),
+                            method,
+                            txtDepositor.getText(),
+                            LocalDateTime.now(),
+                            "Deposit - " + method,
+                            EmployeeSQL.currentEmployee.getEmpName(),
+                            amountToDeposit
+                    );
+                    depositSuccess(dialog, parentWindow);
+                } else if (cmbDepMethod.getSelectedIndex() == 1) {
+                    method = cmbDepMethod.getSelectedItem().toString();
+                    if (transactionSql.isCheckValid(txtCheck.getText())) {
+                        transactionSql.addTransaction(
+                                transactionSql.generateRefNumber(),
+                                foundAcc.getName(),
+                                foundAcc.getAccNo(),
+                                method,
+                                txtCheck.getText(),
+                                LocalDateTime.now(),
+                                "Deposit - " + method,
+                                EmployeeSQL.currentEmployee.getEmpName(),
+                                amountToDeposit
+                        );
+                        depositSuccess(dialog, parentWindow);
+                    } else {
+                        JOptionPane.showMessageDialog(this,
+                                "This check has already been used!",
+                                "Duplicate Check",
+                                JOptionPane.WARNING_MESSAGE);
+                    }
+                }
             }
-            
-            //Save transaction
-            transactionSql.addTransaction(
-                transactionSql.generateRefNumber(),
-                foundAcc.getName(),
-                foundAcc.getAccNo(),
-                method,
-                txtDepositor.getText(),
-                LocalDateTime.now(),
-                "Deposit",
-                amountToDeposit
-            );
-            dialog.dispose();
-
-            JOptionPane.showMessageDialog(parentWindow, "Deposited successfully!", "Transaction Complete",JOptionPane.INFORMATION_MESSAGE);
-
-            //Clear fields
-            txtAmount.setText("");
-            txtDepositor.setText("");
-            
-        }
-    });
-
+        });
+        
         JButton btnCancel = new JButton("Cancel");
         btnCancel.setBackground(Color.LIGHT_GRAY);
         btnCancel.setFont(new Font("Segoe UI", Font.BOLD, 14));
         btnCancel.setBounds(210, 270, 150, 40);
-        
-        //If the deposit was cancelled
+
         btnCancel.addActionListener(e -> {
-            dialog.dispose(); 
+            dialog.dispose();
             JOptionPane.showMessageDialog(parentWindow, "Transaction Cancelled.", "Transaction Cancelled", JOptionPane.ERROR_MESSAGE);
-        }); 
+        });
 
         dialog.add(btnConfirm);
         dialog.add(btnCancel);
-        dialog.setVisible(true); 
+        dialog.setVisible(true);
     }
-    
-    
+
+    public void depositSuccess(JDialog dialog, Window parentWindow){
+        dialog.dispose();
+        JOptionPane.showMessageDialog(parentWindow, "Deposited successfully!", "Transaction Complete", JOptionPane.INFORMATION_MESSAGE);
+
+        txtAmount.setText("");
+        txtDepositor.setText("");
+        txtCheck.setText("SPBCHK");
+    }
 }

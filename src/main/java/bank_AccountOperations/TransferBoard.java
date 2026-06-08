@@ -358,7 +358,7 @@ public class TransferBoard extends JPanel implements ActionListener {
         lblCostFee = new JLabel("PHP 0.00");
         lblCostFee.setFont(new Font("Segoe UI", Font.BOLD, 22));
         lblCostFee.setForeground(Color.RED); 
-        lblCostFee.setBounds(1250, 70, 200, 30);
+        lblCostFee.setBounds(1210, 70, 200, 30);
         actionBoard.add(lblCostFee);
 
         lblTotalTitle = new JLabel("Total Deduction:");
@@ -368,7 +368,7 @@ public class TransferBoard extends JPanel implements ActionListener {
 
         lblTotalValue = new JLabel("PHP 0.00");
         lblTotalValue.setFont(new Font("Segoe UI", Font.BOLD, 28));
-        lblTotalValue.setBounds(1250, 130, 250, 30);
+        lblTotalValue.setBounds(1210, 130, 250, 30);
         actionBoard.add(lblTotalValue);
 
         btnTransfer = new JButton("TRANSFER");
@@ -656,6 +656,7 @@ public class TransferBoard extends JPanel implements ActionListener {
                         receiverAcc.getName(),
                         LocalDateTime.now(),
                         "Transfer Sent",
+                        EmployeeSQL.currentEmployee.getEmpName(),
                         amountToTransfer
                 );
 
@@ -668,6 +669,7 @@ public class TransferBoard extends JPanel implements ActionListener {
                         senderAcc.getName(),
                         LocalDateTime.now(),
                         "Transfer Received",
+                        EmployeeSQL.currentEmployee.getEmpName(),
                         amountToTransfer
                 );
 
@@ -682,6 +684,7 @@ public class TransferBoard extends JPanel implements ActionListener {
                         receiverName,
                         LocalDateTime.now(),
                         "External Bank Transfer",
+                        EmployeeSQL.currentEmployee.getEmpName(),
                         amountToTransfer
                 );
 

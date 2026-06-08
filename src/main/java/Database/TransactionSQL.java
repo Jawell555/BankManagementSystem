@@ -34,7 +34,7 @@ public class TransactionSQL extends TransactionDatabase {
     public TransactionSQL() {
 
     }
-    
+
     public boolean addTransaction(
             String refID,
             String accName,
@@ -43,6 +43,7 @@ public class TransactionSQL extends TransactionDatabase {
             String altAccName,
             LocalDateTime transacDate,
             String historyType,
+            String processedBy,
             double amount
     ) {
 
@@ -55,14 +56,13 @@ public class TransactionSQL extends TransactionDatabase {
                 altAccName,
                 transacDate,
                 historyType,
+                processedBy,
                 transacAmount
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?,?)
         """;
 
         try (
-            Connection conn = DriverManager.getConnection(url, user, pass);
-            PreparedStatement ps = conn.prepareStatement(sql)
-        ) {
+                Connection conn = DriverManager.getConnection(url, user, pass); PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setString(1, refID);
             ps.setString(2, accName);
@@ -71,7 +71,8 @@ public class TransactionSQL extends TransactionDatabase {
             ps.setString(5, altAccName);
             ps.setObject(6, transacDate);
             ps.setString(7, historyType);
-            ps.setDouble(8, amount);
+            ps.setString(8, processedBy);
+            ps.setDouble(9, amount);
 
             return ps.executeUpdate() > 0;
 
@@ -134,6 +135,7 @@ public class TransactionSQL extends TransactionDatabase {
             model.addColumn("Sender/Receiver Name");
             model.addColumn("Date & Time");
             model.addColumn("History Type");
+            model.addColumn("Processed By");
             model.addColumn("Amount");
 
             StringBuilder query = new StringBuilder("SELECT * FROM transactions WHERE 1=1");
@@ -150,8 +152,8 @@ public class TransactionSQL extends TransactionDatabase {
                 params.add(accSearch.trim());
             }
             if (history) {
-                query.append(" AND historyType = ?");
-                params.add(historyType);
+                query.append(" AND historyType LIKE ?");
+                params.add("%" + historyType + "%");
             }
             if (startDate) {
                 query.append(" AND transacDate >= ?");
@@ -178,6 +180,7 @@ public class TransactionSQL extends TransactionDatabase {
                         rs.getString("altAccName"),
                         rs.getObject("transacDate", LocalDateTime.class).format(dateTimeFormatter),
                         rs.getString("historyType"),
+                        rs.getString("processedBy"),
                         "PHP " + decimalFormat.format(rs.getDouble("transacAmount"))
                     };
                     model.addRow(row);
@@ -269,6 +272,7 @@ public class TransactionSQL extends TransactionDatabase {
                 model.addColumn("Sender/Receiver Name");
                 model.addColumn("Date & Time");
                 model.addColumn("History Type");
+                model.addColumn("Processed By");
                 model.addColumn("Amount");
 
                 while (rs.next()) {
@@ -280,6 +284,7 @@ public class TransactionSQL extends TransactionDatabase {
                         rs.getString("altAccName"),
                         rs.getObject("transacDate", LocalDateTime.class).format(dateTimeFormatter),
                         rs.getString("historyType"),
+                        rs.getString("processedBy"),
                         "PHP " + decimalFormat.format(rs.getDouble("transacAmount"))
                     };
                     model.addRow(row);
@@ -290,28 +295,26 @@ public class TransactionSQL extends TransactionDatabase {
         }
         return model;
     }
-    
-       public ArrayList<Transaction> getAllTransactions() {
+
+    public ArrayList<Transaction> getAllTransactions() {
 
         ArrayList<Transaction> list = new ArrayList<>();
 
         try (
-            Connection conn = DriverManager.getConnection(url, user, pass);
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM transactions")
-        ) {
+                Connection conn = DriverManager.getConnection(url, user, pass); Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery("SELECT * FROM transactions")) {
 
             while (rs.next()) {
 
                 Transaction t = new Transaction(
-                    rs.getString("refID"),
-                    rs.getString("accName"),
-                    rs.getString("accNumber"),
-                    rs.getString("transacInfo"),
-                    rs.getString("altAccName"),
-                    rs.getObject("transacDate", LocalDateTime.class),
-                    rs.getString("historyType"),
-                    rs.getDouble("transacAmount")
+                        rs.getString("refID"),
+                        rs.getString("accName"),
+                        rs.getString("accNumber"),
+                        rs.getString("transacInfo"),
+                        rs.getString("altAccName"),
+                        rs.getObject("transacDate", LocalDateTime.class),
+                        rs.getString("historyType"),
+                        rs.getString("processedBy"),
+                        rs.getDouble("transacAmount")
                 );
 
                 list.add(t);
@@ -322,5 +325,33 @@ public class TransactionSQL extends TransactionDatabase {
         }
 
         return list;
+    }
+
+    public boolean isCheckValid(String checkNumber) {
+        if (checkNumber == null || checkNumber.trim().isEmpty()) {
+            return false;
+        }
+        
+        if (!checkNumber.startsWith("SPBCHK")) {
+            return false;
+        }
+        
+        String check = "%- "+checkNumber;
+        String sql = "SELECT COUNT(*) FROM transactions WHERE altAccName LIKE ?";
+
+        try (Connection conn = DriverManager.getConnection(url, user, pass); PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, check);
+            ResultSet rs = ps.executeQuery();
+
+            // If count is 0, check is valid (not already deposited)
+            if (rs.next()) {
+                return rs.getInt(1) == 0;
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return false;
     }
 }
