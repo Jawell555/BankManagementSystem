@@ -260,7 +260,7 @@ public class AddEmployeesBoard extends JPanel {
         contentPanel.add(lblSubt4);
         
         lblEducLvl= new JLabel("Bachelor's Degree");
-        lblEducLvl.setBounds(60, 790, 130, 22);
+        lblEducLvl.setBounds(60, 790, 150, 22);
         lblEducLvl.setFont(labelFont);
         contentPanel.add(lblEducLvl);
         
@@ -370,145 +370,126 @@ public class AddEmployeesBoard extends JPanel {
             JOptionPane.showMessageDialog(this, "Please fill in all required fields.");
             return;
         }
-        
+
         Employee emp = new Employee();
 
-        emp.setEmpID(txtAccNum.getText());
-        emp.setEmpName(txtName.getText());
-        
-        //Email format validation
+        emp.setEmpID(txtAccNum.getText().trim());
+        emp.setEmpName(txtName.getText().trim());
+
+        // Email format validation
         if (!txtEmail.getText().matches("^[A-Za-z0-9+_.-]+@(.+)$")) {
             txtEmail.setBorder(RED_BORDER);
             JOptionPane.showMessageDialog(this, "Invalid email address.");
             return;
         }
-        
-        emp.setEmail(txtEmail.getText());
-        emp.setIdNumber(txtIdNum.getText());
+        emp.setEmail(txtEmail.getText().trim());
+        emp.setIdNumber(txtIdNum.getText().trim());
 
-        emp.setDob(txtDOB.getText());
+        // --- Date of Birth Validation ---
         String dobInput = txtDOB.getText().trim();
-
         try {
             DateTimeFormatter inputFormat = DateTimeFormatter.ofPattern("MM/dd/yyyy");
-          
-            LocalDate dob = LocalDate.parse(dobInput, inputFormat);
-            emp.setDob(dob.toString()); // yyyy-MM-dd
-            
             LocalDate birthDate = LocalDate.parse(dobInput, inputFormat);
-            
-            //Future Date Validation
+
+            // Future Date Validation
             if (birthDate.isAfter(LocalDate.now())) {
-                JOptionPane.showMessageDialog(this,"Birth date cannot be in the future.");
+                JOptionPane.showMessageDialog(this, "Birth date cannot be in the future.");
                 txtDOB.setBorder(RED_BORDER);
+                return; // <-- FIXED
             }
-            
+
             // Age validation
-            int age = Period.between(birthDate,LocalDate.now()).getYears();
-
+            int age = Period.between(birthDate, LocalDate.now()).getYears();
             if (age < 18) {
-                JOptionPane.showMessageDialog(this,"Customer must be at least 18 years old.");
+                JOptionPane.showMessageDialog(this, "Employee must be at least 18 years old.");
                 txtDOB.setBorder(RED_BORDER);
+                return;
             }
 
-      
+            txtDOB.setBorder(DEFAULT_BORDER);
+            emp.setDob(birthDate.toString()); // yyyy-MM-dd
 
         } catch (DateTimeParseException ex) {
-            JOptionPane.showMessageDialog(this,"Invalid Date of Birth format.\nUse MM/DD/YYYY");
-            return;
+            JOptionPane.showMessageDialog(this, "Invalid Date of Birth format.\nUse MM/DD/YYYY");
+            txtDOB.setBorder(RED_BORDER);
+            return; 
         }
+
         emp.setGender(cbGender.getSelectedItem().toString());
         emp.setMaritalStatus(cbMarital.getSelectedItem().toString());
-        
-        //Mobile # format validation
+
+        // Mobile # format validation
         if (!txtMobNum.getText().matches("^09\\d{9}$")) {
             txtMobNum.setBorder(RED_BORDER);
             JOptionPane.showMessageDialog(this, "Mobile number must be 11 digits and start with 09.");
             return;
         }
-        emp.setMobileNumber(txtMobNum.getText());
+        emp.setMobileNumber(txtMobNum.getText().trim());
 
-        emp.setPostalCode(txtPC.getText());
-        emp.setHomeAddress(txtHA.getText());
-        emp.setCity(txtCity.getText());
+        emp.setPostalCode(txtPC.getText().trim());
+        emp.setHomeAddress(txtHA.getText().trim());
+        emp.setCity(txtCity.getText().trim());
 
-        emp.setEducationLevel(txtEducLvl.getText());
-        emp.setCurrentJob(txtCurrJob.getText());
-        
-        //Years of Experience validation
+        emp.setEducationLevel(txtEducLvl.getText().trim());
+        emp.setCurrentJob(txtCurrJob.getText().trim());
+
+        // Years of Experience validation
         try {
-            int years = Integer.parseInt(txtYrExp.getText());
-
-            if (years < 0) {
-                throw new NumberFormatException();
-            }
-
+            int years = Integer.parseInt(txtYrExp.getText().trim());
+            if (years < 0) throw new NumberFormatException();
         } catch (NumberFormatException ex) {
             txtYrExp.setBorder(RED_BORDER);
-            JOptionPane.showMessageDialog(this, "Years of experience must be a valid number.");
+            JOptionPane.showMessageDialog(this, "Years of experience must be a valid positive number.");
             return;
         }
-        
-        emp.setYearsExperience(txtYrExp.getText());
-        
+        emp.setYearsExperience(txtYrExp.getText().trim());
+
+        // Duplicate Username validation
         for (Employee emplo : EmployeeSQL.getAllEmployees()) {
+            if (emplo.getUsername().equalsIgnoreCase(txtUsername.getText().trim())) {
+                txtUsername.setBorder(RED_BORDER);
+                JOptionPane.showMessageDialog(this, "Username already exists.");
+                return;
+            }
+        }
 
-           if (emplo.getUsername().equalsIgnoreCase(txtUsername.getText().trim())) {
-
-               txtUsername.setBorder(RED_BORDER);
-               JOptionPane.showMessageDialog(this,"Username already exists.");
-
-               return;
-           }
-       }
-        
-        emp.setUsername(txtUsername.getText());
-        emp.setPassword(emp.getEmpID());
-
-        emp.setEmpType(txtUserType.getText());
+        emp.setUsername(txtUsername.getText().trim());
+        emp.setPassword(txtAccNum.getText().trim());
+        emp.setEmpType(txtUserType.getText().trim());
         emp.setDate(java.time.LocalDate.now().toString());
         emp.setStatus("Active");
-        
-        //Profile Picture logic
+
+        // Profile Picture logic
         String savedImagePath = "profile_images/default.png";
-
         if (selectedImagePath != null) {
-
             try {
-
                 File source = new File(selectedImagePath);
-
                 File folder = new File("profile_images");
-
                 if (!folder.exists()) {
                     folder.mkdirs();
                 }
-
                 String extension = "";
-
                 int dot = source.getName().lastIndexOf('.');
-
                 if (dot > 0) {
                     extension = source.getName().substring(dot);
                 }
-
-                File destination = new File(folder,txtAccNum.getText() + extension);
-
+                File destination = new File(folder, txtAccNum.getText() + extension);
                 Files.copy(source.toPath(), destination.toPath(), StandardCopyOption.REPLACE_EXISTING);
-
                 savedImagePath = destination.getAbsolutePath();
-
             } catch (IOException ex) {
                 JOptionPane.showMessageDialog(this, "Failed to save profile image.");
             }
         }
-        
         emp.setProfileImage(savedImagePath);
-       
-        EmployeeSQL.addEmployee(emp);
 
-        JOptionPane.showMessageDialog(this, "Employee Registered Successfully!");
-        clearFields();
+        // Database insertion check
+        boolean success = EmployeeSQL.addEmployee(emp); 
+        if (success) {
+            JOptionPane.showMessageDialog(this, "Employee Registered Successfully!");
+            clearFields();
+        } else {
+            JOptionPane.showMessageDialog(this, "Failed to register employee database entry.");
+        }
     }
     
     private void chooseImage() {
@@ -541,6 +522,9 @@ public class AddEmployeesBoard extends JPanel {
         txtHA.setText("");
         txtCity.setText("");
         txtUsername.setText("");
+        txtEducLvl.setText("");
+        txtCurrJob.setText("");
+        txtYrExp.setText("");
         cbGender.setSelectedIndex(0);
         cbMarital.setSelectedIndex(0);
     }
