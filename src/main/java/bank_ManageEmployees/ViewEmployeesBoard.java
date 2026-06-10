@@ -950,56 +950,31 @@ public class ViewEmployeesBoard extends JPanel {
         btnSave.addActionListener(e -> {
             // Email validation
         if (!txtEmail.getText().matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$")) {
-            JOptionPane.showMessageDialog(
-                dialog,
-                "Invalid email format.",
-                "Validation Error",
-                JOptionPane.WARNING_MESSAGE
-            );
+            JOptionPane.showMessageDialog(dialog, "Invalid email format.", "Validation Error", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
         // DOB validation (yyyy-MM-dd)
         if (!txtDOB.getText().matches("\\d{4}-\\d{2}-\\d{2}")) {
-            JOptionPane.showMessageDialog(
-                dialog,
-                "Date of Birth must be in YYYY-MM-DD format.",
-                "Validation Error",
-                JOptionPane.WARNING_MESSAGE
-            );
+            JOptionPane.showMessageDialog(dialog, "Date of Birth must be in YYYY-MM-DD format.", "Validation Error", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
         // Mobile number validation
         if (!txtMobile.getText().matches("\\d{11}")) {
-            JOptionPane.showMessageDialog(
-                dialog,
-                "Mobile number must contain exactly 11 digits.",
-                "Validation Error",
-                JOptionPane.WARNING_MESSAGE
-            );
+            JOptionPane.showMessageDialog(dialog, "Mobile number must contain exactly 11 digits.", "Validation Error", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
         // Postal code validation
         if (!txtPostal.getText().matches("\\d+")) {
-            JOptionPane.showMessageDialog(
-                dialog,
-                "Postal code must contain numbers only.",
-                "Validation Error",
-                JOptionPane.WARNING_MESSAGE
-            );
+            JOptionPane.showMessageDialog(dialog, "Postal code must contain numbers only.", "Validation Error", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
         // Experience validation
         if (!txtExperience.getText().matches("\\d+")) {
-            JOptionPane.showMessageDialog(
-                dialog,
-                "Years of experience must be a valid number.",
-                "Validation Error",
-                JOptionPane.WARNING_MESSAGE
-            );
+            JOptionPane.showMessageDialog(dialog, "Years of experience must be a valid number.", "Validation Error", JOptionPane.WARNING_MESSAGE);
             return;
         }
 

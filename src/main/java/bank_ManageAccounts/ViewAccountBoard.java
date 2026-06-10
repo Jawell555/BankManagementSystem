@@ -230,16 +230,13 @@ public class ViewAccountBoard extends JPanel {
 
         if (!search.isEmpty()
                 && !search.equalsIgnoreCase("Search account")) {
-
+            
             filters.add(
-                    RowFilter.orFilter(java.util.Arrays.asList(
-                            RowFilter.regexFilter(
-                                    "(?i)" + java.util.regex.Pattern.quote(search), 1),
-                            RowFilter.regexFilter(
-                                    "(?i)" + java.util.regex.Pattern.quote(search), 4),
-                            RowFilter.regexFilter(
-                                    "(?i)" + java.util.regex.Pattern.quote(search), 5)
-                    ))
+                RowFilter.orFilter(java.util.Arrays.asList(
+                    RowFilter.regexFilter("(?i)" + java.util.regex.Pattern.quote(search), 1),
+                    RowFilter.regexFilter("(?i)" + java.util.regex.Pattern.quote(search), 4),
+                    RowFilter.regexFilter("(?i)" + java.util.regex.Pattern.quote(search), 5)
+                ))
             );
         }
 
@@ -249,10 +246,7 @@ public class ViewAccountBoard extends JPanel {
         if (!accountType.equals("All")) {
 
             filters.add(
-                    RowFilter.regexFilter(
-                            "^" + accountType + "$",
-                            6 // Account Type column
-                    )
+                    RowFilter.regexFilter("^" + accountType + "$", 6)
             );
         }
 
@@ -1271,45 +1265,25 @@ public class ViewAccountBoard extends JPanel {
         btnSave.addActionListener(e -> {
             // Email validation
             if (!txtEmail.getText().matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$")) {
-                JOptionPane.showMessageDialog(
-                        dialog,
-                        "Invalid email format.",
-                        "Validation Error",
-                        JOptionPane.WARNING_MESSAGE
-                );
+                JOptionPane.showMessageDialog(dialog, "Invalid email format.", "Validation Error", JOptionPane.WARNING_MESSAGE);
                 return;
             }
 
             // DOB validation (yyyy-MM-dd)
             if (!txtDOB.getText().matches("\\d{4}-\\d{2}-\\d{2}")) {
-                JOptionPane.showMessageDialog(
-                        dialog,
-                        "Date of Birth must be in YYYY-MM-DD format.",
-                        "Validation Error",
-                        JOptionPane.WARNING_MESSAGE
-                );
+                JOptionPane.showMessageDialog(dialog, "Date of Birth must be in YYYY-MM-DD format.", "Validation Error",JOptionPane.WARNING_MESSAGE);
                 return;
             }
 
             // Mobile number validation
             if (!txtMobile.getText().matches("\\d{11}")) {
-                JOptionPane.showMessageDialog(
-                        dialog,
-                        "Mobile number must contain exactly 11 digits.",
-                        "Validation Error",
-                        JOptionPane.WARNING_MESSAGE
-                );
+                JOptionPane.showMessageDialog(dialog, "Mobile number must contain exactly 11 digits.", "Validation Error", JOptionPane.WARNING_MESSAGE);
                 return;
             }
 
             // Postal code validation
             if (!txtPostal.getText().matches("\\d+")) {
-                JOptionPane.showMessageDialog(
-                        dialog,
-                        "Postal code must contain numbers only.",
-                        "Validation Error",
-                        JOptionPane.WARNING_MESSAGE
-                );
+                JOptionPane.showMessageDialog(dialog, "Postal code must contain numbers only.", "Validation Error", JOptionPane.WARNING_MESSAGE);
                 return;
             }
 

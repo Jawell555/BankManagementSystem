@@ -527,6 +527,13 @@ public class AddEmployeesBoard extends JPanel {
         txtYrExp.setText("");
         cbGender.setSelectedIndex(0);
         cbMarital.setSelectedIndex(0);
+        
+        selectedImagePath = null;
+        lblImagePath.setText("No file chosen");
+
+        ImageIcon icon = new ImageIcon(getClass().getResource("/profile.png"));
+        Image img = icon.getImage().getScaledInstance(120, 120, Image.SCALE_SMOOTH);
+        lblImage.setIcon(new ImageIcon(img));
     }
     
     private String generateEmployeeID() {
