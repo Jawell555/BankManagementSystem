@@ -323,6 +323,7 @@ public class NewAccountBoard extends JPanel {
         //Email format validation
         String email = txtEmail.getText().trim();
         if (!email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$")) {
+            markInvalid(txtEmail);
             JOptionPane.showMessageDialog(this, "Invalid email format.");
             return;
         }
@@ -339,6 +340,7 @@ public class NewAccountBoard extends JPanel {
 
             if (balance < 0) {
                 JOptionPane.showMessageDialog(this, "Balance cannot be negative.");
+                markInvalid(txtAccBal);
                 return;
             }
 
@@ -357,7 +359,7 @@ public class NewAccountBoard extends JPanel {
             DateTimeFormatter inputFormat = DateTimeFormatter.ofPattern("MM/dd/yyyy");
           
             LocalDate dob = LocalDate.parse(dobInput, inputFormat);
-            acc.setDob(dob.toString()); // yyyy-MM-dd
+            acc.setDob(dob.toString());
             
             LocalDate birthDate = LocalDate.parse(dobInput, inputFormat);
             
