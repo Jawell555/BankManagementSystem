@@ -17,37 +17,30 @@ import javax.swing.table.TableRowSorter;
 
 public class ViewEmployeesBoard extends JPanel {
 
-    JLabel lblTitle, lblFrom, lblTo;
+    JLabel lblTitle;
     JPanel pnlTblContainer, pnlSearch;
     JTextField txtSearch, txtStartYear, txtEndYear;
     JTable tblAccounts;
     JScrollPane scpnAccounts;
-    JComboBox<String> cmbAccountType, cmbStartMonth, cmbEndMonth;
-    JComboBox<Integer> cmbStartDay, cmbEndDay;
+    JComboBox<String> cmbAccountType;
     JButton btnFilter, btnReset;
     JTableHeader header;
     DefaultTableModel model;
     TableRowSorter<DefaultTableModel> sorter;
 
     private final String[] accTypes;
-    private final String[] months;
-    private final Integer[] days = new Integer[31];
-
+   
     Font fntTitle = new Font("Segoe UI", Font.BOLD, 25);
     Font fntText = new Font("Segoe UI", Font.PLAIN, 12);
 
     public ViewEmployeesBoard() {
-        this.months = new String[]{"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
         this.accTypes = new String[]{"Employee", "Admin", "All"};
-        for(int i = 1; i<=31; i++){
-            this.days[i-1] = i;
-        }
-
+        
         setLayout(null);
         setBounds(0, 0, 1670, 1080);
 
         // Title
-        lblTitle = new JLabel("Accounts List");
+        lblTitle = new JLabel("Employee List");
         lblTitle.setBounds(50, 40, 700, 50);
         lblTitle.setFont(fntTitle);
         add(lblTitle);
@@ -72,54 +65,6 @@ public class ViewEmployeesBoard extends JPanel {
         cmbAccountType.setBackground(Color.white);
         pnlSearch.add(cmbAccountType);
 
-        lblFrom = new JLabel("From:");
-        lblFrom.setBounds(650, 25, 40, 30);
-        lblFrom.setFont(fntText);
-        pnlSearch.add(lblFrom);
-
-        // Date
-        cmbStartMonth = new JComboBox<>(months);
-        cmbStartMonth.setBounds(695, 25, 95, 30);
-        cmbStartMonth.setFont(fntText);
-        cmbStartMonth.setBackground(Color.white);
-        pnlSearch.add(cmbStartMonth);
-
-        cmbStartDay = new JComboBox<>(days);
-        cmbStartDay.setBounds(790, 25, 60, 30);
-        cmbStartDay.setFont(fntText);
-        cmbStartDay.setBackground(Color.white);
-        pnlSearch.add(cmbStartDay);
-
-        txtStartYear = new JTextField("Year");
-        txtStartYear.setBounds(850, 25, 70, 30);
-        txtStartYear.setFont(fntText);
-        txtStartYear.setBackground(Color.white);
-        pnlSearch.add(txtStartYear);
-
-        lblTo = new JLabel("To:");
-        lblTo.setBounds(950, 25, 25, 30);
-        lblTo.setFont(fntText);
-        pnlSearch.add(lblTo);
-
-        // Date
-        cmbEndMonth = new JComboBox<>(months);
-        cmbEndMonth.setBounds(980, 25, 95, 30);
-        cmbEndMonth.setFont(fntText);
-        cmbEndMonth.setBackground(Color.white);
-        pnlSearch.add(cmbEndMonth);
-
-        cmbEndDay = new JComboBox<>(days);
-        cmbEndDay.setBounds(1075, 25, 60, 30);
-        cmbEndDay.setFont(fntText);
-        cmbEndDay.setBackground(Color.white);
-        pnlSearch.add(cmbEndDay);
-
-        txtEndYear = new JTextField("Year");
-        txtEndYear.setBounds(1135, 25, 70, 30);
-        txtEndYear.setFont(fntText);
-        txtEndYear.setBackground(Color.white);
-        pnlSearch.add(txtEndYear);
-
         // Search/filter and Reset button
         btnFilter = new JButton("Search");
         btnFilter.setBounds(1260, 25, 100, 30);
@@ -137,7 +82,7 @@ public class ViewEmployeesBoard extends JPanel {
         pnlTblContainer.setBorder(ColorPalette.panelBorder("Accounts Table"));
         add(pnlTblContainer);
 
-        // Image (will be replaced by user image)
+        // Image 
         ImageIcon icon = new ImageIcon(getClass().getResource("/profile.png"));
         Image img = icon.getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
         ImageIcon tableIcon = new ImageIcon(img);
@@ -220,26 +165,30 @@ public class ViewEmployeesBoard extends JPanel {
     }
 
     private void filterTable() {
-        String search = txtSearch.getText();
+        String search = txtSearch.getText().trim();
         String type = cmbAccountType.getSelectedItem().toString();
 
-        if (search.trim().length() == 0 && type.equals("All")) {
+        java.util.List<RowFilter<Object, Object>> filters = new java.util.ArrayList<>();
+
+        if (!search.isEmpty() && !search.equalsIgnoreCase("Search account")) {
+            filters.add(RowFilter.regexFilter("(?i)" + java.util.regex.Pattern.quote(search)));
+        }
+
+        if (!type.equals("All")) {
+            filters.add(RowFilter.regexFilter("^" + type + "$", 5));
+        }
+
+        if (filters.isEmpty()) {
             sorter.setRowFilter(null);
-        } else if (type.equals("All")) {
-            sorter.setRowFilter(RowFilter.regexFilter("(?i)" + search));
         } else {
-            sorter.setRowFilter(RowFilter.regexFilter(type, 5));
+            sorter.setRowFilter(RowFilter.andFilter(filters));
         }
     }
 
     private void resetFields() {
         txtSearch.setText("Search account");
         cmbAccountType.setSelectedIndex(2);
-        cmbStartMonth.setSelectedIndex(0);
-        cmbStartDay.setSelectedIndex(0);
         txtStartYear.setText("Year");
-        cmbEndMonth.setSelectedIndex(0);
-        cmbEndDay.setSelectedIndex(0);
         txtEndYear.setText("Year");
         sorter.setRowFilter(null);
     }
